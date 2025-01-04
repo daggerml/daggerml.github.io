@@ -25,4 +25,6 @@ To build:
 hatch -e test run dml-build pypi
 ```
 
-Note: You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`)
+> [!NOTE]
+>
+> You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`)

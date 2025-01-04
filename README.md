@@ -25,12 +25,7 @@ hatch -e test run pytest .
 hatch -e test run dml-build pypi
 ```
 
-:::{note}
-You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`).
-:::
-
-> [!NOTE]
-> You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`).
+> **Note:** You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`).
 
 [1]: https://github.com/daggerml/python-lib/
 [2]: https://github.com/daggerml/python-lib/tests/

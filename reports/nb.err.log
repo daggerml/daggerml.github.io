@@ -1,0 +1,79 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/asyncio/base_events.py", line 686, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import daggerml as dml
+
+with dml.Api(initialize=True) as api:
+    # initialize dml in the temporary directory
+    # Create a new DAG
+    dag = api.new_dag(name="example_dag", message="Example DAG creation")
+    # Add nodes to the DAG
+    node0 = dag.put(3)
+    node1 = dag.put("example")
+    # node2 = dag.put({node0, node1})
+    node3 = dag.put({"node0": node0.value(), "node1": node1})
+    node4 = dag.put([node1, node3])
+    assert node4.value() == [node1.value(), node3.value()]
+    # Commit the DAG
+    dag.commit(node3)
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mError[0m                                     Traceback (most recent call last)
+Cell [0;32mIn[4], line 8[0m
+[1;32m      6[0m dag [38;5;241m=[39m api[38;5;241m.[39mnew_dag(name[38;5;241m=[39m[38;5;124m"[39m[38;5;124mexample_dag[39m[38;5;124m"[39m, message[38;5;241m=[39m[38;5;124m"[39m[38;5;124mExample DAG creation[39m[38;5;124m"[39m)
+[1;32m      7[0m [38;5;66;03m# Add nodes to the DAG[39;00m
+[0;32m----> 8[0m node0 [38;5;241m=[39m [43mdag[49m[38;5;241;43m.[39;49m[43mput[49m[43m([49m[38;5;241;43m3[39;49m[43m)[49m
+[1;32m      9[0m node1 [38;5;241m=[39m dag[38;5;241m.[39mput([38;5;124m"[39m[38;5;124mexample[39m[38;5;124m"[39m)
+[1;32m     10[0m [38;5;66;03m# node2 = dag.put({node0, node1})[39;00m
+
+File [0;32m/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:620[0m, in [0;36mDag.put[0;34m(self, data)[0m
+[1;32m    618[0m         [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m([38;5;124m'[39m[38;5;124masdf[39m[38;5;124m'[39m)
+[1;32m    619[0m     [38;5;28;01mreturn[39;00m data
+[0;32m--> 620[0m resp [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_invoke[49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43mput_literal[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mdata[49m[43m)[49m
+[1;32m    621[0m [38;5;28;01massert[39;00m [38;5;28misinstance[39m(resp, Ref)
+[1;32m    622[0m [38;5;28;01mreturn[39;00m Node([38;5;28mself[39m, resp)
+
+File [0;32m/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:587[0m, in [0;36mDag._invoke[0;34m(self, op, *args, **kwargs)[0m
+[1;32m    585[0m data [38;5;241m=[39m from_json(resp)
+[1;32m    586[0m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(data, Error):
+[0;32m--> 587[0m     [38;5;28;01mraise[39;00m data
+[1;32m    588[0m [38;5;28;01mreturn[39;00m data
+
+[0;31mError[0m: dml.Error(AssertionError: 'repo not found: /tmp/tmpt2bizi4j/repo/testing/data.mdb')
+================================================================================
+Trace
+================================================================================
+Traceback (most recent call last):
+
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/api.py", line 305, in invoke_api
+    with Repo(config.REPO_PATH, config.USER, config.BRANCHREF) as db:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  File "<string>", line 6, in __init__
+
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/repo.py", line 326, in __post_init__
+    assert dbfile_exists, f'repo not found: {dbfile}'
+           ^^^^^^^^^^^^^
+
+AssertionError: repo not found: /tmp/tmpt2bizi4j/repo/testing/data.mdb
+
+

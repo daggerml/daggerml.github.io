@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "daggerml-site"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Aaron Niskin", email = "engineering@daggerml.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "ipykernel",
+  "daggerml",
+  "daggerml-cli",
+  "sphinx",
+  "sphinx-autobuild",
+  "sphinx-autodoc-typehints",
+  "pydata-sphinx-theme",
+  "sphinx-book-theme",
+  "jupytext",
+  "myst-parser",  # Markdown support
+  "myst-nb",
+  "boto3",
+  "pandas",
+  "polars",
+]
+
+[project.urls]
+Documentation = "https://github.com/Aaron Niskin/daggerml-site#readme"
+Issues = "https://github.com/Aaron Niskin/daggerml-site/issues"
+Source = "https://github.com/Aaron Niskin/daggerml-site"
+
+[tool.hatch.version]
+path = "src/daggerml_site/__about__.py"
+
+# [tool.hatch.envs.default]
+# dependencies = [
+#   "daggerml_cli @ {root:uri}/submodules/daggerml_cli",
+# ]
+
+[tool.hatch.envs.default.env-vars]
+PATH = "{root:uri}/bin:{env:PATH}"
+[tool.hatch.envs.default.scripts]
+build = "build.sh {args:uri}"
+
+[tool.jupytext.formats]
+"notebooks/" = "ipynb"
+"source/" = "markdown"

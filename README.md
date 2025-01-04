@@ -1,4 +1,4 @@
-# DaggerML Python Library
+# Python Library
 
 ## Prerequisites
 
@@ -7,11 +7,11 @@
 
 ## Setup
 
-Install hatch and clone [the repo][1] with submodules.
+Clone [the repo][1] with submodules.
 
 ## Usage
 
-See [the tests][2] (or example) for usage.
+See [the tests][2] (or example).
 
 ## Tests
 
@@ -24,6 +24,10 @@ hatch -e test run pytest .
 ```bash
 hatch -e test run dml-build pypi
 ```
+
+:::{note}
+You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`).
+:::
 
 > [!NOTE]
 > You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`).

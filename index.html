@@ -317,6 +317,13 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dagger-ml-python-library">Dagger-ML Python Library</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-tests">How to run tests:</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-documentation">Api Documentation</a></li>
 </ul>
             </nav>
@@ -331,6 +338,35 @@
                   
   <section id="daggerml-documentation">
 <h1>DaggerML Documentation<a class="headerlink" href="#daggerml-documentation" title="Link to this heading">#</a></h1>
+<section id="dagger-ml-python-library">
+<h2>Dagger-ML Python Library<a class="headerlink" href="#dagger-ml-python-library" title="Link to this heading">#</a></h2>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pypa.github.io/pipx/installation/">pipx</a></p></li>
+<li><p><a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">hatch</a> (via <code class="docutils literal notranslate"><span class="pre">pipx</span></code>)</p></li>
+</ul>
+</section>
+<section id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h3>
+<p>install hatch however you want and clone the repo with submodules.</p>
+</section>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h3>
+<p>See unit tests (or example) for usage.</p>
+</section>
+<section id="how-to-run-tests">
+<h3>How to run tests:<a class="headerlink" href="#how-to-run-tests" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hatch<span class="w"> </span>-e<span class="w"> </span><span class="nb">test</span><span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>.
+</pre></div>
+</div>
+<p>To build:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">hatch -e test run dml-build pypi</span>
+</pre></div>
+</div>
+<p>Note: You might have to reinstall the cli with the editable flag set (e.g. <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">uninstall</span> <span class="pre">daggerml-cli;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">./submodules/daggerml_cli/</span></code>)</p>
+</section>
+</section>
 <section id="api-documentation">
 <h2>Api Documentation<a class="headerlink" href="#api-documentation" title="Link to this heading">#</a></h2>
 <p>Documentation is hosted on <a class="reference external" href="https://daggerml.com/docs">daggerml.com</a>.</p>
@@ -376,6 +412,13 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dagger-ml-python-library">Dagger-ML Python Library</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-run-tests">How to run tests:</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-documentation">Api Documentation</a></li>
 </ul>
   </nav></div>

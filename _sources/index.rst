@@ -8,7 +8,7 @@ DaggerML Documentation
 ======================
 
 
-.. include:: ../../README.md
+.. include:: ../README.md
    :parser: myst
 
 Api Documentation

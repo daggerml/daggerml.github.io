@@ -137,7 +137,7 @@ node.value()
 
 ### Function calling
 
-```{code-cell} python
+```python
 
 import daggerml.executor as dx
 
@@ -149,7 +149,7 @@ def foo(fndag):
 lx = dx.Local()
 fn = lx.make_fn(dag, foo, 'conda', 'torch')
 resp = lx.run(dag, fn, 5)
-resp.get_result().value()
+assert isinstance(resp.get_result(), dml.Node)
 ```
 
 ### Real data

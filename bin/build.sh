@@ -1,11 +1,20 @@
 #!/bin/bash
 
-# make a *temporary* directory
+watch=false
+while getopts "w" opt; do
+  case $opt in
+    w)
+      watch=true
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
 tmpdir=$(mktemp -d)
-# trap to remove the directory when the script exits
 trap "rm -rf $tmpdir" EXIT
 
-# set daggerml environment variables
 export DML_CONFIG_DIR=$tmpdir/daggerml-config
 export DML_PROJECT_DIR=$tmpdir/daggerml-projects
 export DML_REPO="test"
@@ -13,4 +22,9 @@ export DML_REPO="test"
 dml repo create $DML_REPO
 dml project init $DML_REPO
 
-sphinx-autobuild source/ build/
+if [ "$watch" = true ]; then
+  # watch for changes and rebuild -- useful for local development
+  sphinx-autobuild source/ build/
+else
+  sphinx-build -b html source build
+fi

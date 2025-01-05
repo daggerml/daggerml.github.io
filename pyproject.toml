@@ -58,7 +58,7 @@ path = "src/daggerml_site/__about__.py"
 [tool.hatch.envs.default.env-vars]
 PATH = "{root:uri}/bin:{env:PATH}"
 [tool.hatch.envs.default.scripts]
-build = "build.sh {args:uri}"
+build = "build.sh -w"
 
 [tool.jupytext.formats]
 "notebooks/" = "ipynb"

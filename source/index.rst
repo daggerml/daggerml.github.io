@@ -21,9 +21,9 @@ it with `pip` or `pipx` (e.g. `pipx install daggerml-cli`).
 
 .. tip::
 
-   `pipx` is a tool to install Python applications in isolated environments. It
-   is recommended to use `pipx` to install `daggerml-cli` to avoid conflicts with
-   other Python packages.
+   `pipx <https://pipx.pypa.io/latest/installation/>`_ is a tool to install
+   Python applications in isolated environments. It is recommended to use `pipx`
+   to install `daggerml-cli` to avoid conflicts with other Python packages.
 
 
 Install the DaggerML python package
@@ -58,3 +58,9 @@ Documentation is hosted on `daggerml.com <https://daggerml.com/api>`_.
    howto
    api
    contributing
+
+Github Links
+============
+
+- `Python-lib <https://github.com/daggerml/python-lib>`_
+- `DaggerML-cli <https://github.com/daggerml/daggerml-cli>`_

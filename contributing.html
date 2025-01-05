@@ -317,7 +317,6 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-documentation">Building Documentation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#misc-info">Misc info</a></li>
 </ul>
@@ -406,13 +405,6 @@ these, you may need to install Docker or Conda.</p>
 </section>
 <section id="building-documentation">
 <h2>Building Documentation<a class="headerlink" href="#building-documentation" title="Link to this heading">#</a></h2>
-<section id="prerequisites">
-<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://pypa.github.io/pipx/installation/">pipx</a></p></li>
-<li><p><a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">hatch</a> (via <code class="docutils literal notranslate"><span class="pre">pipx</span></code>)</p></li>
-</ul>
-</section>
 <section id="setup">
 <h3>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h3>
 <p>We use <a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">hatch</a> for environment management, so you’ll need to install that.</p>
@@ -424,9 +416,10 @@ hatch<span class="w"> </span>run<span class="w"> </span>build
 </div>
 <p>You should see a printout saying <code class="docutils literal notranslate"><span class="pre">Seriving</span> <span class="pre">on</span> <span class="pre">http://127.0.0.1:8000</span></code> or
 something like that. Go to that site and observe the docs</p>
-<blockquote>
-<div><p><strong>Note:</strong> The docs are built from the docstrings of the <code class="docutils literal notranslate"><span class="pre">daggerml-cli</span></code> and <code class="docutils literal notranslate"><span class="pre">daggerml</span></code> python packages on <em>pypi</em>. There are no submodules or anything yet.</p>
-</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The docs are built from the docstrings of the <code class="docutils literal notranslate"><span class="pre">daggerml-cli</span></code> and <code class="docutils literal notranslate"><span class="pre">daggerml</span></code> python packages on <em>pypi</em>. There are no submodules or anything yet.</p>
+</div>
 </section>
 <section id="misc-info">
 <h3>Misc info<a class="headerlink" href="#misc-info" title="Link to this heading">#</a></h3>
@@ -515,7 +508,6 @@ on GitHub.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-documentation">Building Documentation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#misc-info">Misc info</a></li>
 </ul>

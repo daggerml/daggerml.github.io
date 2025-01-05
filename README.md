@@ -1,8 +1,3 @@
-### Prerequisites
-
-- [pipx](https://pypa.github.io/pipx/installation/)
-- [hatch](https://hatch.pypa.io/latest/install/#pipx) (via `pipx`)
-
 ### Setup
 
 We use [hatch](https://hatch.pypa.io/latest/install/#pipx) for environment management, so you'll need to install that.
@@ -18,7 +13,9 @@ hatch run build
 You should see a printout saying `Seriving on http://127.0.0.1:8000` or
 something like that. Go to that site and observe the docs
 
-> **Note:** The docs are built from the docstrings of the `daggerml-cli` and `daggerml` python packages on *pypi*. There are no submodules or anything yet.
+```{note}
+The docs are built from the docstrings of the `daggerml-cli` and `daggerml` python packages on *pypi*. There are no submodules or anything yet.
+```
 
 ### Misc info
 

@@ -38,9 +38,6 @@ Local Development
 See the `contributing guide </contributing.html>`_ for instructions on how to set up
 your development environment.
 
-.. .. include:: ../README.md
-..    :parser: myst
-
 Getting Started
 ===============
 

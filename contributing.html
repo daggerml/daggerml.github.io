@@ -316,7 +316,12 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-documentation">Building Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-documentation">Building Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#misc-info">Misc info</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-code">Contributing Code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
 </ul>
@@ -345,11 +350,14 @@ contributing code.</p>
 </pre></div>
 </div>
 </li>
-<li><dl class="simple">
-<dt><strong>Install hatch</strong></dt><dd><p>See <a class="reference external" href="https://hatch.pypa.io/latest/">hatch documentation</a> for how you want
-to install hatch. We suggest using the <a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">pipx installation</a> method.</p>
-</dd>
-</dl>
+<li><p><strong>Install hatch</strong></p>
+<p>We use <a class="reference external" href="https://hatch.pypa.io/latest/">hatch</a> to manage Python
+environments and build packages.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>We suggest installing hatch via <a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">pipx</a> to avoid conflicts with
+other Python packages.</p>
+</div>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>pipx
 python3<span class="w"> </span>-m<span class="w"> </span>pipx<span class="w"> </span>ensurepath
 pipx<span class="w"> </span>install<span class="w"> </span>hatch
@@ -357,6 +365,7 @@ pipx<span class="w"> </span>install<span class="w"> </span>hatch
 </div>
 </li>
 <li><p><strong>Install daggerml-cli</strong></p>
+<p>You can install <cite>daggerml-cli</cite> globally or in a virtual environment.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pipx<span class="w"> </span>install<span class="w"> </span>daggerml-cli
 </pre></div>
 </div>
@@ -397,10 +406,38 @@ these, you may need to install Docker or Conda.</p>
 </section>
 <section id="building-documentation">
 <h2>Building Documentation<a class="headerlink" href="#building-documentation" title="Link to this heading">#</a></h2>
-<p>To build the documentation, use the following command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>hatch<span class="w"> </span>run<span class="w"> </span>docs:build-docs
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://pypa.github.io/pipx/installation/">pipx</a></p></li>
+<li><p><a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">hatch</a> (via <code class="docutils literal notranslate"><span class="pre">pipx</span></code>)</p></li>
+</ul>
+</section>
+<section id="setup">
+<h3>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h3>
+<p>We use <a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">hatch</a> for environment management, so you’ll need to install that.</p>
+<p>The next step is to clone this repo and build the docs.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>daggerml.github.io
+<span class="nb">cd</span><span class="w"> </span>daggerml.github.io
+hatch<span class="w"> </span>run<span class="w"> </span>build
 </pre></div>
 </div>
+<p>You should see a printout saying <code class="docutils literal notranslate"><span class="pre">Seriving</span> <span class="pre">on</span> <span class="pre">http://127.0.0.1:8000</span></code> or
+something like that. Go to that site and observe the docs</p>
+<blockquote>
+<div><p><strong>Note:</strong> The docs are built from the docstrings of the <code class="docutils literal notranslate"><span class="pre">daggerml-cli</span></code> and <code class="docutils literal notranslate"><span class="pre">daggerml</span></code> python packages on <em>pypi</em>. There are no submodules or anything yet.</p>
+</div></blockquote>
+</section>
+<section id="misc-info">
+<h3>Misc info<a class="headerlink" href="#misc-info" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>We use the <a class="reference external" href="https://sphinx-book-theme.readthedocs.io/">sphinx-book-theme</a>, so check with those docs on how to do callouts and stuff.</p></li>
+<li><p>We use <a class="reference external" href="https://myst-nb.readthedocs.io/en/latest/index.html">myst_nb</a> to run jupyter notebooks.</p></li>
+<li><p>We use <a class="reference external" href="https://pypi.org/project/sphinx-autobuild/">sphinx-autobuild</a> to watch files and automatically rebuild on changes for development.</p></li>
+<li><p>Eventually we’ll keep a database around with cached executions.</p></li>
+<li><p>The <a class="reference external" href="https://jupyterbook.org/en/stable/reference/cheatsheet.html">myst syntax cheat sheet</a></p></li>
+</ul>
+</section>
 </section>
 <section id="contributing-code">
 <h2>Contributing Code<a class="headerlink" href="#contributing-code" title="Link to this heading">#</a></h2>
@@ -477,7 +514,12 @@ on GitHub.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-your-development-environment">Setting Up Your Development Environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-documentation">Building Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-documentation">Building Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#misc-info">Misc info</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributing-code">Contributing Code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
 </ul>

@@ -19,9 +19,14 @@ Setting Up Your Development Environment
       cd python-lib
 
 2. **Install hatch**
-    See `hatch documentation <https://hatch.pypa.io/latest/>`_ for how you want
-    to install hatch. We suggest using the `pipx installation
-    <https://hatch.pypa.io/latest/install/#pipx>`_ method.
+
+   We use `hatch <https://hatch.pypa.io/latest/>`_ to manage Python
+   environments and build packages.
+   
+   .. tip::
+      We suggest installing hatch via `pipx
+      <https://hatch.pypa.io/latest/install/#pipx>`_ to avoid conflicts with
+      other Python packages.
 
    .. code-block:: sh
 
@@ -30,6 +35,8 @@ Setting Up Your Development Environment
       pipx install hatch
 
 3. **Install daggerml-cli**
+
+   You can install `daggerml-cli` globally or in a virtual environment.
 
    .. code-block:: sh
 
@@ -77,11 +84,8 @@ Setting Up Your Development Environment
 Building Documentation
 ----------------------
 
-To build the documentation, use the following command:
-
-.. code-block:: sh
-
-   hatch run docs:build-docs
+.. include:: ../README.md
+   :parser: myst
 
 Contributing Code
 -----------------

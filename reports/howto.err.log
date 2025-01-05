@@ -18,32 +18,18 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import daggerml as dml
-
-with dml.Api(initialize=True) as api:
-    # initialize dml in the temporary directory
-    # Create a new DAG
-    dag = api.new_dag(name="example_dag", message="Example DAG creation")
-    # Add nodes to the DAG
-    node0 = dag.put(3)
-    node1 = dag.put("example")
-    # node2 = dag.put({node0, node1})
-    node3 = dag.put({"node0": node0.value(), "node1": node1})
-    node4 = dag.put([node1, node3])
-    assert node4.value() == [node1.value(), node3.value()]
-    # Commit the DAG
-    dag.commit(node3)
+node0 = dag.put(3)
+node1 = dag.put("example")
+node0.value(), node1.value()
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mError[0m                                     Traceback (most recent call last)
-Cell [0;32mIn[4], line 8[0m
-[1;32m      6[0m dag [38;5;241m=[39m api[38;5;241m.[39mnew_dag(name[38;5;241m=[39m[38;5;124m"[39m[38;5;124mexample_dag[39m[38;5;124m"[39m, message[38;5;241m=[39m[38;5;124m"[39m[38;5;124mExample DAG creation[39m[38;5;124m"[39m)
-[1;32m      7[0m [38;5;66;03m# Add nodes to the DAG[39;00m
-[0;32m----> 8[0m node0 [38;5;241m=[39m [43mdag[49m[38;5;241;43m.[39;49m[43mput[49m[43m([49m[38;5;241;43m3[39;49m[43m)[49m
-[1;32m      9[0m node1 [38;5;241m=[39m dag[38;5;241m.[39mput([38;5;124m"[39m[38;5;124mexample[39m[38;5;124m"[39m)
-[1;32m     10[0m [38;5;66;03m# node2 = dag.put({node0, node1})[39;00m
+Cell [0;32mIn[2], line 1[0m
+[0;32m----> 1[0m node0 [38;5;241m=[39m [43mdag[49m[38;5;241;43m.[39;49m[43mput[49m[43m([49m[38;5;241;43m3[39;49m[43m)[49m
+[1;32m      2[0m node1 [38;5;241m=[39m dag[38;5;241m.[39mput([38;5;124m"[39m[38;5;124mexample[39m[38;5;124m"[39m)
+[1;32m      3[0m node0[38;5;241m.[39mvalue(), node1[38;5;241m.[39mvalue()
 
 File [0;32m/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:620[0m, in [0;36mDag.put[0;34m(self, data)[0m
 [1;32m    618[0m         [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m([38;5;124m'[39m[38;5;124masdf[39m[38;5;124m'[39m)
@@ -58,7 +44,7 @@ File [0;32m/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/
 [0;32m--> 587[0m     [38;5;28;01mraise[39;00m data
 [1;32m    588[0m [38;5;28;01mreturn[39;00m data
 
-[0;31mError[0m: dml.Error(AssertionError: 'repo not found: /tmp/tmp0in9ys49/repo/testing/data.mdb')
+[0;31mError[0m: dml.Error(ConfigError: 'required: --repo option or DML_REPO environment variable or `dml project init`')
 ================================================================================
 Trace
 ================================================================================
@@ -66,14 +52,19 @@ Traceback (most recent call last):
 
   File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/api.py", line 305, in invoke_api
     with Repo(config.REPO_PATH, config.USER, config.BRANCHREF) as db:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+              ^^^^^^^^^^^^^^^^
 
-  File "<string>", line 6, in __init__
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/config.py", line 20, in getter
+    result = f(self) or getattr(self, priv, None)
+             ^^^^^^^
 
-  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/repo.py", line 326, in __post_init__
-    assert dbfile_exists, f'repo not found: {dbfile}'
-           ^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/config.py", line 95, in REPO_PATH
+    return os.path.join(self.REPO_DIR, self.REPO)  # type: ignore
+                                       ^^^^^^^^^
 
-AssertionError: repo not found: /tmp/tmp0in9ys49/repo/testing/data.mdb
+  File "/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/config.py", line 24, in getter
+    raise ConfigError(errmsg)
+
+daggerml_cli.config.ConfigError: required: --repo option or DML_REPO environment variable or `dml project init`
 
 

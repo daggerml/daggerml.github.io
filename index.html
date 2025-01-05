@@ -317,14 +317,9 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-library">Python Library</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build">Build</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-development">Local Development</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting Started</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-documentation">Api Documentation</a></li>
 </ul>
             </nav>
@@ -339,42 +334,37 @@
                   
   <section id="daggerml-documentation">
 <h1>DaggerML Documentation<a class="headerlink" href="#daggerml-documentation" title="Link to this heading">#</a></h1>
-<section id="python-library">
-<h2>Python Library<a class="headerlink" href="#python-library" title="Link to this heading">#</a></h2>
-<section id="prerequisites">
-<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><a class="reference external" href="https://pypa.github.io/pipx/installation/">pipx</a></p></li>
-<li><p><a class="reference external" href="https://hatch.pypa.io/latest/install/#pipx">hatch</a> (via <code class="docutils literal notranslate"><span class="pre">pipx</span></code>)</p></li>
-</ul>
-</section>
-<section id="setup">
-<h3>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h3>
-<p>Clone <a class="reference external" href="https://github.com/daggerml/python-lib/">the repo</a> with submodules.</p>
-</section>
-<section id="usage">
-<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h3>
-<p>See <a class="reference external" href="https://github.com/daggerml/python-lib/tests/">the tests</a> (or example).</p>
-</section>
-<section id="tests">
-<h3>Tests<a class="headerlink" href="#tests" title="Link to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hatch<span class="w"> </span>-e<span class="w"> </span><span class="nb">test</span><span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>.
+<p>DaggerML is a research platform that enables data scientists and machine
+learning engineers to build, train, deploy, and track models with ease. DaggerML
+keeps track of what you did and all the associated artifacts, so you can focus
+on your work and get the reproducibility for free.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>If you don’t already have <cite>daggerml-cli</cite> installed in your path, you can install
+it with <cite>pip</cite> or <cite>pipx</cite> (e.g. <cite>pipx install daggerml-cli</cite>).</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><cite>pipx</cite> is a tool to install Python applications in isolated environments. It
+is recommended to use <cite>pipx</cite> to install <cite>daggerml-cli</cite> to avoid conflicts with
+other Python packages.</p>
+</div>
+<p>Install the DaggerML python package</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>daggerml
 </pre></div>
 </div>
 </section>
-<section id="build">
-<h3>Build<a class="headerlink" href="#build" title="Link to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>hatch<span class="w"> </span>-e<span class="w"> </span><span class="nb">test</span><span class="w"> </span>run<span class="w"> </span>dml-build<span class="w"> </span>pypi
-</pre></div>
-</div>
-<blockquote>
-<div><p><strong>Note:</strong> You might have to reinstall the cli with the editable flag set (e.g. <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">uninstall</span> <span class="pre">daggerml-cli;</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">./submodules/daggerml_cli/</span></code>).</p>
-</div></blockquote>
+<section id="local-development">
+<h2>Local Development<a class="headerlink" href="#local-development" title="Link to this heading">#</a></h2>
+<p>See the <a class="reference external" href="/contributing.html">contributing guide</a> for instructions on how to set up
+your development environment.</p>
 </section>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">#</a></h2>
+<p>To get started with DaggerML, you can follow the <a class="reference external" href="howto.html">how to</a>.</p>
 </section>
 <section id="api-documentation">
 <h2>Api Documentation<a class="headerlink" href="#api-documentation" title="Link to this heading">#</a></h2>
-<p>Documentation is hosted on <a class="reference external" href="https://daggerml.com/docs">daggerml.com</a>.</p>
+<p>Documentation is hosted on <a class="reference external" href="https://daggerml.com/api">daggerml.com</a>.</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -417,14 +407,9 @@
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-library">Python Library</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tests">Tests</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build">Build</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-development">Local Development</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-started">Getting Started</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-documentation">Api Documentation</a></li>
 </ul>
   </nav></div>

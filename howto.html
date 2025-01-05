@@ -230,7 +230,7 @@
       
       
       
-      <li><a href="_sources/howto.rst" target="_blank"
+      <li><a href="_sources/howto.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -240,7 +240,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.rst</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -317,25 +317,28 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basics">The Basics</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-dag">Creating a DAG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dag">Create a dag</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-data-to-our-dag">Adding data to our dag</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-data">Accessing data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#value">value</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#collections">collections</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Creating a DAG</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-api-class">Using the API Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-dumping-a-dag">Loading and Dumping a DAG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#committing-results">Committing results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-dag-results">Loading dag results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling">Function calling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-data">Real data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-data">Storing data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#s3">S3</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#docker">Docker</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage">Advanced Usage</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-the-api">Dealing with the API</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-usage">Standard Usage</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-temporary-repo">Using a Temporary Repo</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-specific-repo">Using a Specific Repo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-a-docker-image-as-a-function">Calling a docker image as a function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions">Exceptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dags-as-context-managers">Dags as context managers</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-api-class">Using the API Class</a></li>
 </ul>
             </nav>
         </div>
@@ -348,168 +351,367 @@
                 <article class="bd-article">
                   
   <section id="how-to-guide">
-<span id="howto"></span><h1>How-To Guide<a class="headerlink" href="#how-to-guide" title="Link to this heading">#</a></h1>
-<p>This guide will walk you through the most useful aspects of DaggerML, including creating and managing DAGs, using the API, and running tests.</p>
+<h1>How-To Guide<a class="headerlink" href="#how-to-guide" title="Link to this heading">#</a></h1>
+<p>This guide will walk you through the most useful aspects of DaggerML,
+including creating and managing DAGs, using the API, and running tests.</p>
 <section id="basic-usage">
 <h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
-<section id="the-basics">
-<h3>The Basics<a class="headerlink" href="#the-basics" title="Link to this heading">#</a></h3>
-<p>Let’s go over some of the basic operations on dags. Once a dag is created, you
-can add nodes as leaves (literal nodes) and commit values. The nodes you add can
-be collections of values or of other nodes.</p>
-<section id="creating-a-dag">
-<h4>Creating a DAG<a class="headerlink" href="#creating-a-dag" title="Link to this heading">#</a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
+<section id="create-a-dag">
+<h3>Create a dag<a class="headerlink" href="#create-a-dag" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
 
-<span class="c1"># Create a new DAG</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
-
-<span class="c1"># Add nodes to the DAG</span>
-<span class="n">node0</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dml</span><span class="o">.</span><span class="n">__version__</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dag_no_1&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dml.__version__ = &#39;0.0.17&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-data-to-our-dag">
+<h3>Adding data to our dag<a class="headerlink" href="#adding-data-to-our-dag" title="Link to this heading">#</a></h3>
+<p>We want to track some data flow, so let’s start with the simplest case possible: literals.</p>
+<p>We can add a literal with <code class="docutils literal notranslate"><span class="pre">dag.put</span></code>, and get the value back with <code class="docutils literal notranslate"><span class="pre">node.value()</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node0</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
-<span class="n">node2</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="n">node0</span><span class="p">,</span> <span class="n">node1</span><span class="p">})</span>
-<span class="n">node3</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&quot;node0&quot;</span><span class="p">:</span> <span class="n">node0</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="s2">&quot;node1&quot;</span><span class="p">:</span> <span class="n">node1</span><span class="p">,</span> <span class="s2">&quot;node2&quot;</span><span class="p">:</span> <span class="n">node2</span><span class="p">})</span>
-<span class="n">node4</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">node2</span><span class="p">,</span> <span class="n">node3</span><span class="p">])</span>
-<span class="k">assert</span> <span class="n">node4</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">==</span> <span class="p">[</span><span class="n">node2</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="n">node3</span><span class="o">.</span><span class="n">value</span><span class="p">()]</span>
-<span class="c1"># Commit the DAG</span>
-<span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">node3</span><span class="p">)</span>
+<span class="n">node0</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="n">node1</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>DaggerML is a Python library that provides a simple interface for creating and
-managing Directed Acyclic Graphs (DAGs). A DAG is a collection of nodes that are
-connected by edges, where each edge represents a dependency between two nodes.
-The library provides a set of classes and methods that allow you to create,
-manipulate, and visualize DAGs.</p>
-<p>To create a new DAG, you can use the <cite>Dag</cite> class from the <cite>daggerml.core</cite> module. Here is an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">node0</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">node0</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="n">node1</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 
-<span class="c1"># Create a new DAG</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:620,</span> in <span class="ni">Dag.put</span><span class="nt">(self, data)</span>
+<span class="g g-Whitespace">    </span><span class="mi">618</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;asdf&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">619</span>     <span class="k">return</span> <span class="n">data</span>
+<span class="ne">--&gt; </span><span class="mi">620</span> <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="s1">&#39;put_literal&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">621</span> <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">Ref</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">622</span> <span class="k">return</span> <span class="n">Node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
 
-<span class="c1"># Add nodes to the DAG</span>
-<span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">node2</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
-<span class="n">node3</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">])</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:587,</span> in <span class="ni">Dag._invoke</span><span class="nt">(self, op, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">585</span> <span class="n">data</span> <span class="o">=</span> <span class="n">from_json</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Error</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">587</span>     <span class="k">raise</span> <span class="n">data</span>
+<span class="g g-Whitespace">    </span><span class="mi">588</span> <span class="k">return</span> <span class="n">data</span>
 
-<span class="c1"># Commit the DAG</span>
-<span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">node3</span><span class="p">)</span>
+<span class="ne">Error</span>: dml.Error(ConfigError: &#39;required: --repo option or DML_REPO environment variable or `dml project init`&#39;)
+<span class="o">================================================================================</span>
+<span class="n">Trace</span>
+<span class="o">================================================================================</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+
+  <span class="n">File</span> <span class="s2">&quot;/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/api.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">305</span><span class="p">,</span> <span class="ow">in</span> <span class="n">invoke_api</span>
+    <span class="k">with</span> <span class="n">Repo</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">REPO_PATH</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">USER</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">BRANCHREF</span><span class="p">)</span> <span class="k">as</span> <span class="n">db</span><span class="p">:</span>
+              <span class="o">^^^^^^^^^^^^^^^^</span>
+
+  <span class="n">File</span> <span class="s2">&quot;/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/config.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">20</span><span class="p">,</span> <span class="ow">in</span> <span class="n">getter</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">priv</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+             <span class="o">^^^^^^^</span>
+
+  <span class="n">File</span> <span class="s2">&quot;/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/config.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">95</span><span class="p">,</span> <span class="ow">in</span> <span class="n">REPO_PATH</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">REPO_DIR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">REPO</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+                                       <span class="o">^^^^^^^^^</span>
+
+  <span class="n">File</span> <span class="s2">&quot;/opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml_cli/config.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">24</span><span class="p">,</span> <span class="ow">in</span> <span class="n">getter</span>
+    <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="n">errmsg</span><span class="p">)</span>
+
+<span class="n">daggerml_cli</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">ConfigError</span><span class="p">:</span> <span class="n">required</span><span class="p">:</span> <span class="o">--</span><span class="n">repo</span> <span class="n">option</span> <span class="ow">or</span> <span class="n">DML_REPO</span> <span class="n">environment</span> <span class="n">variable</span> <span class="ow">or</span> <span class="err">`</span><span class="n">dml</span> <span class="n">project</span> <span class="n">init</span><span class="err">`</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>daggerml has native support for collections like lists, sets, and maps (dictionaries).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node2</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s2">&quot;node0&quot;</span><span class="p">:</span> <span class="n">node0</span><span class="p">,</span> <span class="s2">&quot;node1&quot;</span><span class="p">:</span> <span class="n">node1</span><span class="p">,</span> <span class="s2">&quot;misc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">False</span><span class="p">]})</span>
+<span class="n">node3</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">node0</span><span class="p">,</span> <span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">])</span>
+<span class="n">node3</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that we passed both python objects and <code class="docutils literal notranslate"><span class="pre">dml.Node</span></code> objects to <code class="docutils literal notranslate"><span class="pre">dag.put</span></code>, and the result was the same (from a data perspective). The difference is, if you pass a <code class="docutils literal notranslate"><span class="pre">dml.Node</span></code> object, then we can add the corresponding edge in the dag (we can track that dependency).</p>
+</section>
+<section id="accessing-data">
+<h3>Accessing data<a class="headerlink" href="#accessing-data" title="Link to this heading">#</a></h3>
+<section id="value">
+<h4>value<a class="headerlink" href="#value" title="Link to this heading">#</a></h4>
+<p>Getting the value (as you saw above):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node3</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">dml.Node.value()</span></code> on a collection unrolls the data recursively
+returning only python datastructures and <code class="docutils literal notranslate"><span class="pre">dml.Resources</span></code>.</p>
+</div>
+</section>
+<section id="collections">
+<h4>collections<a class="headerlink" href="#collections" title="Link to this heading">#</a></h4>
+<p>Collection nodes (like nodes 2 and 3) should be treated like the collections they are.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Collection elements should be accessed via the methods described here when feasible.</p>
+</div>
+<ol class="arabic simple">
+<li><p>You can index into lists and maps and you get a node back.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node2</span><span class="p">[</span><span class="s2">&quot;node0&quot;</span><span class="p">],</span> <span class="n">node3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>You can also get the keys of a dictionary (as a node):</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node2</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>You can get the length of any collection:</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node2</span><span class="o">.</span><span class="n">len</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="n">node3</span><span class="o">.</span><span class="n">len</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Use them as iterators:</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>You can call <code class="docutils literal notranslate"><span class="pre">.items</span></code> for dictionaries.</p></li>
+</ol>
+<p>A key thing to keep in mind is that when you index, you get a different node than the one you put in (but with the same underlying value). For example,</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node0</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">node0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that <code class="docutils literal notranslate"><span class="pre">node1</span></code> is just the list containing <code class="docutils literal notranslate"><span class="pre">node0</span></code>, so the values of <code class="docutils literal notranslate"><span class="pre">node0</span></code> and <code class="docutils literal notranslate"><span class="pre">node1[0]</span></code> should be the same. But the node IDs are not.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node0</span><span class="p">,</span> <span class="n">node1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="committing-results">
+<h3>Committing results<a class="headerlink" href="#committing-results" title="Link to this heading">#</a></h3>
+<p>Now that we have some stuff, we might want to commit. So let’s say this dag was just to create this collection. Let’s commit it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we don&#39;t care about the return value yet.</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">node3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="loading-dag-results">
+<h3>Loading dag results<a class="headerlink" href="#loading-dag-results" title="Link to this heading">#</a></h3>
+<p>When we committed the dag above, we made that value importable by any other dag. We added that dag to the working tree, and now others can see it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dag_no_2&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Second Dag&quot;</span><span class="p">)</span>
+<span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;dag_no_1&quot;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="function-calling">
+<h3>Function calling<a class="headerlink" href="#function-calling" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml.executor</span> <span class="k">as</span> <span class="nn">dx</span>
+
+<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">fndag</span><span class="p">):</span>
+  <span class="kn">import</span> <span class="nn">torch</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">fndag</span><span class="o">.</span><span class="n">expr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+  <span class="n">fndag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="n">lx</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">Local</span><span class="p">()</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">make_fn</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="s1">&#39;conda&#39;</span><span class="p">,</span> <span class="s1">&#39;torch&#39;</span><span class="p">)</span>
+<span class="n">resp</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">resp</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="real-data">
+<h3>Real data<a class="headerlink" href="#real-data" title="Link to this heading">#</a></h3>
+<p>In the real world we’re dealing with datasets on s3, or behind some data layer abstraction like snowflake, hive, or some bespoke software optimized for your company’s needs. We also deal with infrastructure that we spin up to test things. For these things daggerml has the concept of a <code class="docutils literal notranslate"><span class="pre">dml.Resource</span></code>. It’s a datum type like <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">string</span></code>, etc., but it represents a unique opaque blob.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rnode</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">dml</span><span class="o">.</span><span class="n">Resource</span><span class="p">(</span><span class="s2">&quot;my_ns:my_unique_id&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;asdf&quot;</span><span class="p">))</span>
+<span class="n">resource</span> <span class="o">=</span> <span class="n">rnode</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+<span class="n">resource</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="storing-data">
+<h3>Storing data<a class="headerlink" href="#storing-data" title="Link to this heading">#</a></h3>
+<section id="s3">
+<h4>S3<a class="headerlink" href="#s3" title="Link to this heading">#</a></h4>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">S3</span><span class="p">(</span><span class="n">BUCKET</span><span class="p">,</span> <span class="n">PREFIX</span><span class="p">)</span>
+<span class="n">tarball</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">tar</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="docker">
+<h4>Docker<a class="headerlink" href="#docker" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dkr</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">Dkr</span><span class="p">()</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">dkr</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">tarball</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;tests/assets/Dockerfile&#39;</span><span class="p">],</span> <span class="n">s3</span><span class="p">)</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 </section>
-<section id="id1">
-<h3>Creating a DAG<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
-<p>To create a new DAG, you can use the <cite>Dag</cite> class from the <cite>daggerml.core</cite> module. Here is an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
+<section id="calling-a-docker-image-as-a-function">
+<h3>Calling a docker image as a function<a class="headerlink" href="#calling-a-docker-image-as-a-function" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_one</span><span class="p">(</span><span class="n">fndag</span><span class="p">):</span>
+  <span class="n">_</span><span class="p">,</span> <span class="o">*</span><span class="n">nums</span> <span class="o">=</span> <span class="n">fndag</span><span class="o">.</span><span class="n">expr</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">([</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">])</span>
 
-<span class="c1"># Create a new DAG</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
-
-<span class="c1"># Add nodes to the DAG</span>
-<span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">node2</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
-<span class="n">node3</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">])</span>
-
-<span class="c1"># Commit the DAG</span>
-<span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">node3</span><span class="p">)</span>
+<span class="c1"># put the function on s3</span>
+<span class="n">script</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">scriptify</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">add_one</span><span class="p">)</span>
+<span class="n">fn_node</span> <span class="o">=</span> <span class="n">dkr</span><span class="o">.</span><span class="n">make_fn</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">script</span><span class="p">)</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">dkr</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">fn_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">s3</span><span class="o">=</span><span class="n">s3</span><span class="p">)</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
+<span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 </pre></div>
 </div>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="m">2</span>,<span class="w"> </span><span class="m">3</span>,<span class="w"> </span><span class="m">4</span><span class="o">]</span>
+</pre></div>
+</div>
+</section>
+<section id="exceptions">
+<h3>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">#</a></h3>
+<p>To “fail” a dag, you just commit an instance of <code class="docutils literal notranslate"><span class="pre">dml.Error</span></code>. The value is then a node that raises an error when you try to get its value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;failed-dag&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m doomed&quot;</span><span class="p">)</span>
+<span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">dml</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;my unique error message&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When we go to access it:</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
+<span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag&quot;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="dags-as-context-managers">
+<h3>Dags as context managers<a class="headerlink" href="#dags-as-context-managers" title="Link to this heading">#</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can use a dag as a context manager to fail dags when an exception is thrown.</p>
+</div>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;failed-dag2&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m doomed&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+  <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The error was re-raised, but the dag still failed.</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
+<span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag2&quot;</span><span class="p">)</span>
+<span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can see that the context manager kept the stack trace, which means now that stacktrace is stored in daggerml.</p>
+</section>
 </section>
 <section id="using-the-api-class">
-<h3>Using the API Class<a class="headerlink" href="#using-the-api-class" title="Link to this heading">#</a></h3>
-<p>The <cite>Api</cite> class provides methods to interact with the DAGs. Here is an example of how to use the <cite>Api</cite> class:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
-
-<span class="c1"># Create an API instance</span>
-<span class="n">api</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">(</span><span class="n">config_dir</span><span class="o">=</span><span class="s2">&quot;path/to/config/directory&quot;</span><span class="p">)</span>
-
-<span class="c1"># Create a new DAG using the API</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
-
-<span class="c1"># Add nodes to the DAG</span>
-<span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">node2</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="s2">&quot;example&quot;</span><span class="p">)</span>
-<span class="n">node3</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">])</span>
-
-<span class="c1"># Commit the DAG</span>
-<span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">node3</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="loading-and-dumping-a-dag">
-<h3>Loading and Dumping a DAG<a class="headerlink" href="#loading-and-dumping-a-dag" title="Link to this heading">#</a></h3>
-<p>You can load and dump a DAG using the <cite>load</cite> and <cite>dump</cite> methods of the <cite>Dag</cite> class:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">daggerml.core</span> <span class="kn">import</span> <span class="n">Dag</span>
-
-<span class="c1"># Load a DAG from a file</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">Dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;path/to/dag_file&quot;</span><span class="p">)</span>
-
-<span class="c1"># Dump the DAG to a file</span>
-<span class="n">dag</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s2">&quot;path/to/dag_file&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="advanced-usage">
-<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Link to this heading">#</a></h2>
-<section id="dealing-with-the-api">
-<h3>Dealing with the API<a class="headerlink" href="#dealing-with-the-api" title="Link to this heading">#</a></h3>
-<p>The <cite>Api</cite> class wraps the core functionality of DaggerML (<cite>daggerml-cli</cite>) in a
-python interface. You can speficy the repo when instantiating the <cite>Api</cite> class,
-use the default repo, or create and initialize a temporary repo.</p>
-<section id="standard-usage">
-<h4>Standard Usage<a class="headerlink" href="#standard-usage" title="Link to this heading">#</a></h4>
-<p>To use the default repo, you can create an instance of the <cite>Api</cite> class without
-specifying a repo. Here is an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
-
-<span class="c1"># Create an API instance</span>
-<span class="n">api</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">()</span>
-<span class="c1"># Create a new DAG using the API</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="using-a-temporary-repo">
-<h4>Using a Temporary Repo<a class="headerlink" href="#using-a-temporary-repo" title="Link to this heading">#</a></h4>
-<p>To use a temporary repo, you can create an instance of the <cite>Api</cite> class without
-specifying a repo and specifying <cite>initialize=True</cite>. Here is an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
-
-<span class="c1"># Create an API instance with a temporary repo</span>
-<span class="n">api</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="c1"># do whatever you want with the API</span>
-<span class="n">api</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>You can also use the <cite>Api</cite> class as a context manager to automatically clean up
-the temporary repo:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
+<h2>Using the API Class<a class="headerlink" href="#using-the-api-class" title="Link to this heading">#</a></h2>
+<p>The [Api][api] class provides methods to interact with the DAGs.
+Here is an example of how to use the [Api]{.title-ref} class:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
 
 <span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">api</span><span class="p">:</span>
-    <span class="c1"># do whatever you want with the API</span>
-    <span class="k">pass</span>
+  <span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="using-a-specific-repo">
-<h4>Using a Specific Repo<a class="headerlink" href="#using-a-specific-repo" title="Link to this heading">#</a></h4>
-<p>To use a specific repo, you can create an instance of the <cite>Api</cite> class and specify
-the repo path. Here is an example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
 
-<span class="c1"># Create an API instance with a specific repo</span>
-<span class="n">api</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">(</span><span class="n">config_dir</span><span class="o">=</span><span class="s2">&quot;path/to/config/directory&quot;</span><span class="p">)</span>
-<span class="c1"># Create a new DAG using the API</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">api</span><span class="p">:</span>
+  <span class="c1"># no dags yet...</span>
+  <span class="k">assert</span> <span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+  <span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
+  <span class="c1"># still no dags...</span>
+  <span class="k">assert</span> <span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
+  <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now there&#39;s one dag.&quot;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="conclusion">
-<h3>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h3>
-<p>This guide provided an overview of the most useful aspects of DaggerML, including creating and managing DAGs, using the API, and running tests. For more detailed information, refer to the API documentation and the test suite.</p>
-</section>
+</div>
+</div>
 </section>
 </section>
 
@@ -560,25 +762,28 @@ the repo path. Here is an example:</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-basics">The Basics</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-dag">Creating a DAG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dag">Create a dag</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-data-to-our-dag">Adding data to our dag</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-data">Accessing data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#value">value</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#collections">collections</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Creating a DAG</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-api-class">Using the API Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-dumping-a-dag">Loading and Dumping a DAG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#committing-results">Committing results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-dag-results">Loading dag results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling">Function calling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-data">Real data</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-data">Storing data</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#s3">S3</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#docker">Docker</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage">Advanced Usage</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-the-api">Dealing with the API</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-usage">Standard Usage</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-temporary-repo">Using a Temporary Repo</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-specific-repo">Using a Specific Repo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-a-docker-image-as-a-function">Calling a docker image as a function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions">Exceptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dags-as-context-managers">Dags as context managers</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-api-class">Using the API Class</a></li>
 </ul>
   </nav></div>
 

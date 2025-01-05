@@ -1,10 +1,10 @@
 ---
 jupytext:
+  formats: md:myst
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
+  execution_mode: auto
 kernelspec:
   display_name: Python 3
   language: python
@@ -12,26 +12,6 @@ kernelspec:
 ---
 
 # How-To Guide
-
-```{code-cell} python
-:tags: [remove-input,remove-stdout,remove-stderr]
-
-# import os
-# from atexit import register
-# from tempfile import TemporaryDirectory
-
-# tmpd = TemporaryDirectory()
-# register(tmpd.cleanup)
-
-# os.environ["DML_CONFIG_DIR"] = f"{tmpd.name}/config"
-# os.environ["DML_PROJECT_DIR"] = f"{tmpd.name}/project"
-# os.mkdir(os.environ["DML_CONFIG_DIR"])
-# os.mkdir(os.environ["DML_PROJECT_DIR"])
-
-# import daggerml as dml
-# dml.Api().init()
-
-```
 
 This guide will walk you through the most useful aspects of DaggerML,
 including creating and managing DAGs, using the API, and running tests.
@@ -62,10 +42,6 @@ node0.value(), node1.value()
 daggerml has native support for collections like lists, sets, and maps (dictionaries).
 
 ```{code-cell} python
-print(dag.api("repo", "list"))
-```
-
-```{code-cell} python
 node2 = dag.put({"node0": node0, "node1": node1, "misc": [None, False]})
 node3 = dag.put([node0, node1, node2])
 node3.value()
@@ -83,24 +59,23 @@ Getting the value (as you saw above):
 node3.value()
 ```
 
-Note that it unrolls the whole thing and returns a python object all the way down.
+```{note}
+Calling `dml.Node.value()` on a collection unrolls the data recursively
+returning only python datastructures and `dml.Resources`.
+```
 
 #### collections
 
 Collection nodes (like nodes 2 and 3) should be treated like the collections they are.
 
-```{code-cell} python
-print(dag.api("dag", "list"))
+```{tip}
+Collection elements should be accessed via the methods described here when feasible.
 ```
 
-1. You can index into lists and maps and you get a node back. This means you can have much larger and deeper collections without loading them into memory, but more importantly, we can track the execution.
+1. You can index into lists and maps and you get a node back.
 
   ```{code-cell} python
   node2["node0"], node3[0]
-  ```
-
-  ```{code-cell} python
-  print(dag.api("dag", "list"))
   ```
 
 2. You can also get the keys of a dictionary (as a node):
@@ -130,10 +105,6 @@ node2.len().value(), node3.len().value()
 A key thing to keep in mind is that when you index, you get a different node than the one you put in (but with the same underlying value). For example,
 
 ```{code-cell} python
-print(dag.api("dag", "list"))
-```
-
-```{code-cell} python
 node0 = dag.put(1)
 node1 = dag.put([node0])
 ```
@@ -147,10 +118,6 @@ node0, node1[0]
 ### Committing results
 
 Now that we have some stuff, we might want to commit. So let's say this dag was just to create this collection. Let's commit it.
-
-```{code-cell} python
-print(dag.api("dag", "list"))
-```
 
 ```{code-cell} python
 # we don't care about the return value yet.
@@ -236,55 +203,71 @@ To "fail" a dag, you just commit an instance of `dml.Error`. The value is then a
 ```{code-cell} python
 dag = dml.new("failed-dag", "I'm doomed")
 dag.commit(dml.Error("my unique error message"))
-dag = dml.new("foopy", "gonna get an error")
-node = dag.load("failed-dag")
-try:
-  node.value()
-except dml.Error as e:
-  print(e)
 ```
 
-does it need more text?
+When we go to access it:
 
 ```{code-cell} python
+---
+tags: [raises-exception]
+---
 
-try:
-  with dml.new("failed-dag2", "I'm doomed") as dag:
-    dag.put(1/0)
-except ZeroDivisionError:
-  pass
+dag = dml.new("foopy", "gonna get an error")
+node = dag.load("failed-dag")
+node.value()
+```
+
+### Dags as context managers
+
+```{tip}
+You can use a dag as a context manager to fail dags when an exception is thrown.
+```
+
+```{code-cell} python
+---
+tags: [raises-exception]
+---
+
+with dml.new("failed-dag2", "I'm doomed") as dag:
+  dag.put(1/0)
+```
+
+The error was re-raised, but the dag still failed.
+
+```{code-cell} python
+---
+tags: [raises-exception]
+---
+
 dag = dml.new("foopy", "gonna get an error")
 node = dag.load("failed-dag2")
-try:
-  node.value()
-except dml.Error as e:
-  print("error raised while getting node value...")
-  print(e)
+node.value()
 ```
+
+And we can see that the context manager kept the stack trace, which means now that stacktrace is stored in daggerml.
 
 ## Using the API Class
 
-The [Api]{.title-ref} class provides methods to interact with the DAGs.
+The [Api][api] class provides methods to interact with the DAGs.
 Here is an example of how to use the [Api]{.title-ref} class:
 
-``` python
+```{code-cell} python
 import daggerml as dml
 
 with dml.Api(initialize=True) as api:
   dag = api.new_dag(name="example_dag", message="Example DAG creation")
 ```
 
-## Loading and Dumping a DAG
+```{code-cell} python
+import daggerml as dml
 
-You can load and dump a DAG using the [load]{.title-ref} and
-[dump]{.title-ref} methods of the [Dag]{.title-ref} class:
-
-``` python
-from daggerml.core import Dag
-
-# Load a DAG from a file
-dag = Dag.load("path/to/dag_file")
-
-# Dump the DAG to a file
-dag.dump("path/to/dag_file")
+with dml.Api(initialize=True) as api:
+  # no dags yet...
+  assert api("dag", "list").strip() == ""
+  dag = api.new_dag("example_dag", "Example DAG creation")
+  # still no dags...
+  assert api("dag", "list").strip() == ""
+  dag.commit(None)
+  print("Now there's one dag.")
+  print(api("dag", "list"))
 ```

@@ -25,17 +25,18 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "ipykernel",
+  # the documentation itself requires these dependencies
   "daggerml",
-  "daggerml-cli",
   "sphinx",
   "sphinx-autobuild",
   "sphinx-autodoc-typehints",
-  "pydata-sphinx-theme",
   "sphinx-book-theme",
   "jupytext",
   "myst-parser",  # Markdown support
   "myst-nb",
+  # the notebooks require these dependencies
+  "ipykernel",
+  "daggerml-cli",
   "boto3",
   "pandas",
   "polars",

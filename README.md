@@ -7,25 +7,15 @@
 
 ## Setup
 
-Clone [the repo][1] with submodules.
-
-## Usage
-
-See [the tests][2] (or example).
-
-## Tests
+Clone this repo.
 
 ```bash
-hatch -e test run pytest .
+git clone daggerml.github.io
+cd daggerml.github.io
+hatch run build
 ```
 
-## Build
+You should see a printout saying `Seriving on http://127.0.0.1:8000` or
+something like that. Go to that site and observe the docs
 
-```bash
-hatch -e test run dml-build pypi
-```
-
-> **Note:** You might have to reinstall the cli with the editable flag set (e.g. `pip uninstall daggerml-cli; pip install -e ./submodules/daggerml_cli/`).
-
-[1]: https://github.com/daggerml/python-lib/
-[2]: https://github.com/daggerml/python-lib/tests/
+> **Note:** The docs are built from the docstrings of the `daggerml-cli` and `daggerml` python packages on *pypi*. There are no submodules or anything yet.

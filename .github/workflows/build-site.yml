@@ -24,6 +24,7 @@ jobs:
       - name: Build documentation
         run: |
           sphinx-build -b html source build
+          echo "daggerml.com" > build/CNAME
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

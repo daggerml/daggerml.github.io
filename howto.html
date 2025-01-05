@@ -552,7 +552,7 @@ returning only python datastructures and <code class="docutils literal notransla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dag/8b0bf633bd8a68e174e949c101b4c007
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dag/a14f9ee5c166ca7cf3e3e8728e6d28d0
 </pre></div>
 </div>
 </div>
@@ -578,9 +578,8 @@ returning only python datastructures and <code class="docutils literal notransla
 </section>
 <section id="function-calling">
 <h3>Function calling<a class="headerlink" href="#function-calling" title="Link to this heading">#</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml.executor</span> <span class="k">as</span> <span class="nn">dx</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">import</span> <span class="nn">daggerml.executor</span> <span class="k">as</span> <span class="nn">dx</span>
 
 <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">fndag</span><span class="p">):</span>
   <span class="kn">import</span> <span class="nn">torch</span>
@@ -590,51 +589,8 @@ returning only python datastructures and <code class="docutils literal notransla
 <span class="n">lx</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">Local</span><span class="p">()</span>
 <span class="n">fn</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">make_fn</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="s1">&#39;conda&#39;</span><span class="p">,</span> <span class="s1">&#39;torch&#39;</span><span class="p">)</span>
 <span class="n">resp</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">resp</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">get_result</span><span class="p">(),</span> <span class="n">dml</span><span class="o">.</span><span class="n">Node</span><span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">lx</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">Local</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">fn</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">make_fn</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="s1">&#39;conda&#39;</span><span class="p">,</span> <span class="s1">&#39;torch&#39;</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">10</span> <span class="n">resp</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">resp</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/executor.py:566,</span> in <span class="ni">Local.run</span><span class="nt">(self, dag, fn_rsrc, *args)</span>
-<span class="g g-Whitespace">    </span><span class="mi">564</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit_remote</span><span class="p">(</span><span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">565</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit_local</span><span class="p">(</span><span class="n">dump</span><span class="o">=</span><span class="n">dump</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">566</span> <span class="k">return</span> <span class="n">dml</span><span class="o">.</span><span class="n">FnUpdater</span><span class="o">.</span><span class="n">from_waiter</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">start_fn</span><span class="p">(</span><span class="n">fn_rsrc</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="n">update_fn</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:137,</span> in <span class="ni">FnUpdater.from_waiter</span><span class="nt">(cls, waiter, update_fn)</span>
-<span class="g g-Whitespace">    </span><span class="mi">135</span> <span class="n">f</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">waiter</span><span class="p">,</span> <span class="n">k</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">(</span><span class="n">waiter</span><span class="p">)}</span>
-<span class="g g-Whitespace">    </span><span class="mi">136</span> <span class="n">out</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">update_fn</span><span class="o">=</span><span class="n">update_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">f</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">137</span> <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="k">return</span> <span class="n">out</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:153,</span> in <span class="ni">FnUpdater.update</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">151</span>     <span class="n">dag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="s1">&#39;asdf&#39;</span><span class="p">,</span> <span class="s1">&#39;qwer&#39;</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dump</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">152</span>     <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">Error</span><span class="o">.</span><span class="n">from_ex</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
-<span class="ne">--&gt; </span><span class="mi">153</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:121,</span> in <span class="ni">FnWaiter.get_result</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">120</span> <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">121</span>     <span class="n">ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="s1">&#39;get_fn_result&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">122</span>     <span class="k">if</span> <span class="n">ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">123</span>         <span class="k">return</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:587,</span> in <span class="ni">Dag._invoke</span><span class="nt">(self, op, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">585</span> <span class="n">data</span> <span class="o">=</span> <span class="n">from_json</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Error</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">587</span>     <span class="k">raise</span> <span class="n">data</span>
-<span class="g g-Whitespace">    </span><span class="mi">588</span> <span class="k">return</span> <span class="n">data</span>
-
-<span class="ne">Error</span>: dml.Error(failed_local_execution: &#39;local command failed&#39;)
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="real-data">
@@ -645,6 +601,11 @@ returning only python datastructures and <code class="docutils literal notransla
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rnode</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">dml</span><span class="o">.</span><span class="n">Resource</span><span class="p">(</span><span class="s2">&quot;my_ns:my_unique_id&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="s2">&quot;asdf&quot;</span><span class="p">))</span>
 <span class="n">resource</span> <span class="o">=</span> <span class="n">rnode</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
 <span class="n">resource</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Resource(uri=&#39;my_ns:my_unique_id&#39;, data=&#39;asdf&#39;)
 </pre></div>
 </div>
 </div>
@@ -694,6 +655,11 @@ returning only python datastructures and <code class="docutils literal notransla
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ref(to=&#39;dag/53e36bf876574f290461055c3a9021e0&#39;)
+</pre></div>
+</div>
+</div>
 </div>
 <p>When we go to access it:</p>
 <div class="cell tag_raises-exception docutils container">
@@ -701,6 +667,34 @@ returning only python datastructures and <code class="docutils literal notransla
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
 <span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag&quot;</span><span class="p">)</span>
 <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag&quot;</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:389,</span> in <span class="ni">Node.value</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">381</span> <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Get the value of the node.</span>
+<span class="g g-Whitespace">    </span><span class="mi">383</span><span class="sd">     </span>
+<span class="g g-Whitespace">    </span><span class="mi">384</span><span class="sd">     Notes</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span><span class="sd">     have to call `dag.put` to record whatever output.</span>
+<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">389</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="s1">&#39;get_node_value&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:587,</span> in <span class="ni">Dag._invoke</span><span class="nt">(self, op, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">585</span> <span class="n">data</span> <span class="o">=</span> <span class="n">from_json</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Error</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">587</span>     <span class="k">raise</span> <span class="n">data</span>
+<span class="g g-Whitespace">    </span><span class="mi">588</span> <span class="k">return</span> <span class="n">data</span>
+
+<span class="ne">Error</span>: dml.Error(Error: &#39;my unique error message&#39;)
 </pre></div>
 </div>
 </div>
@@ -719,6 +713,17 @@ returning only python datastructures and <code class="docutils literal notransla
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ZeroDivisionError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;failed-dag2&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m doomed&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">2</span>   <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="ne">ZeroDivisionError</span>: division by zero
+</pre></div>
+</div>
+</div>
 </div>
 <p>The error was re-raised, but the dag still failed.</p>
 <div class="cell tag_raises-exception docutils container">
@@ -726,6 +731,44 @@ returning only python datastructures and <code class="docutils literal notransla
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
 <span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag2&quot;</span><span class="p">)</span>
 <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag2&quot;</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:389,</span> in <span class="ni">Node.value</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">381</span> <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">382</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Get the value of the node.</span>
+<span class="g g-Whitespace">    </span><span class="mi">383</span><span class="sd">     </span>
+<span class="g g-Whitespace">    </span><span class="mi">384</span><span class="sd">     Notes</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span><span class="sd">     have to call `dag.put` to record whatever output.</span>
+<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">389</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="s1">&#39;get_node_value&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:587,</span> in <span class="ni">Dag._invoke</span><span class="nt">(self, op, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">585</span> <span class="n">data</span> <span class="o">=</span> <span class="n">from_json</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Error</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">587</span>     <span class="k">raise</span> <span class="n">data</span>
+<span class="g g-Whitespace">    </span><span class="mi">588</span> <span class="k">return</span> <span class="n">data</span>
+
+<span class="ne">Error</span>: dml.Error(ZeroDivisionError: &#39;division by zero&#39;)
+<span class="o">================================================================================</span>
+<span class="n">Trace</span>
+<span class="o">================================================================================</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+
+  <span class="n">File</span> <span class="s2">&quot;/tmp/ipykernel_1956/3633103110.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+    <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">~^~</span>
+
+<span class="ne">ZeroDivisionError</span>: division by zero
 </pre></div>
 </div>
 </div>
@@ -760,6 +803,12 @@ Here is an example of how to use the [Api]{.title-ref} class:</p>
   <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now there&#39;s one dag.&quot;</span><span class="p">)</span>
   <span class="nb">print</span><span class="p">(</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now there&#39;s one dag.
+dag/e689c6e45f46b3946f579d9cb3aba1a8
 </pre></div>
 </div>
 </div>

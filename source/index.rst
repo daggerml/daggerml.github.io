@@ -53,7 +53,9 @@ Documentation is hosted on `daggerml.com <https://daggerml.com/api>`_.
    :maxdepth: 1
 
    howto
+   examples
    api
+   cli-docs
    contributing
 
 Github Links

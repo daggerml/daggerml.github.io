@@ -16,6 +16,41 @@ kernelspec:
 This guide will walk you through the most useful aspects of DaggerML,
 including creating and managing DAGs, using the API, and running tests.
 
+## Install
+
+In a virtual environment, install `daggerml-cli`.
+
+```sh
+pip install daggerml-cli
+```
+
+In the desired environment, install `daggerml`
+
+```sh
+pip install daggerml
+```
+
+## Initialize
+
+```sh
+dml config user testi@testico
+dml repo create my-repo
+dml config repo my-repo
+dml config branch main
+dml status
+```
+
+### CLI Usage
+
+```sh
+dml --help
+dml COMMAND --help
+dml COMMAND SUBCOMMAND --help
+```
+
+> [!TIP]
+> Shell completion is available for bash/zsh via [argcomplete](https://github.com/kislyuk/argcomplete).
+
 ## Basic Usage
 
 ### Create a dag
@@ -45,6 +80,10 @@ daggerml has native support for collections like lists, sets, and maps (dictiona
 node2 = dag.put({"node0": node0, "node1": node1, "misc": [None, False]})
 node3 = dag.put([node0, node1, node2])
 node3.value()
+```
+
+```{code-cell} python
+node3[1:]
 ```
 
 Note that we passed both python objects and `dml.Node` objects to `dag.put`, and the result was the same (from a data perspective). The difference is, if you pass a `dml.Node` object, then we can add the corresponding edge in the dag (we can track that dependency).
@@ -122,7 +161,7 @@ Now that we have some stuff, we might want to commit. So let's say this dag was 
 ```{code-cell} python
 # we don't care about the return value yet.
 _ = dag.commit(node3)
-print(dag.api("dag", "list"))
+print(dag.dml("dag", "list"))
 ```
 
 ### Loading dag results
@@ -135,23 +174,6 @@ node = dag.load("dag_no_1")
 node.value()
 ```
 
-### Function calling
-
-```python
-
-import daggerml.executor as dx
-
-def foo(fndag):
-  import torch
-  n = fndag.expr[1].value()
-  fndag.commit(torch.arange(n).tolist())
-
-lx = dx.Local()
-fn = lx.make_fn(dag, foo, 'conda', 'torch')
-resp = lx.run(dag, fn, 5)
-assert isinstance(resp.get_result(), dml.Node)
-```
-
 ### Real data
 
 In the real world we're dealing with datasets on s3, or behind some data layer abstraction like snowflake, hive, or some bespoke software optimized for your company's needs. We also deal with infrastructure that we spin up to test things. For these things daggerml has the concept of a `dml.Resource`. It's a datum type like `int`, `float`, `string`, etc., but it represents a unique opaque blob.
@@ -160,40 +182,6 @@ In the real world we're dealing with datasets on s3, or behind some data layer a
 rnode = dag.put(dml.Resource("my_ns:my_unique_id", data="asdf"))
 resource = rnode.value()
 resource
-```
-
-### Storing data
-
-#### S3
-
-```python3
-s3 = dx.S3(BUCKET, PREFIX)
-tarball = s3.tar(dag, ".")
-```
-
-#### Docker
-
-```python
-dkr = dx.Dkr()
-img = dkr.build(dag, tarball, ['-f', 'tests/assets/Dockerfile'], s3).get_result()
-```
-
-### Calling a docker image as a function
-
-```python
-def add_one(fndag):
-  _, *nums = fndag.expr.value()
-  return dag.commit([x + 1 for x in nums])
-
-# put the function on s3
-script = s3.scriptify(dag, add_one)
-fn_node = dkr.make_fn(dag, img, script).get_result()
-result = dkr.run(dag, fn_node, 1, 2, 3, s3=s3).get_result()
-result.value()
-```
-
-```sh
-[2, 3, 4]
 ```
 
 ### Exceptions
@@ -252,22 +240,13 @@ The [Api][api] class provides methods to interact with the DAGs.
 Here is an example of how to use the [Api]{.title-ref} class:
 
 ```{code-cell} python
-import daggerml as dml
-
-with dml.Api(initialize=True) as api:
-  dag = api.new_dag(name="example_dag", message="Example DAG creation")
+with dml.Dml() as api:
+  dag = api.new(name="example_dag", message="Example DAG creation")
 ```
 
 ```{code-cell} python
-import daggerml as dml
+import json
 
-with dml.Api(initialize=True) as api:
-  # no dags yet...
-  assert api("dag", "list").strip() == ""
-  dag = api.new_dag("example_dag", "Example DAG creation")
-  # still no dags...
-  assert api("dag", "list").strip() == ""
-  dag.commit(None)
-  print("Now there's one dag.")
-  print(api("dag", "list"))
+with dml.Dml() as api:
+  print(json.dumps(api("status"), indent=2))
 ```

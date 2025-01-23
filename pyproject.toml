@@ -26,7 +26,6 @@ classifiers = [
 ]
 dependencies = [
   # the documentation itself requires these dependencies
-  "daggerml",
   "sphinx",
   "sphinx-autobuild",
   "sphinx-autodoc-typehints",
@@ -36,7 +35,6 @@ dependencies = [
   "myst-nb",
   # the notebooks require these dependencies
   "ipykernel",
-  "daggerml-cli",
   "boto3",
   "pandas",
   "polars",
@@ -59,6 +57,9 @@ path = "src/daggerml_site/__about__.py"
 PATH = "{root:uri}/bin:{env:PATH}"
 [tool.hatch.envs.default.scripts]
 build = "build.sh -w"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [tool.jupytext.formats]
 "notebooks/" = "ipynb"

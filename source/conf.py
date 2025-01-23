@@ -20,6 +20,7 @@ toc_object_entries = True
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    'sphinx.ext.napoleon',
     "sphinx.ext.viewcode",  # Add links to highlighted source code
     "sphinx_autodoc_typehints",  # For type annotations
     # "myst_parser",  # For markdown support
@@ -37,8 +38,6 @@ autodoc_default_options = {
     "show-inheritance": True,
 }
 autodoc_typehints = "description"
-autodoc_class_signature = "separated"
-
 autosummary_generate = True
 
 # -- Options for HTML output -------------------------------------------------
@@ -56,7 +55,6 @@ html_sidebars = {
     ]
 }
 
-# html_theme = "pydata_sphinx_theme"
 html_theme = "sphinx_book_theme"
 html_theme_options = {
     "repository_url": "https://github.com/daggerml/python-lib",

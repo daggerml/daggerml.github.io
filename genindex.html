@@ -29,7 +29,7 @@
   <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=0150aef7"></script>
+    <script src="_static/documentation_options.js?v=30839ccb"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -48,7 +48,7 @@
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.0.17" />
+  <meta name="docsearch:version" content="0.0.20" />
   </head>
   
   
@@ -153,7 +153,9 @@
         </ul>
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="howto.html">How-To Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Example Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli-docs.html">CLI Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing Guide</a></li>
 </ul>
 
@@ -273,59 +275,27 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#_"><strong>_</strong></a>
- | <a href="#A"><strong>A</strong></a>
+ <a href="#A"><strong>A</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
- | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
- | <a href="#J"><strong>J</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
- | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  
 </div>
-<h2 id="_">_</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Api.__init__">__init__() (daggerml.Api method)</a>
-
-      <ul>
-        <li><a href="api.html#daggerml.Dag.__init__">(daggerml.Dag method)</a>
-</li>
-        <li><a href="api.html#daggerml.Error.__init__">(daggerml.Error method)</a>
-</li>
-        <li><a href="api.html#daggerml.FnUpdater.__init__">(daggerml.FnUpdater method)</a>
-</li>
-        <li><a href="api.html#daggerml.FnWaiter.__init__">(daggerml.FnWaiter method)</a>
-</li>
-        <li><a href="api.html#daggerml.Node.__init__">(daggerml.Node method)</a>
-</li>
-        <li><a href="api.html#daggerml.Ref.__init__">(daggerml.Ref method)</a>
-</li>
-        <li><a href="api.html#daggerml.Resource.__init__">(daggerml.Resource method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-</tr></table>
-
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Api">Api (class in daggerml)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.api">api (daggerml.Dag attribute)</a>
+      <li><a href="api.html#daggerml.Resource.adapter">adapter (daggerml.Resource attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -333,17 +303,11 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.FnWaiter.cache_key">cache_key (daggerml.FnWaiter attribute)</a>
-</li>
-      <li><a href="api.html#daggerml.Api.cleanup">cleanup() (daggerml.Api method)</a>
-</li>
       <li><a href="api.html#daggerml.Error.code">code (daggerml.Error attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Dag.commit">commit() (daggerml.Dag method)</a>
-</li>
-      <li><a href="api.html#daggerml.Api.config_dir">config_dir (daggerml.Api attribute)</a>
 </li>
       <li><a href="api.html#daggerml.Error.context">context (daggerml.Error attribute)</a>
 </li>
@@ -355,12 +319,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Dag">Dag (class in daggerml)</a>
 </li>
-      <li><a href="api.html#daggerml.FnWaiter.dag">dag (daggerml.FnWaiter attribute)</a>
-
-      <ul>
-        <li><a href="api.html#daggerml.Node.dag">(daggerml.Node attribute)</a>
+      <li><a href="api.html#daggerml.Node.dag">dag (daggerml.Node attribute)</a>
 </li>
-      </ul></li>
       <li>
     daggerml
 
@@ -372,14 +332,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Resource.data">data (daggerml.Resource attribute)</a>
 </li>
-      <li><a href="api.html#daggerml.FnWaiter.dump">dump (daggerml.FnWaiter attribute)</a>
+      <li><a href="api.html#daggerml.Dml">Dml (class in daggerml)</a>
 </li>
-      <li><a href="api.html#daggerml.Api.dump">dump() (daggerml.Api method)</a>
-
-      <ul>
-        <li><a href="api.html#daggerml.Dag.dump">(daggerml.Dag method)</a>
+      <li><a href="api.html#daggerml.Dag.dml">dml (daggerml.Dag attribute)</a>
 </li>
-      </ul></li>
+      <li><a href="api.html#daggerml.Dag.dump">dump (daggerml.Dag attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -398,29 +356,7 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Api.flags">flags (daggerml.Api attribute)</a>
-</li>
-      <li><a href="api.html#daggerml.FnUpdater">FnUpdater (class in daggerml)</a>
-</li>
-      <li><a href="api.html#daggerml.FnWaiter">FnWaiter (class in daggerml)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.from_data">from_data() (in module daggerml)</a>
-</li>
-      <li><a href="api.html#daggerml.Error.from_ex">from_ex() (daggerml.Error class method)</a>
-</li>
       <li><a href="api.html#daggerml.from_json">from_json() (in module daggerml)</a>
-</li>
-      <li><a href="api.html#daggerml.FnUpdater.from_waiter">from_waiter() (daggerml.FnUpdater class method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.FnWaiter.get_result">get_result() (daggerml.FnWaiter method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -428,27 +364,7 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Ref.id">id (daggerml.Ref property)</a>
-
-      <ul>
-        <li><a href="api.html#daggerml.Resource.id">(daggerml.Resource property)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Api.init">init() (daggerml.Api method)</a>
-</li>
-      <li><a href="api.html#daggerml.Api.initialize">initialize (daggerml.Api attribute)</a>
-</li>
       <li><a href="api.html#daggerml.Node.items">items() (daggerml.Node method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="J">J</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Resource.js">js (daggerml.Resource property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -466,15 +382,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Node.len">len() (daggerml.Node method)</a>
 </li>
-      <li><a href="api.html#daggerml.Api.load">load() (daggerml.Api method)</a>
-
-      <ul>
-        <li><a href="api.html#daggerml.Dag.load">(daggerml.Dag method)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.load_ref">load_ref() (daggerml.Dag method)</a>
+      <li><a href="api.html#daggerml.Dag.load">load() (daggerml.Dag method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -483,6 +393,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Error.message">message (daggerml.Error attribute)</a>
+</li>
+      <li><a href="api.html#daggerml.Dag.message_handler">message_handler (daggerml.Dag attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -499,16 +411,10 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.new">new() (daggerml.Dag class method)</a>
-
-      <ul>
-        <li><a href="api.html#daggerml.new">(in module daggerml)</a>
+      <li><a href="api.html#daggerml.Dml.new">new() (daggerml.Dml method)</a>
 </li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Api.new_dag">new_dag() (daggerml.Api method)</a>
-</li>
       <li><a href="api.html#daggerml.Node">Node (class in daggerml)</a>
 </li>
   </ul></td>
@@ -516,10 +422,6 @@
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Api.project_dir">project_dir (daggerml.Api attribute)</a>
-</li>
-  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Dag.put">put() (daggerml.Dag method)</a>
 </li>
@@ -531,31 +433,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Ref">Ref (class in daggerml)</a>
 </li>
-      <li><a href="api.html#daggerml.FnWaiter.ref">ref (daggerml.FnWaiter attribute)</a>
-
-      <ul>
-        <li><a href="api.html#daggerml.Node.ref">(daggerml.Node attribute)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#daggerml.Node.ref">ref (daggerml.Node attribute)</a>
+</li>
       <li><a href="api.html#daggerml.Resource">Resource (class in daggerml)</a>
-</li>
-      <li><a href="api.html#daggerml.FnWaiter.resource_data">resource_data (daggerml.FnWaiter attribute)</a>
-</li>
-      <li><a href="api.html#daggerml.Dag.result">result (daggerml.Dag attribute)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Resource.scheme">scheme (daggerml.Resource property)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.start_fn">start_fn() (daggerml.Dag method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -563,19 +445,13 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Api.tmpdirs">tmpdirs (daggerml.Api attribute)</a>
-</li>
       <li><a href="api.html#daggerml.Ref.to">to (daggerml.Ref attribute)</a>
 </li>
-      <li><a href="api.html#daggerml.to_data">to_data() (in module daggerml)</a>
+      <li><a href="api.html#daggerml.to_json">to_json() (in module daggerml)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.to_json">to_json() (in module daggerml)</a>
-</li>
-      <li><a href="api.html#daggerml.Dag.tok">tok (daggerml.Dag attribute)</a>
-</li>
-      <li><a href="api.html#daggerml.Ref.type">type (daggerml.Ref property)</a>
+      <li><a href="api.html#daggerml.Dag.token">token (daggerml.Dag attribute)</a>
 </li>
       <li><a href="api.html#daggerml.Node.type">type() (daggerml.Node method)</a>
 </li>
@@ -585,12 +461,6 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.FnUpdater.update">update() (daggerml.FnUpdater method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.FnUpdater.update_fn">update_fn (daggerml.FnUpdater attribute)</a>
-</li>
       <li><a href="api.html#daggerml.Resource.uri">uri (daggerml.Resource attribute)</a>
 </li>
   </ul></td>

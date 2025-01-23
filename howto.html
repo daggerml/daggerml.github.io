@@ -30,7 +30,7 @@
   <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
   
@@ -40,18 +40,18 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=0150aef7"></script>
+    <script src="_static/documentation_options.js?v=30839ccb"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'howto';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Documentation" href="api.html" />
+    <link rel="next" title="Example Usage" href="examples.html" />
     <link rel="prev" title="DaggerML Documentation" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.0.17" />
+  <meta name="docsearch:version" content="0.0.20" />
   </head>
   
   
@@ -154,7 +154,9 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">How-To Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Example Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli-docs.html">CLI Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing Guide</a></li>
 </ul>
 
@@ -316,6 +318,11 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize">Initialize</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cli-usage">CLI Usage</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dag">Create a dag</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-data-to-our-dag">Adding data to our dag</a></li>
@@ -326,14 +333,7 @@
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#committing-results">Committing results</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-dag-results">Loading dag results</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling">Function calling</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-data">Real data</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-data">Storing data</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#s3">S3</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#docker">Docker</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-a-docker-image-as-a-function">Calling a docker image as a function</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions">Exceptions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dags-as-context-managers">Dags as context managers</a></li>
 </ul>
@@ -354,13 +354,46 @@
 <h1>How-To Guide<a class="headerlink" href="#how-to-guide" title="Link to this heading">#</a></h1>
 <p>This guide will walk you through the most useful aspects of DaggerML,
 including creating and managing DAGs, using the API, and running tests.</p>
+<section id="install">
+<h2>Install<a class="headerlink" href="#install" title="Link to this heading">#</a></h2>
+<p>In a virtual environment, install <code class="docutils literal notranslate"><span class="pre">daggerml-cli</span></code>.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>daggerml-cli
+</pre></div>
+</div>
+<p>In the desired environment, install <code class="docutils literal notranslate"><span class="pre">daggerml</span></code></p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>daggerml
+</pre></div>
+</div>
+</section>
+<section id="initialize">
+<h2>Initialize<a class="headerlink" href="#initialize" title="Link to this heading">#</a></h2>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>dml<span class="w"> </span>config<span class="w"> </span>user<span class="w"> </span>testi@testico
+dml<span class="w"> </span>repo<span class="w"> </span>create<span class="w"> </span>my-repo
+dml<span class="w"> </span>config<span class="w"> </span>repo<span class="w"> </span>my-repo
+dml<span class="w"> </span>config<span class="w"> </span>branch<span class="w"> </span>main
+dml<span class="w"> </span>status
+</pre></div>
+</div>
+<section id="cli-usage">
+<h3>CLI Usage<a class="headerlink" href="#cli-usage" title="Link to this heading">#</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>dml<span class="w"> </span>--help
+dml<span class="w"> </span>COMMAND<span class="w"> </span>--help
+dml<span class="w"> </span>COMMAND<span class="w"> </span>SUBCOMMAND<span class="w"> </span>--help
+</pre></div>
+</div>
+<blockquote>
+<div><p>[!TIP]
+Shell completion is available for bash/zsh via <a class="reference external" href="https://github.com/kislyuk/argcomplete">argcomplete</a>.</p>
+</div></blockquote>
+</section>
+</section>
 <section id="basic-usage">
 <h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
 <section id="create-a-dag">
 <h3>Create a dag<a class="headerlink" href="#create-a-dag" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">daggerml</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dml</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dml</span><span class="o">.</span><span class="n">__version__</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dag_no_1&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
@@ -368,7 +401,7 @@ including creating and managing DAGs, using the API, and running tests.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dml.__version__ = &#39;0.0.17&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dml.__version__ = &#39;0.0.20&#39;
 </pre></div>
 </div>
 </div>
@@ -403,6 +436,18 @@ including creating and managing DAGs, using the API, and running tests.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, &#39;example&#39;, {&#39;misc&#39;: [None, False], &#39;node0&#39;: 3, &#39;node1&#39;: &#39;example&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">node3</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Node(node/2644feee4da9e5b5976fb9c0fced00f1)
 </pre></div>
 </div>
 </div>
@@ -449,8 +494,8 @@ returning only python datastructures and <code class="docutils literal notransla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Node(5b7daa7c7e8289275fe46cac3ef6eed2),
- Node(c1cc3a055885d778c92ca4d37ea9bda8))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Node(node/dc53dffc84e002ee7d9558e7a4a542d8),
+ Node(node/e1aed53c8161928dc3c93a34afee0843))
 </pre></div>
 </div>
 </div>
@@ -532,8 +577,8 @@ returning only python datastructures and <code class="docutils literal notransla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Node(ea3b13b8c26b22b512ddf56c29e0355d),
- Node(8655a169f67ef069ebdafd40117d602d))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(Node(node/02073f1b7467cc013302f343e254b4d0),
+ Node(node/387d6e8c9a253a526d1834a4d98ee7f5))
 </pre></div>
 </div>
 </div>
@@ -547,12 +592,12 @@ returning only python datastructures and <code class="docutils literal notransla
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we don&#39;t care about the return value yet.</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">node3</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">dml</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dag/66ac72b77113a6e29bae16ea9abd5cb2
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;nodes&#39;: [&#39;17147b18bff6283c6836613f2e3d21b1&#39;, &#39;6cc38c8cb58e9f0e69d7cb3d8949489b&#39;, &#39;e6bdbdd8282260b2cf7a65eee202656f&#39;, &#39;5962d8c326b7da6ff464205175a21f43&#39;, &#39;865e1e3671d77e4104a318df3d7e0170&#39;, &#39;e1aed53c8161928dc3c93a34afee0843&#39;, &#39;5a38f243bdba144c16a7ba16e80c0782&#39;, &#39;2644feee4da9e5b5976fb9c0fced00f1&#39;, &#39;8cb93ece52acd62ab65f0017854bf462&#39;, &#39;7dd0ef554f76b3872a76d598420bcef7&#39;, &#39;6f8fd46484eab462e1fb251d439ff2e1&#39;, &#39;5972a036dd24f3c7c54bcb5712002121&#39;, &#39;e9445d2d006ddecd870a70733e92d613&#39;, &#39;08fe7a8fc32060653fa8908bb526be83&#39;, &#39;6690a6189f2138f21eab2af71711b0a1&#39;, &#39;0357707c7aeca1f6ca23392e9e479e89&#39;, &#39;387d6e8c9a253a526d1834a4d98ee7f5&#39;, &#39;9a945a3d20180bf6e5e9020aec584690&#39;, &#39;401f8354bedb46df6979d04ed148a2cd&#39;, &#39;3653b1339ddb76d6efbca0266f797b57&#39;, &#39;251c79e0511ae74300ef325575d6dc7f&#39;, &#39;9f5e704798b0161397c83f9d37ad369f&#39;, &#39;a2388fadfd456b8b591d0b3fcff6f1f2&#39;, &#39;d4c1bf3810c22bb45a9538940c05e976&#39;, &#39;02073f1b7467cc013302f343e254b4d0&#39;, &#39;d2ec20d8a8afaad81ab198cca5455b25&#39;, &#39;f1f1b0661e77810d1d8772704ccb5ddd&#39;, &#39;dc53dffc84e002ee7d9558e7a4a542d8&#39;, &#39;05f84d22fe91a6d0bafa1f5ec544b1bf&#39;, &#39;3b5463d5eaa2d77ade2062a69bb0144e&#39;, &#39;51f93385a2888d8051e76c22a696e8bc&#39;, &#39;09d60c420e3afba85a715bbae23e24aa&#39;, &#39;5993e4f56cf19d6b4ed2106eac0652c1&#39;, &#39;615bddb065e02b6b55366597fb2b2247&#39;], &#39;result&#39;: &#39;401f8354bedb46df6979d04ed148a2cd&#39;, &#39;error&#39;: None, &#39;id&#39;: &#39;3269e5b01517345290a44810d95c2079&#39;, &#39;name&#39;: &#39;dag_no_1&#39;}]
 </pre></div>
 </div>
 </div>
@@ -576,23 +621,6 @@ returning only python datastructures and <code class="docutils literal notransla
 </div>
 </div>
 </section>
-<section id="function-calling">
-<h3>Function calling<a class="headerlink" href="#function-calling" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
-<span class="kn">import</span> <span class="nn">daggerml.executor</span> <span class="k">as</span> <span class="nn">dx</span>
-
-<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">fndag</span><span class="p">):</span>
-  <span class="kn">import</span> <span class="nn">torch</span>
-  <span class="n">n</span> <span class="o">=</span> <span class="n">fndag</span><span class="o">.</span><span class="n">expr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-  <span class="n">fndag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-
-<span class="n">lx</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">Local</span><span class="p">()</span>
-<span class="n">fn</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">make_fn</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="s1">&#39;conda&#39;</span><span class="p">,</span> <span class="s1">&#39;torch&#39;</span><span class="p">)</span>
-<span class="n">resp</span> <span class="o">=</span> <span class="n">lx</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">fn</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">get_result</span><span class="p">(),</span> <span class="n">dml</span><span class="o">.</span><span class="n">Node</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
 <section id="real-data">
 <h3>Real data<a class="headerlink" href="#real-data" title="Link to this heading">#</a></h3>
 <p>In the real world we’re dealing with datasets on s3, or behind some data layer abstraction like snowflake, hive, or some bespoke software optimized for your company’s needs. We also deal with infrastructure that we spin up to test things. For these things daggerml has the concept of a <code class="docutils literal notranslate"><span class="pre">dml.Resource</span></code>. It’s a datum type like <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">string</span></code>, etc., but it represents a unique opaque blob.</p>
@@ -605,44 +633,10 @@ returning only python datastructures and <code class="docutils literal notransla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Resource(uri=&#39;my_ns:my_unique_id&#39;, data=&#39;asdf&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Resource(uri=&#39;my_ns:my_unique_id&#39;, data=&#39;asdf&#39;, adapter=None)
 </pre></div>
 </div>
 </div>
-</div>
-</section>
-<section id="storing-data">
-<h3>Storing data<a class="headerlink" href="#storing-data" title="Link to this heading">#</a></h3>
-<section id="s3">
-<h4>S3<a class="headerlink" href="#s3" title="Link to this heading">#</a></h4>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">s3</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">S3</span><span class="p">(</span><span class="n">BUCKET</span><span class="p">,</span> <span class="n">PREFIX</span><span class="p">)</span>
-<span class="n">tarball</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">tar</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="docker">
-<h4>Docker<a class="headerlink" href="#docker" title="Link to this heading">#</a></h4>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dkr</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">Dkr</span><span class="p">()</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">dkr</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">tarball</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;tests/assets/Dockerfile&#39;</span><span class="p">],</span> <span class="n">s3</span><span class="p">)</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="calling-a-docker-image-as-a-function">
-<h3>Calling a docker image as a function<a class="headerlink" href="#calling-a-docker-image-as-a-function" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_one</span><span class="p">(</span><span class="n">fndag</span><span class="p">):</span>
-  <span class="n">_</span><span class="p">,</span> <span class="o">*</span><span class="n">nums</span> <span class="o">=</span> <span class="n">fndag</span><span class="o">.</span><span class="n">expr</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-  <span class="k">return</span> <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">([</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">])</span>
-
-<span class="c1"># put the function on s3</span>
-<span class="n">script</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">scriptify</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">add_one</span><span class="p">)</span>
-<span class="n">fn_node</span> <span class="o">=</span> <span class="n">dkr</span><span class="o">.</span><span class="n">make_fn</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">script</span><span class="p">)</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">dkr</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dag</span><span class="p">,</span> <span class="n">fn_node</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">s3</span><span class="o">=</span><span class="n">s3</span><span class="p">)</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
-<span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">[</span><span class="m">2</span>,<span class="w"> </span><span class="m">3</span>,<span class="w"> </span><span class="m">4</span><span class="o">]</span>
-</pre></div>
 </div>
 </section>
 <section id="exceptions">
@@ -652,11 +646,6 @@ returning only python datastructures and <code class="docutils literal notransla
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;failed-dag&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m doomed&quot;</span><span class="p">)</span>
 <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">dml</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;my unique error message&quot;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ref(to=&#39;dag/668693c40b61be03784eb1babb471feb&#39;)
 </pre></div>
 </div>
 </div>
@@ -671,30 +660,7 @@ returning only python datastructures and <code class="docutils literal notransla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag&quot;</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:389,</span> in <span class="ni">Node.value</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">381</span> <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">382</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Get the value of the node.</span>
-<span class="g g-Whitespace">    </span><span class="mi">383</span><span class="sd">     </span>
-<span class="g g-Whitespace">    </span><span class="mi">384</span><span class="sd">     Notes</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">    </span><span class="mi">387</span><span class="sd">     have to call `dag.put` to record whatever output.</span>
-<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">389</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="s1">&#39;get_node_value&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:587,</span> in <span class="ni">Dag._invoke</span><span class="nt">(self, op, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">585</span> <span class="n">data</span> <span class="o">=</span> <span class="n">from_json</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Error</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">587</span>     <span class="k">raise</span> <span class="n">data</span>
-<span class="g g-Whitespace">    </span><span class="mi">588</span> <span class="k">return</span> <span class="n">data</span>
-
-<span class="ne">Error</span>: dml.Error(Error: &#39;my unique error message&#39;)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error(message=&#39;my unique error message&#39;, context={}, code=&#39;Error&#39;)
 </pre></div>
 </div>
 </div>
@@ -716,7 +682,7 @@ returning only python datastructures and <code class="docutils literal notransla
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ZeroDivisionError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;failed-dag2&quot;</span><span class="p">,</span> <span class="s2">&quot;I&#39;m doomed&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
 <span class="ne">----&gt; </span><span class="mi">2</span>   <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
 
@@ -735,40 +701,7 @@ returning only python datastructures and <code class="docutils literal notransla
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">Error</span><span class="g g-Whitespace">                                     </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;foopy&quot;</span><span class="p">,</span> <span class="s2">&quot;gonna get an error&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;failed-dag2&quot;</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:389,</span> in <span class="ni">Node.value</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">381</span> <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">382</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Get the value of the node.</span>
-<span class="g g-Whitespace">    </span><span class="mi">383</span><span class="sd">     </span>
-<span class="g g-Whitespace">    </span><span class="mi">384</span><span class="sd">     Notes</span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">    </span><span class="mi">387</span><span class="sd">     have to call `dag.put` to record whatever output.</span>
-<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">389</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dag</span><span class="o">.</span><span class="n">_invoke</span><span class="p">(</span><span class="s1">&#39;get_node_value&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ref</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.12.8/x64/lib/python3.12/site-packages/daggerml/core.py:587,</span> in <span class="ni">Dag._invoke</span><span class="nt">(self, op, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">585</span> <span class="n">data</span> <span class="o">=</span> <span class="n">from_json</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">586</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Error</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">587</span>     <span class="k">raise</span> <span class="n">data</span>
-<span class="g g-Whitespace">    </span><span class="mi">588</span> <span class="k">return</span> <span class="n">data</span>
-
-<span class="ne">Error</span>: dml.Error(ZeroDivisionError: &#39;division by zero&#39;)
-<span class="o">================================================================================</span>
-<span class="n">Trace</span>
-<span class="o">================================================================================</span>
-<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-
-  <span class="n">File</span> <span class="s2">&quot;/tmp/ipykernel_1947/3633103110.py&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">2</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
-            <span class="o">~^~</span>
-
-<span class="ne">ZeroDivisionError</span>: division by zero
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Error(message=&#39;division by zero&#39;, context={&#39;trace&#39;: [&#39;Traceback (most recent call last):\n&#39;, &#39;  File &quot;/tmp/ipykernel_2174/3633103110.py&quot;, line 2, in &lt;module&gt;\n    dag.put(1/0)\n            ~^~\n&#39;, &#39;ZeroDivisionError: division by zero\n&#39;]}, code=&#39;ZeroDivisionError&#39;)
 </pre></div>
 </div>
 </div>
@@ -782,33 +715,30 @@ returning only python datastructures and <code class="docutils literal notransla
 Here is an example of how to use the [Api]{.title-ref} class:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
-
-<span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">api</span><span class="p">:</span>
-  <span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">Dml</span><span class="p">()</span> <span class="k">as</span> <span class="n">api</span><span class="p">:</span>
+  <span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">daggerml</span> <span class="k">as</span> <span class="nn">dml</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-<span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">Api</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">api</span><span class="p">:</span>
-  <span class="c1"># no dags yet...</span>
-  <span class="k">assert</span> <span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
-  <span class="n">dag</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">new_dag</span><span class="p">(</span><span class="s2">&quot;example_dag&quot;</span><span class="p">,</span> <span class="s2">&quot;Example DAG creation&quot;</span><span class="p">)</span>
-  <span class="c1"># still no dags...</span>
-  <span class="k">assert</span> <span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span>
-  <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now there&#39;s one dag.&quot;</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;list&quot;</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">Dml</span><span class="p">()</span> <span class="k">as</span> <span class="n">api</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">api</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now there&#39;s one dag.
-dag/843e90e1431c7891fd3829d71ad5bc6b
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+  &quot;repo&quot;: &quot;test&quot;,
+  &quot;branch&quot;: &quot;main&quot;,
+  &quot;user&quot;: &quot;test&quot;,
+  &quot;config_dir&quot;: &quot;/tmp/tmp34qn9uqn&quot;,
+  &quot;project_dir&quot;: &quot;/tmp/tmpast7vyyb&quot;,
+  &quot;repo_path&quot;: &quot;/tmp/tmp34qn9uqn/repo/test&quot;
+}
 </pre></div>
 </div>
 </div>
@@ -837,11 +767,11 @@ dag/843e90e1431c7891fd3829d71ad5bc6b
       </div>
     </a>
     <a class="right-next"
-       href="api.html"
+       href="examples.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Documentation</p>
+        <p class="prev-next-title">Example Usage</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -862,6 +792,11 @@ dag/843e90e1431c7891fd3829d71ad5bc6b
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install">Install</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize">Initialize</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cli-usage">CLI Usage</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-dag">Create a dag</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-data-to-our-dag">Adding data to our dag</a></li>
@@ -872,14 +807,7 @@ dag/843e90e1431c7891fd3829d71ad5bc6b
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#committing-results">Committing results</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-dag-results">Loading dag results</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-calling">Function calling</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#real-data">Real data</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#storing-data">Storing data</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#s3">S3</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#docker">Docker</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-a-docker-image-as-a-function">Calling a docker image as a function</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions">Exceptions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dags-as-context-managers">Dags as context managers</a></li>
 </ul>

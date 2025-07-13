@@ -26,6 +26,7 @@ classifiers = [
 ]
 dependencies = [
   # the documentation itself requires these dependencies
+  "dml-util[dml]",
   "sphinx",
   "sphinx-autobuild",
   "sphinx-autodoc-typehints",
@@ -41,16 +42,18 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/Aaron Niskin/daggerml-site#readme"
-Issues = "https://github.com/Aaron Niskin/daggerml-site/issues"
-Source = "https://github.com/Aaron Niskin/daggerml-site"
+Documentation = "https://github.com/daggerml/daggerml-site#readme"
+Issues = "https://github.com/daggerml/daggerml-site/issues"
+Source = "https://github.com/daggerml/daggerml-site"
 
 [tool.hatch.version]
 path = "src/daggerml_site/__about__.py"
 
-# [tool.hatch.envs.default]
-# dependencies = [
-#   "daggerml_cli @ {root:uri}/submodules/daggerml_cli",
+[tool.hatch.envs.default]
+# pre-install-commands = [
+#   "pip install -e {root:uri}/submodules/python-lib",
+#   "pip install -e {root:uri}/submodules/daggerml-cli",
+#   "pip install -e {root:uri}/submodules/dml-util",
 # ]
 
 [tool.hatch.envs.default.env-vars]

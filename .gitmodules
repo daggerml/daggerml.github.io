@@ -4,3 +4,9 @@
 [submodule "submodules/daggerml-cli"]
 	path = submodules/daggerml-cli
 	url = https://github.com/daggerml/daggerml-cli.git
+[submodule "submodules/dml-util"]
+	path = submodules/dml-util
+	url = git@github.com:daggerml/dml-util.git
+[submodule "submodules/app-ui"]
+	path = submodules/app-ui
+	url = git@github.com:daggerml/app-ui.git

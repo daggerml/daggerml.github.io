@@ -15,13 +15,19 @@ done
 tmpdir=$(mktemp -d)
 trap "rm -rf $tmpdir" EXIT INT TERM HUP
 
-export DML_CONFIG_DIR=$tmpdir/daggerml-config
-export DML_PROJECT_DIR=$tmpdir/daggerml-projects
+echo "Temporary directory created at $tmpdir"
+export DML_CONFIG_DIR=$tmpdir/config
+export DML_PROJECT_DIR=$tmpdir/projects
+export DML_CACHE_PATH=$tmpdir/cachedb
+
+export DML_S3_BUCKET=does-not-exist
+export DML_S3_PREFIX=does-not-exist
 
 dml config user testi@testico
 dml repo create test
 dml config repo test
 dml config branch main
+dml cache create
 dml status
 
 

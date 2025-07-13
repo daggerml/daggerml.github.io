@@ -12,37 +12,6 @@ learning engineers to build, train, deploy, and track models with ease. DaggerML
 keeps track of what you did and all the associated artifacts, so you can focus
 on your work and get the reproducibility for free.
 
-
-Installation
-============
-
-If you don't already have `daggerml-cli` installed in your path, you can install
-it with `pip` or `pipx` (e.g. `pipx install daggerml-cli`).
-
-.. tip::
-
-   `pipx <https://pipx.pypa.io/latest/installation/>`_ is a tool to install
-   Python applications in isolated environments. It is recommended to use `pipx`
-   to install `daggerml-cli` to avoid conflicts with other Python packages.
-
-
-Install the DaggerML python package
-
-.. code-block:: bash
-
-   pip install daggerml
-
-Local Development
-=================
-
-See the `contributing guide </contributing.html>`_ for instructions on how to set up
-your development environment.
-
-Getting Started
-===============
-
-To get started with DaggerML, you can follow the `how to <howto.html>`_.
-
 Api Documentation
 =================
 
@@ -50,16 +19,16 @@ Documentation is hosted on `daggerml.com <https://daggerml.com/api>`_.
 
 .. toctree::
    :hidden:
-   :maxdepth: 1
+   :maxdepth: 2
+   :caption: Contents:
 
-   howto
    examples
    api
-   cli-docs
-   contributing
+   dml-util
 
 Github Links
 ============
 
 - `Python-lib <https://github.com/daggerml/python-lib>`_
 - `DaggerML-cli <https://github.com/daggerml/daggerml-cli>`_
+- `DaggerML-Util <https://github.com/daggerml/dml-util>`_

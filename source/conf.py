@@ -6,7 +6,11 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 import daggerml as dml
+import dml_util  # Ensure dml_util is imported for autodoc
+import daggerml_cli  # Ensure daggerml_cli is imported for autodoc
+dml_util.__all__ = ("__version__", "dict_product", "tree_map")
 
+dml.__all__ = tuple([*dml.__all__, "new", "load"])
 project = "daggerml"
 copyright = "2025, Aaron Niskin and Micha Niskin"
 author = "Aaron Niskin and Micha Niskin"
@@ -19,14 +23,20 @@ toc_object_entries = True
 
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.autosummary",
-    'sphinx.ext.napoleon',
+    "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",  # Add links to highlighted source code
-    "sphinx_autodoc_typehints",  # For type annotations
+    "sphinx.ext.autosummary",
+    # "sphinx.ext.intersphinx",
     # "myst_parser",  # For markdown support
     "myst_nb",  # For Jupyter notebooks
     # "nbsphinx",  # For Jupyter notebooks
 ]
+
+# intersphinx_mapping = {
+#     'daggerml': ('https://daggerml.com/python-lib/', None),
+#     'daggerml_cli': ('https://daggerml.com/cli', None), 
+#     'dml_util': ('https://daggerml.com/util', None),
+# }
 
 templates_path = ["_templates"]
 exclude_patterns = []
@@ -39,6 +49,7 @@ autodoc_default_options = {
 }
 autodoc_typehints = "description"
 autosummary_generate = True
+autosummary_imported_members = False
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -51,7 +62,7 @@ html_sidebars = {
         "navbar-logo.html",
         "icon-links.html",
         "search-button-field.html",
-        "sbt-sidebar-nav.html"
+        "sbt-sidebar-nav.html",
     ]
 }
 
@@ -60,11 +71,14 @@ html_theme_options = {
     "repository_url": "https://github.com/daggerml/python-lib",
     "use_repository_button": True,
     "home_page_in_toc": True,
-    # "show_toc_level": 1,
+    "show_toc_level": 2,
     # # "show_nav_level": 4,
-    # "collapse_navigation": False,
+    "collapse_navigation": True,
 }
 
 nb_custom_formats = {
     ".md": ["jupytext.reads", {"fmt": "mystnb"}],
 }
+myst_enable_extensions = [
+    "dollarmath",
+]

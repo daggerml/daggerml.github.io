@@ -1,6 +1,6 @@
-=================
-API Documentation
-=================
+=======================
+Core Library (daggerml)
+=======================
 
 .. automodule:: daggerml
    :members:

@@ -16,42 +16,40 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=30839ccb"></script>
+    <script src="_static/documentation_options.js?v=6aa38c3a"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API Documentation" href="api.html" />
-    <link rel="prev" title="How-To Guide" href="howto.html" />
+    <link rel="next" title="Core Library (daggerml)" href="api.html" />
+    <link rel="prev" title="DaggerML Documentation" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.0.20" />
   </head>
   
   
@@ -67,8 +65,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -76,6 +85,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -83,8 +93,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -100,8 +110,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -131,17 +140,21 @@
     
     
     <img src="_static/logo-nobg.png" class="logo__image only-light" alt="DaggerML Documentation foopy - Home"/>
-    <img src="_static/logo-nobg.png" class="logo__image only-dark pst-js-only" alt="DaggerML Documentation foopy - Home"/>
+    <script>document.write(`<img src="_static/logo-nobg.png" class="logo__image only-dark" alt="DaggerML Documentation foopy - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -152,12 +165,56 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="howto.html">How-To Guide</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Example Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cli-docs.html">CLI Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Core Library (daggerml)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="dml-util.html">DML-UTIL API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="_autosummary/dml_util.html">dml_util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.adapters.html">dml_util.adapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.adapters.base.html">dml_util.adapters.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.adapters.lambda_.html">dml_util.adapters.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.adapters.local.html">dml_util.adapters.local</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.aws.html">dml_util.aws</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.aws.dynamodb.html">dml_util.aws.dynamodb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.aws.s3.html">dml_util.aws.s3</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.core.html">dml_util.core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.config.html">dml_util.core.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.daggerml.html">dml_util.core.daggerml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.state.html">dml_util.core.state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.utils.html">dml_util.core.utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.dags.html">dml_util.dags</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.dags.batch.html">dml_util.dags.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.dags.ecr.html">dml_util.dags.ecr</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/dml_util.funk.html">dml_util.funk</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.lib.html">dml_util.lib</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.lib.dkr.html">dml_util.lib.dkr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.lib.submit.html">dml_util.lib.submit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.runners.html">dml_util.runners</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.base.html">dml_util.runners.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.batch.html">dml_util.runners.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.cloudformation.html">dml_util.runners.cloudformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.container.html">dml_util.runners.container</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.lambda_.html">dml_util.runners.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.local.html">dml_util.runners.local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.remote.html">dml_util.runners.remote</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/dml_util.wrapper.html">dml_util.wrapper</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -166,14 +223,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -285,16 +337,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -319,14 +379,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-and-basic-operations">Initializing and Basic Operations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-previous-dags">Loading Previous DAGs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-function-handling">Asynchronous Function Handling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catching-errors">Catching errors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml-class">Dml class</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-global-flags">Specifying global flags</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-db">Temporary db</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-functions">Calling functions</a></li>
 </ul>
             </nav>
         </div>
@@ -338,106 +391,167 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="example-usage">
+  <section class="tex2jax_ignore mathjax_ignore" id="example-usage">
 <h1>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">#</a></h1>
 <section id="initializing-and-basic-operations">
 <h2>Initializing and Basic Operations<a class="headerlink" href="#initializing-and-basic-operations" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">daggerml</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dml</span>
+<p>Firstly, <code class="docutils literal notranslate"><span class="pre">dml_util</span></code> expects both <code class="docutils literal notranslate"><span class="pre">DML_S3_BUCKET</span></code> and <code class="docutils literal notranslate"><span class="pre">DML_S3_PREFIX</span></code> to be set. This is where we’ll store data. For this example, we set it to random nonsense (we won’t be using s3 here).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">redirect_stderr</span><span class="p">,</span> <span class="n">redirect_stdout</span>
 
-<span class="c1"># Create a new DAG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">daggerml</span><span class="w"> </span><span class="kn">import</span>  <span class="n">Dml</span><span class="p">,</span> <span class="n">Error</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dml_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">funkify</span>
+
+<span class="c1"># Create a dml instance</span>
+<span class="n">dml</span> <span class="o">=</span> <span class="n">Dml</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new DAG</span>
 <span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;my_dag&#39;</span><span class="p">,</span> <span class="s1">&#39;example dag&#39;</span><span class="p">)</span>
 <span class="c1"># Put simple values</span>
-<span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">([</span><span class="mi">42</span><span class="p">])</span>
-
-<span class="c1"># Access node properties</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>  <span class="c1"># [42]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">len</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>  <span class="c1"># 1</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">node1</span><span class="o">.</span><span class="n">type</span><span class="p">()</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>  <span class="c1"># &#39;list&#39;</span>
-
-<span class="c1"># Indexing and slicing</span>
-<span class="n">first_item</span> <span class="o">=</span> <span class="n">node1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">first_item</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>  <span class="c1"># 42</span>
+<span class="n">node1</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">_put</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)))</span>
+<span class="c1"># you can always get the value of a node</span>
+<span class="n">node1</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0, 1, 2, 3, 4]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Because our node is a list, we can do list stuff with it…</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Indexing and slicing</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="si">= }</span><span class="s2"> -- </span><span class="si">{</span><span class="n">node1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># Create complex structures</span>
-<span class="n">complex_node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">node1</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;z&#39;</span><span class="p">})</span>
+<span class="n">complex_node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">_put</span><span class="p">({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">node1</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;z&#39;</span><span class="p">})</span>
 
 <span class="c1"># Iterate and access items</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">complex_node</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="w"> </span><span class="si">= !s}</span><span class="s2">, </span><span class="si">{</span><span class="n">v</span><span class="w"> </span><span class="si">= }</span><span class="s2"> -- </span><span class="si">{</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="w"> </span><span class="si">= !r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="c1"># Commit the DAG</span>
-<span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="n">node1</span><span class="p">)</span>
+<span class="n">dag</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">complex_node</span>
 </pre></div>
 </div>
-</section>
-<section id="loading-previous-dags">
-<h2>Loading Previous DAGs<a class="headerlink" href="#loading-previous-dags" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">d0</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;d0&#39;</span><span class="p">,</span> <span class="s1">&#39;d0&#39;</span><span class="p">)</span>
-<span class="n">d0</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># Load value from previous DAG</span>
-<span class="n">d1</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;d1&#39;</span><span class="p">,</span> <span class="s1">&#39;d1&#39;</span><span class="p">)</span>
-<span class="n">loaded_node</span> <span class="o">=</span> <span class="n">d1</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;d0&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">loaded_node</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>  <span class="c1"># 42</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>node1[0] = Node(node/e0345500929e43c90b87f4b83bed210e) -- 0
 </pre></div>
 </div>
-</section>
-<section id="asynchronous-function-handling">
-<h2>Asynchronous Function Handling<a class="headerlink" href="#asynchronous-function-handling" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">daggerml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Resource</span>
-
-<span class="c1"># Assume ASYNC is a Resource representing an async function</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;async_dag&#39;</span><span class="p">,</span> <span class="s1">&#39;async example&#39;</span><span class="p">)</span>
-<span class="c1"># Put async function</span>
-<span class="n">async_node</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">ASYNC</span><span class="p">)</span>
-
-<span class="c1"># Call with arguments and timeout</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">async_node</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>  <span class="c1"># Function result</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k = x, v = ListNode(node/1cda1ced063ebbc0453a66de9c2a56ae) -- v.value() = [0, 1, 2, 3, 4]
 </pre></div>
 </div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>k = y, v = Node(node/35e0e4d98befed6cebfc998b2694e6ab) -- v.value() = &#39;z&#39;
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="catching-errors">
-<h2>Catching errors<a class="headerlink" href="#catching-errors" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;d0&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;failed&quot; dag&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
-    <span class="c1"># raises a ZeroDivision error</span>
-    <span class="nb">print</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;d1&#39;</span><span class="p">,</span> <span class="s1">&#39;user dag&#39;</span><span class="p">)</span>
+<section id="calling-functions">
+<h2>Calling functions<a class="headerlink" href="#calling-functions" title="Link to this heading">#</a></h2>
+<p>Let’s define a function that takes <span class="math notranslate nohighlight">\(n\ge 2\)</span> arguments, sums up all but the last, and then divides by the last.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@funkify</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_funk</span><span class="p">(</span><span class="n">dag</span><span class="p">):</span>
+    <span class="n">numer</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">numer</span> <span class="o">/</span> <span class="n">dag</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+<span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;funk-dag&#39;</span><span class="p">,</span> <span class="s1">&#39;dag to build a funk&#39;</span><span class="p">)</span>
+<span class="n">dag</span><span class="o">.</span><span class="n">my_funk</span> <span class="o">=</span> <span class="n">my_funk</span>
+<span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">redirect_stderr</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">my_funk</span><span class="p">(</span><span class="o">*</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="w"> </span><span class="si">= }</span><span class="s2"> -- </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">()</span><span class="w"> </span><span class="si">= }</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>result = Node(node/f41d771f40462a38156c5ce3f0ce00d1) -- result.value() = 1.5
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can save this as our dag’s “result” and then import it later without having to consider the infrastructure it’s running on, or anything else.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">my_funk</span>
+
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">dag</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;d0&quot;</span><span class="p">)</span>
-<span class="k">except</span> <span class="n">dml</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;got error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;new-dag&quot;</span><span class="p">,</span> <span class="s2">&quot;my cool new dag that will unforunately fail&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+        <span class="n">dag</span><span class="o">.</span><span class="n">funk</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;funk-dag&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">result</span>
+        <span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="n">redirect_stderr</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+            <span class="n">dag</span><span class="o">.</span><span class="n">funk</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;bad-guy&quot;</span><span class="p">)</span>  <span class="c1"># note we&#39;re dividing by zero!</span>
+<span class="k">except</span> <span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ruh roh! We divided by zero...&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="dml-class">
-<h2>Dml class<a class="headerlink" href="#dml-class" title="Link to this heading">#</a></h2>
-<section id="specifying-global-flags">
-<h3>Specifying global flags<a class="headerlink" href="#specifying-global-flags" title="Link to this heading">#</a></h3>
-<p>Specify global args (like <code class="docutils literal notranslate"><span class="pre">repo</span></code>, <code class="docutils literal notranslate"><span class="pre">config_dir</span></code>, <code class="docutils literal notranslate"><span class="pre">user</span></code>, etc.) by passing them to the <code class="docutils literal notranslate"><span class="pre">Dml</span></code> constructor.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dml_</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">Dml</span><span class="p">()</span>
-<span class="c1"># run cli commands</span>
-<span class="n">status</span> <span class="o">=</span> <span class="n">dml_</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span>
-
-<span class="c1"># Create a new DAG</span>
-<span class="n">dag</span> <span class="o">=</span> <span class="n">dml_</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;my_dag&#39;</span><span class="p">,</span> <span class="s1">&#39;example dag&#39;</span><span class="p">)</span>
-<span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ruh roh! We divided by zero...
+Traceback (most recent call last):
+  File &quot;/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/dml_util/funk.py&quot;, line 207, in aws_fndag
+    yield dag
+  File &quot;/tmp/dml.zouxdcgh/script.py&quot;, line 13, in &lt;module&gt;
+    res = my_funk(dag)
+  File &quot;/tmp/dml.zouxdcgh/script.py&quot;, line 6, in my_funk
+    return numer / dag.argv[-1].value()
+           ~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: division by zero
 </pre></div>
 </div>
-</section>
-<section id="temporary-db">
-<h3>Temporary db<a class="headerlink" href="#temporary-db" title="Link to this heading">#</a></h3>
-<p>Create a temporary database and dml instance by using the <code class="docutils literal notranslate"><span class="pre">Dml</span></code> class as a context manager.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">Dml</span><span class="p">()</span> <span class="k">as</span> <span class="n">dml_</span><span class="p">:</span>
-   <span class="c1"># Check current status</span>
-   <span class="n">status</span> <span class="o">=</span> <span class="n">dml_</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">)</span>
-
-   <span class="c1"># Create a new DAG</span>
-   <span class="n">dag</span> <span class="o">=</span> <span class="n">dml_</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;my_dag&#39;</span><span class="p">,</span> <span class="s1">&#39;example dag&#39;</span><span class="p">)</span>
-   <span class="n">dag</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</div>
+</div>
+<p>And because we used the dag as a context manager, that error is stored as the dag’s result, and we can query it later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">dml</span><span class="p">(</span><span class="s2">&quot;dag&quot;</span><span class="p">,</span> <span class="s2">&quot;describe&quot;</span><span class="p">,</span> <span class="s2">&quot;new-dag&quot;</span><span class="p">)[</span><span class="s2">&quot;error&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
-</section>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/dml_util/funk.py&quot;, line 207, in aws_fndag
+    yield dag
+  File &quot;/tmp/dml.zouxdcgh/script.py&quot;, line 13, in &lt;module&gt;
+    res = my_funk(dag)
+  File &quot;/tmp/dml.zouxdcgh/script.py&quot;, line 6, in my_funk
+    return numer / dag.argv[-1].value()
+           ~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: division by zero
+</pre></div>
+</div>
+</div>
+</div>
+<p>Or in another dag:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dag</span> <span class="o">=</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;newest&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">dml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;new-dag&quot;</span><span class="p">)[</span><span class="s2">&quot;bad-guy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;reraised?&quot;</span><span class="p">,</span> <span class="s2">&quot;ZeroDivisionError&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reraised? True
+</pre></div>
+</div>
+</div>
+</div>
+<p>This <code class="docutils literal notranslate"><span class="pre">funkify</span></code> decorator can be used to send your code into the cloud, or have a function run in a different environment, or do whatever you want.</p>
+<p>For more, read the examples on the <code class="docutils literal notranslate"><span class="pre">daggerml</span></code> and <code class="docutils literal notranslate"><span class="pre">dml-util</span></code> repos.</p>
 </section>
 </section>
 
@@ -453,12 +567,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="howto.html"
+       href="index.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">How-To Guide</p>
+        <p class="prev-next-title">DaggerML Documentation</p>
       </div>
     </a>
     <a class="right-next"
@@ -466,7 +580,7 @@
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Documentation</p>
+        <p class="prev-next-title">Core Library (daggerml)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -477,8 +591,7 @@
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -488,14 +601,7 @@
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initializing-and-basic-operations">Initializing and Basic Operations</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-previous-dags">Loading Previous DAGs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#asynchronous-function-handling">Asynchronous Function Handling</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catching-errors">Catching errors</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml-class">Dml class</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-global-flags">Specifying global flags</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary-db">Temporary db</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-functions">Calling functions</a></li>
 </ul>
   </nav></div>
 
@@ -544,8 +650,8 @@ By Aaron Niskin and Micha Niskin
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

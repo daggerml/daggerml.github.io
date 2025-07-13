@@ -15,31 +15,28 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=30839ccb"></script>
+    <script src="_static/documentation_options.js?v=6aa38c3a"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -48,7 +45,6 @@
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="0.0.20" />
   </head>
   
   
@@ -64,8 +60,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -73,6 +80,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -80,8 +88,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -99,8 +107,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -130,17 +137,21 @@
     
     
     <img src="_static/logo-nobg.png" class="logo__image only-light" alt="DaggerML Documentation foopy - Home"/>
-    <img src="_static/logo-nobg.png" class="logo__image only-dark pst-js-only" alt="DaggerML Documentation foopy - Home"/>
+    <script>document.write(`<img src="_static/logo-nobg.png" class="logo__image only-dark" alt="DaggerML Documentation foopy - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -151,12 +162,56 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="howto.html">How-To Guide</a></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Example Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cli-docs.html">CLI Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Core Library (daggerml)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="dml-util.html">DML-UTIL API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="_autosummary/dml_util.html">dml_util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.adapters.html">dml_util.adapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.adapters.base.html">dml_util.adapters.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.adapters.lambda_.html">dml_util.adapters.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.adapters.local.html">dml_util.adapters.local</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.aws.html">dml_util.aws</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.aws.dynamodb.html">dml_util.aws.dynamodb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.aws.s3.html">dml_util.aws.s3</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.core.html">dml_util.core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.config.html">dml_util.core.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.daggerml.html">dml_util.core.daggerml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.state.html">dml_util.core.state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.core.utils.html">dml_util.core.utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.dags.html">dml_util.dags</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.dags.batch.html">dml_util.dags.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.dags.ecr.html">dml_util.dags.ecr</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/dml_util.funk.html">dml_util.funk</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.lib.html">dml_util.lib</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.lib.dkr.html">dml_util.lib.dkr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.lib.submit.html">dml_util.lib.submit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="_autosummary/dml_util.runners.html">dml_util.runners</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.base.html">dml_util.runners.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.batch.html">dml_util.runners.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.cloudformation.html">dml_util.runners.cloudformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.container.html">dml_util.runners.container</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.lambda_.html">dml_util.runners.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.local.html">dml_util.runners.local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="_autosummary/dml_util.runners.remote.html">dml_util.runners.remote</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/dml_util.wrapper.html">dml_util.wrapper</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -165,14 +220,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -236,16 +286,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -276,20 +334,28 @@
 
 <div class="genindex-jumpbox">
  <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -297,17 +363,97 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Resource.adapter">adapter (daggerml.Resource attribute)</a>
 </li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.AdapterBase.ADAPTER">ADAPTER (dml_util.adapters.base.AdapterBase attribute)</a>, <a href="_autosummary/dml_util.adapters.base.html#id0">[1]</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.adapters.lambda_.html#dml_util.adapters.lambda_.LambdaAdapter.ADAPTER">(dml_util.adapters.lambda_.LambdaAdapter attribute)</a>
+</li>
+        <li><a href="_autosummary/dml_util.adapters.local.html#dml_util.adapters.local.LocalAdapter.ADAPTER">(dml_util.adapters.local.LocalAdapter attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.AdapterBase">AdapterBase (class in dml_util.adapters.base)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.AdapterBase.ADAPTERS">ADAPTERS (dml_util.adapters.base.AdapterBase attribute)</a>, <a href="_autosummary/dml_util.adapters.base.html#id1">[1]</a>
+</li>
+      <li><a href="api.html#daggerml.Dag.argv">argv (daggerml.Dag property)</a>
+
+      <ul>
+        <li><a href="api.html#daggerml.Node.argv">(daggerml.Node property)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.funk.html#dml_util.funk.aws_fndag">aws_fndag() (in module dml_util.funk)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.batched">batched() (in module dml_util.core.utils)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.batch.html#dml_util.runners.batch.BatchRunner">BatchRunner (class in dml_util.runners.batch)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.branch">branch (daggerml.Dml attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.bucket">bucket (dml_util.aws.s3.S3Store attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.buffer_lock">buffer_lock (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.dkr.html#dml_util.lib.dkr.Ecr.build">build() (dml_util.lib.dkr.Ecr method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Error.code">code (daggerml.Error attribute)</a>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.cache_key">cache_key (dml_util.aws.dynamodb.DynamoState attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.InputConfig.cache_key">(dml_util.core.config.InputConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id5">[1]</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.LocalState.cache_key">(dml_util.core.state.LocalState attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api.html#daggerml.Dml.cache_path">cache_path (daggerml.Dml attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.InputConfig.cache_path">(dml_util.core.config.InputConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id6">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.cd">cd() (dml_util.aws.s3.S3Store method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner">CfnRunner (class in dml_util.runners.cloudformation)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.cleanup">cleanup() (daggerml.Dml method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.AdapterBase.cli">cli() (dml_util.adapters.base.AdapterBase class method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.commit">commit() (daggerml.Dag method)</a>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.client">client (dml_util.aws.s3.S3Store attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.client">(dml_util.lib.submit.Streamer attribute)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.batch.html#dml_util.runners.batch.BatchRunner.client">(dml_util.runners.batch.BatchRunner property)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.clsname">clsname (dml_util.runners.base.RunnerBase property)</a>
+</li>
+      <li><a href="api.html#daggerml.Error.code">code (daggerml.Error attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.compute_hash">compute_hash() (in module dml_util.core.utils)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.CondaRunner">CondaRunner (class in dml_util.runners.local)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.config">config (dml_util.runners.base.RunnerBase attribute)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.config_dir">config_dir (daggerml.Dml attribute)</a>
 </li>
       <li><a href="api.html#daggerml.Error.context">context (daggerml.Error attribute)</a>
 </li>
@@ -328,15 +474,251 @@
         <li><a href="api.html#module-daggerml">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Resource.data">data (daggerml.Resource attribute)</a>
 </li>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.db">db (dml_util.aws.dynamodb.DynamoState attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.debug">debug (dml_util.core.config.EnvConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id0">[1]</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.delete">delete() (dml_util.aws.dynamodb.DynamoState method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.LocalState.delete">(dml_util.core.state.LocalState method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.State.delete">(dml_util.core.state.State method)</a>, <a href="_autosummary/dml_util.core.state.html#id1">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.runners.batch.html#dml_util.runners.batch.BatchRunner.describe_job">describe_job() (dml_util.runners.batch.BatchRunner method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.describe_stack">describe_stack() (dml_util.runners.cloudformation.CfnRunner method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.html#dml_util.dict_product">dict_product() (in module dml_util)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.dict_product">(in module dml_util.core.utils)</a>
+</li>
+      </ul></li>
       <li><a href="api.html#daggerml.Dml">Dml (class in daggerml)</a>
 </li>
-      <li><a href="api.html#daggerml.Dag.dml">dml (daggerml.Dag attribute)</a>
+      <li>
+    dml_util
+
+      <ul>
+        <li><a href="_autosummary/dml_util.html#module-dml_util">module</a>
 </li>
-      <li><a href="api.html#daggerml.Dag.dump">dump (daggerml.Dag attribute)</a>
+      </ul></li>
+      <li>
+    dml_util.adapters
+
+      <ul>
+        <li><a href="_autosummary/dml_util.adapters.html#module-dml_util.adapters">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.adapters.base
+
+      <ul>
+        <li><a href="_autosummary/dml_util.adapters.base.html#module-dml_util.adapters.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.adapters.lambda_
+
+      <ul>
+        <li><a href="_autosummary/dml_util.adapters.lambda_.html#module-dml_util.adapters.lambda_">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.adapters.local
+
+      <ul>
+        <li><a href="_autosummary/dml_util.adapters.local.html#module-dml_util.adapters.local">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.aws
+
+      <ul>
+        <li><a href="_autosummary/dml_util.aws.html#module-dml_util.aws">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.aws.dynamodb
+
+      <ul>
+        <li><a href="_autosummary/dml_util.aws.dynamodb.html#module-dml_util.aws.dynamodb">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.aws.s3
+
+      <ul>
+        <li><a href="_autosummary/dml_util.aws.s3.html#module-dml_util.aws.s3">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.core
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.html#module-dml_util.core">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.core.config
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.config.html#module-dml_util.core.config">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.core.daggerml
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.daggerml.html#module-dml_util.core.daggerml">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.core.state
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.state.html#module-dml_util.core.state">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    dml_util.core.utils
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.utils.html#module-dml_util.core.utils">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.dags
+
+      <ul>
+        <li><a href="_autosummary/dml_util.dags.html#module-dml_util.dags">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.dags.batch
+
+      <ul>
+        <li><a href="_autosummary/dml_util.dags.batch.html#module-dml_util.dags.batch">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.dags.batch.impl
+
+      <ul>
+        <li><a href="_autosummary/dml_util.dags.batch.impl.html#module-dml_util.dags.batch.impl">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.dags.ecr
+
+      <ul>
+        <li><a href="_autosummary/dml_util.dags.ecr.html#module-dml_util.dags.ecr">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.funk
+
+      <ul>
+        <li><a href="_autosummary/dml_util.funk.html#module-dml_util.funk">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.lib
+
+      <ul>
+        <li><a href="_autosummary/dml_util.lib.html#module-dml_util.lib">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.lib.dkr
+
+      <ul>
+        <li><a href="_autosummary/dml_util.lib.dkr.html#module-dml_util.lib.dkr">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.lib.submit
+
+      <ul>
+        <li><a href="_autosummary/dml_util.lib.submit.html#module-dml_util.lib.submit">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.html#module-dml_util.runners">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners.base
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.base.html#module-dml_util.runners.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners.batch
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.batch.html#module-dml_util.runners.batch">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners.cloudformation
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.cloudformation.html#module-dml_util.runners.cloudformation">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners.container
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.container.html#module-dml_util.runners.container">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners.lambda_
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.lambda_.html#module-dml_util.runners.lambda_">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners.local
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.local.html#module-dml_util.runners.local">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.runners.remote
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.remote.html#module-dml_util.runners.remote">module</a>
+</li>
+      </ul></li>
+      <li>
+    dml_util.wrapper
+
+      <ul>
+        <li><a href="_autosummary/dml_util.wrapper.html#module-dml_util.wrapper">module</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner">DockerRunner (class in dml_util.runners.container)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.InputConfig.dump">dump (dml_util.core.config.InputConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id7">[1]</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.dumps">dumps() (dml_util.core.config.EnvConfig method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState">DynamoState (class in dml_util.aws.dynamodb)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -344,11 +726,25 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Error">Error</a>
+      <li><a href="_autosummary/dml_util.lib.dkr.html#dml_util.lib.dkr.Ecr">Ecr (class in dml_util.lib.dkr)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.dkr.html#dml_util.lib.dkr.Ecr.ecr">ecr (dml_util.lib.dkr.Ecr attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.SafeCloudWatchLogHandler.emit">emit() (dml_util.adapters.base.SafeCloudWatchLogHandler method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig">EnvConfig (class in dml_util.core.config)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.expr">expr (daggerml.Dag property)</a>
+      <li><a href="api.html#daggerml.Dml.envvars">envvars (daggerml.Dml property)</a>
+</li>
+      <li><a href="api.html#daggerml.Error">Error</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.VerboseArgumentParser.error">error() (dml_util.adapters.base.VerboseArgumentParser method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.exactly_one">exactly_one() (in module dml_util.core.utils)</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.exists">exists() (dml_util.aws.s3.S3Store method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -356,7 +752,101 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.from_json">from_json() (in module daggerml)</a>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.fd">fd (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.fmt">fmt() (dml_util.runners.cloudformation.CfnRunner method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.from_env">from_env() (dml_util.core.config.EnvConfig class method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.AdapterBase.funkify">funkify() (dml_util.adapters.base.AdapterBase class method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.adapters.local.html#dml_util.adapters.local.LocalAdapter.funkify">(dml_util.adapters.local.LocalAdapter class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.funkify">(dml_util.runners.cloudformation.CfnRunner class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.funkify">(dml_util.runners.container.DockerRunner class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.CondaRunner.funkify">(dml_util.runners.local.CondaRunner class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.HatchRunner.funkify">(dml_util.runners.local.HatchRunner class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.ScriptRunner.funkify">(dml_util.runners.local.ScriptRunner class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.WrappedRunner.funkify">(dml_util.runners.local.WrappedRunner class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.remote.html#dml_util.runners.remote.SshRunner.funkify">(dml_util.runners.remote.SshRunner class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.funk.html#dml_util.funk.funkify">(in module dml_util.funk)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.gc">gc() (dml_util.runners.base.RunnerBase method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.batch.html#dml_util.runners.batch.BatchRunner.gc">(dml_util.runners.batch.BatchRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.gc">(dml_util.runners.container.DockerRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.Test.gc">(dml_util.runners.container.Test method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.lambda_.html#dml_util.runners.lambda_.LambdaRunner.gc">(dml_util.runners.lambda_.LambdaRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.ScriptRunner.gc">(dml_util.runners.local.ScriptRunner method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.get">get() (dml_util.aws.dynamodb.DynamoState method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.get">(dml_util.aws.s3.S3Store method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.LocalState.get">(dml_util.core.state.LocalState method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.State.get">(dml_util.core.state.State method)</a>, <a href="_autosummary/dml_util.core.state.html#id2">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.aws.html#dml_util.aws.get_client">get_client() (in module dml_util.aws)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.get_docker_exit_code">get_docker_exit_code() (dml_util.runners.container.DockerRunner method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.Test.get_docker_exit_code">(dml_util.runners.container.Test method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.get_docker_logs">get_docker_logs() (dml_util.runners.container.DockerRunner method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.Test.get_docker_logs">(dml_util.runners.container.Test method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.get_docker_status">get_docker_status() (dml_util.runners.container.DockerRunner method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.Test.get_docker_status">(dml_util.runners.container.Test method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.get_js">get_js() (dml_util.aws.s3.S3Store method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.InputConfig.get_sub">get_sub() (dml_util.core.config.InputConfig method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.runners.lambda_.html#dml_util.runners.lambda_.LambdaRunner.handler">handler() (dml_util.runners.lambda_.LambdaRunner class method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.HatchRunner">HatchRunner (class in dml_util.runners.local)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -364,7 +854,27 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Node.items">items() (daggerml.Node method)</a>
+      <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.if_read_file">if_read_file() (in module dml_util.core.utils)</a>
+</li>
+      <li><a href="_autosummary/dml_util.dags.html#dml_util.dags.imp">imp() (in module dml_util.dags)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.input">input (dml_util.runners.base.RunnerBase attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.InputConfig">InputConfig (class in dml_util.core.config)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.join">join() (dml_util.lib.submit.Streamer method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.js_dump">js_dump() (in module dml_util.core.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -372,19 +882,57 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Node.keys">keys() (daggerml.Node method)</a>
+      <li><a href="api.html#daggerml.Dag.keys">keys (daggerml.Dag property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#daggerml.Dml.kwargs">kwargs (daggerml.Dml property)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.InputConfig.kwargs">(dml_util.core.config.InputConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id8">[1]</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Node.len">len() (daggerml.Node method)</a>
+      <li><a href="_autosummary/dml_util.adapters.lambda_.html#dml_util.adapters.lambda_.LambdaAdapter">LambdaAdapter (class in dml_util.adapters.lambda_)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.lambda_.html#dml_util.runners.lambda_.LambdaRunner">LambdaRunner (class in dml_util.runners.lambda_)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.launch_detached">launch_detached() (in module dml_util.lib.submit)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.load">load() (daggerml.Dml method)</a>
+
+      <ul>
+        <li><a href="api.html#daggerml.Node.load">(daggerml.Node method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.dags.batch.html#dml_util.dags.batch.load">(in module dml_util.dags.batch)</a>
+</li>
+        <li><a href="_autosummary/dml_util.dags.ecr.html#dml_util.dags.ecr.load">(in module dml_util.dags.ecr)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.loads">loads() (dml_util.core.config.EnvConfig class method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.load">load() (daggerml.Dag method)</a>
+      <li><a href="_autosummary/dml_util.adapters.local.html#dml_util.adapters.local.LocalAdapter">LocalAdapter (class in dml_util.adapters.local)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.LocalState">LocalState (class in dml_util.core.state)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.log_buffer">log_buffer (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.log_group">log_group (dml_util.core.config.EnvConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id1">[1]</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.log_group_name">log_group_name (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.log_stream_name">log_stream_name (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.dkr.html#dml_util.lib.dkr.Ecr.login">login() (dml_util.lib.dkr.Ecr method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.ls">ls() (dml_util.aws.s3.S3Store method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -392,17 +940,77 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.dags.html#dml_util.dags.main">main() (in module dml_util.dags)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.max_events">max_events (dml_util.lib.submit.Streamer attribute)</a>
+</li>
       <li><a href="api.html#daggerml.Error.message">message (daggerml.Error attribute)</a>
 </li>
-      <li><a href="api.html#daggerml.Dag.message_handler">message_handler (daggerml.Dag attribute)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
       <ul>
         <li><a href="api.html#module-daggerml">daggerml</a>
+</li>
+        <li><a href="_autosummary/dml_util.html#module-dml_util">dml_util</a>
+</li>
+        <li><a href="_autosummary/dml_util.adapters.html#module-dml_util.adapters">dml_util.adapters</a>
+</li>
+        <li><a href="_autosummary/dml_util.adapters.base.html#module-dml_util.adapters.base">dml_util.adapters.base</a>
+</li>
+        <li><a href="_autosummary/dml_util.adapters.lambda_.html#module-dml_util.adapters.lambda_">dml_util.adapters.lambda_</a>
+</li>
+        <li><a href="_autosummary/dml_util.adapters.local.html#module-dml_util.adapters.local">dml_util.adapters.local</a>
+</li>
+        <li><a href="_autosummary/dml_util.aws.html#module-dml_util.aws">dml_util.aws</a>
+</li>
+        <li><a href="_autosummary/dml_util.aws.dynamodb.html#module-dml_util.aws.dynamodb">dml_util.aws.dynamodb</a>
+</li>
+        <li><a href="_autosummary/dml_util.aws.s3.html#module-dml_util.aws.s3">dml_util.aws.s3</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.html#module-dml_util.core">dml_util.core</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.config.html#module-dml_util.core.config">dml_util.core.config</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.daggerml.html#module-dml_util.core.daggerml">dml_util.core.daggerml</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#module-dml_util.core.state">dml_util.core.state</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.utils.html#module-dml_util.core.utils">dml_util.core.utils</a>
+</li>
+        <li><a href="_autosummary/dml_util.dags.html#module-dml_util.dags">dml_util.dags</a>
+</li>
+        <li><a href="_autosummary/dml_util.dags.batch.html#module-dml_util.dags.batch">dml_util.dags.batch</a>
+</li>
+        <li><a href="_autosummary/dml_util.dags.batch.impl.html#module-dml_util.dags.batch.impl">dml_util.dags.batch.impl</a>
+</li>
+        <li><a href="_autosummary/dml_util.dags.ecr.html#module-dml_util.dags.ecr">dml_util.dags.ecr</a>
+</li>
+        <li><a href="_autosummary/dml_util.funk.html#module-dml_util.funk">dml_util.funk</a>
+</li>
+        <li><a href="_autosummary/dml_util.lib.html#module-dml_util.lib">dml_util.lib</a>
+</li>
+        <li><a href="_autosummary/dml_util.lib.dkr.html#module-dml_util.lib.dkr">dml_util.lib.dkr</a>
+</li>
+        <li><a href="_autosummary/dml_util.lib.submit.html#module-dml_util.lib.submit">dml_util.lib.submit</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.html#module-dml_util.runners">dml_util.runners</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.base.html#module-dml_util.runners.base">dml_util.runners.base</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.batch.html#module-dml_util.runners.batch">dml_util.runners.batch</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.cloudformation.html#module-dml_util.runners.cloudformation">dml_util.runners.cloudformation</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.container.html#module-dml_util.runners.container">dml_util.runners.container</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.lambda_.html#module-dml_util.runners.lambda_">dml_util.runners.lambda_</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#module-dml_util.runners.local">dml_util.runners.local</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.remote.html#module-dml_util.runners.remote">dml_util.runners.remote</a>
+</li>
+        <li><a href="_autosummary/dml_util.wrapper.html#module-dml_util.wrapper">dml_util.wrapper</a>
 </li>
       </ul></li>
   </ul></td>
@@ -417,13 +1025,55 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Node">Node (class in daggerml)</a>
 </li>
+      <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.now">now() (in module dml_util.core.utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.runners.lambda_.html#dml_util.runners.lambda_.LambdaRunner.output_loc">output_loc (dml_util.runners.lambda_.LambdaRunner property)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.put">put() (daggerml.Dag method)</a>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.parse_uri">parse_uri() (dml_util.aws.s3.S3Store method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.prefix">prefix (dml_util.aws.s3.S3Store attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.prefix">(dml_util.runners.base.RunnerBase property)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.proc_exists">proc_exists() (in module dml_util.core.utils)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.remote.html#dml_util.runners.remote.SshRunner.proc_script">proc_script() (dml_util.runners.remote.SshRunner method)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.project_dir">project_dir (daggerml.Dml attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.dkr.html#dml_util.lib.dkr.Ecr.push">push() (dml_util.lib.dkr.Ecr method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.put">put() (dml_util.aws.dynamodb.DynamoState method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.put">(dml_util.aws.s3.S3Store method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.LocalState.put">(dml_util.core.state.LocalState method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.State.put">(dml_util.core.state.State method)</a>, <a href="_autosummary/dml_util.core.state.html#id3">[1]</a>
+</li>
+        <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.put">(dml_util.lib.submit.Streamer method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.put_js">put_js() (dml_util.aws.s3.S3Store method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.put_state">put_state() (dml_util.runners.base.RunnerBase method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -431,29 +1081,139 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Ref">Ref (class in daggerml)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Node.ref">ref (daggerml.Node attribute)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.repo">repo (daggerml.Dml attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.local.html#dml_util.adapters.local.LocalAdapter.resolve">resolve() (dml_util.adapters.local.LocalAdapter class method)</a>
 </li>
       <li><a href="api.html#daggerml.Resource">Resource (class in daggerml)</a>
 </li>
+      <li><a href="api.html#daggerml.Dag.result">result (daggerml.Dag property)</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.rm">rm() (dml_util.aws.s3.S3Store method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.run">run() (dml_util.lib.submit.Streamer method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.run">(dml_util.runners.base.RunnerBase method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.WrappedRunner.run">(dml_util.runners.local.WrappedRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.remote.html#dml_util.runners.remote.SshRunner.run">(dml_util.runners.remote.SshRunner method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.run_id">run_id (dml_util.aws.dynamodb.DynamoState attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.run_id">(dml_util.core.config.EnvConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id2">[1]</a>
+</li>
+        <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.run_id">(dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase">RunnerBase (class in dml_util.runners.base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.lib.dkr.html#dml_util.lib.dkr.Ecr.s3">s3 (dml_util.lib.dkr.Ecr attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.s3_bucket">s3_bucket (dml_util.core.config.EnvConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id3">[1]</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.s3_prefix">s3_prefix (dml_util.core.config.EnvConfig attribute)</a>, <a href="_autosummary/dml_util.core.config.html#id4">[1]</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store">S3Store (class in dml_util.aws.s3)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.SafeCloudWatchLogHandler">SafeCloudWatchLogHandler (class in dml_util.adapters.base)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.ScriptRunner">ScriptRunner (class in dml_util.runners.local)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.send_interval">send_interval (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.AdapterBase.send_to_remote">send_to_remote() (dml_util.adapters.base.AdapterBase class method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.adapters.lambda_.html#dml_util.adapters.lambda_.LambdaAdapter.send_to_remote">(dml_util.adapters.lambda_.LambdaAdapter class method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.adapters.local.html#dml_util.adapters.local.LocalAdapter.send_to_remote">(dml_util.adapters.local.LocalAdapter class method)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.runners.remote.html#dml_util.runners.remote.SshRunner">SshRunner (class in dml_util.runners.remote)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.start_docker">start_docker() (dml_util.runners.container.DockerRunner method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.Test.start_docker">(dml_util.runners.container.Test method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.State">State (class in dml_util.core.state)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.state">state (dml_util.runners.base.RunnerBase attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.state_class">state_class (dml_util.runners.base.RunnerBase attribute)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.lambda_.html#dml_util.runners.lambda_.LambdaRunner.state_class">(dml_util.runners.lambda_.LambdaRunner attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.LocalState.state_file">state_file (dml_util.core.state.LocalState attribute)</a>, <a href="_autosummary/dml_util.core.state.html#id0">[1]</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.stop">stop (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer">Streamer (class in dml_util.lib.submit)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.batch.html#dml_util.runners.batch.BatchRunner.submit">submit() (dml_util.runners.batch.BatchRunner method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.submit">(dml_util.runners.cloudformation.CfnRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.submit">(dml_util.runners.container.DockerRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.ScriptRunner.submit">(dml_util.runners.local.ScriptRunner method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Ref.to">to (daggerml.Ref attribute)</a>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.tar">tar() (dml_util.aws.s3.S3Store method)</a>
 </li>
-      <li><a href="api.html#daggerml.to_json">to_json() (in module daggerml)</a>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.tb">tb (dml_util.aws.dynamodb.DynamoState attribute)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.temporary">temporary() (daggerml.Dml class method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.Test">Test (class in dml_util.runners.container)</a>
+</li>
+      <li><a href="_autosummary/dml_util.lib.submit.html#dml_util.lib.submit.Streamer.thread">thread (dml_util.lib.submit.Streamer attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.timeout">timeout (dml_util.aws.dynamodb.DynamoState attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#daggerml.Dag.token">token (daggerml.Dag attribute)</a>
+      <li><a href="api.html#daggerml.Dml.tmpdirs">tmpdirs (daggerml.Dml attribute)</a>
 </li>
-      <li><a href="api.html#daggerml.Node.type">type() (daggerml.Node method)</a>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.to_dict">to_dict() (dml_util.core.config.EnvConfig method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.core.config.html#dml_util.core.config.EnvConfig.to_envvars">to_envvars() (dml_util.core.config.EnvConfig method)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.token">token (daggerml.Dml attribute)</a>
+</li>
+      <li><a href="_autosummary/dml_util.html#dml_util.tree_map">tree_map() (in module dml_util)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.utils.html#dml_util.core.utils.tree_map">(in module dml_util.core.utils)</a>
+</li>
+      </ul></li>
+      <li><a href="api.html#daggerml.Node.type">type (daggerml.Node property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -461,7 +1221,33 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.aws.dynamodb.html#dml_util.aws.dynamodb.DynamoState.unlock">unlock() (dml_util.aws.dynamodb.DynamoState method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.LocalState.unlock">(dml_util.core.state.LocalState method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.core.state.html#dml_util.core.state.State.unlock">(dml_util.core.state.State method)</a>, <a href="_autosummary/dml_util.core.state.html#id4">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="_autosummary/dml_util.aws.s3.html#dml_util.aws.s3.S3Store.untar">untar() (dml_util.aws.s3.S3Store method)</a>
+</li>
+      <li><a href="_autosummary/dml_util.runners.base.html#dml_util.runners.base.RunnerBase.update">update() (dml_util.runners.base.RunnerBase method)</a>
+
+      <ul>
+        <li><a href="_autosummary/dml_util.runners.batch.html#dml_util.runners.batch.BatchRunner.update">(dml_util.runners.batch.BatchRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.update">(dml_util.runners.cloudformation.CfnRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.container.html#dml_util.runners.container.DockerRunner.update">(dml_util.runners.container.DockerRunner method)</a>
+</li>
+        <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.ScriptRunner.update">(dml_util.runners.local.ScriptRunner method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Resource.uri">uri (daggerml.Resource attribute)</a>
+</li>
+      <li><a href="api.html#daggerml.Dml.user">user (daggerml.Dml attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -470,6 +1256,32 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api.html#daggerml.Node.value">value() (daggerml.Node method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api.html#daggerml.Dag.values">values (daggerml.Dag property)</a>
+</li>
+      <li><a href="_autosummary/dml_util.adapters.base.html#dml_util.adapters.base.VerboseArgumentParser">VerboseArgumentParser (class in dml_util.adapters.base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.runners.local.html#dml_util.runners.local.WrappedRunner">WrappedRunner (class in dml_util.runners.local)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.dags.batch.html#dml_util.dags.batch.zip_up">zip_up() (in module dml_util.dags.batch)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/dml_util.dags.batch.html#dml_util.dags.batch.zipit">zipit() (in module dml_util.dags.batch)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -536,8 +1348,8 @@ By Aaron Niskin and Micha Niskin
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

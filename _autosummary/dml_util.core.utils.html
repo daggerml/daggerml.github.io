@@ -1,0 +1,642 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>dml_util.core.utils &#8212; DaggerML Documentation foopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=6aa38c3a"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/dml_util.core.utils';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="dml_util.dags" href="dml_util.dags.html" />
+    <link rel="prev" title="dml_util.core.state" href="dml_util.core.state.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-nobg.png" class="logo__image only-light" alt="DaggerML Documentation foopy - Home"/>
+    <script>document.write(`<img src="../_static/logo-nobg.png" class="logo__image only-dark" alt="DaggerML Documentation foopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    DaggerML Documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Core Library (daggerml)</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../dml-util.html">DML-UTIL API Documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="dml_util.html">dml_util</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.adapters.html">dml_util.adapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.adapters.base.html">dml_util.adapters.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.adapters.lambda_.html">dml_util.adapters.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.adapters.local.html">dml_util.adapters.local</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.aws.html">dml_util.aws</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.aws.dynamodb.html">dml_util.aws.dynamodb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.aws.s3.html">dml_util.aws.s3</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="dml_util.core.html">dml_util.core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dml_util.core.config.html">dml_util.core.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.core.daggerml.html">dml_util.core.daggerml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.core.state.html">dml_util.core.state</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">dml_util.core.utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.dags.html">dml_util.dags</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.dags.batch.html">dml_util.dags.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.dags.ecr.html">dml_util.dags.ecr</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="dml_util.funk.html">dml_util.funk</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.lib.html">dml_util.lib</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.lib.dkr.html">dml_util.lib.dkr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.lib.submit.html">dml_util.lib.submit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.runners.html">dml_util.runners</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.base.html">dml_util.runners.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.batch.html">dml_util.runners.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.cloudformation.html">dml_util.runners.cloudformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.container.html">dml_util.runners.container</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.lambda_.html">dml_util.runners.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.local.html">dml_util.runners.local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.remote.html">dml_util.runners.remote</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="dml_util.wrapper.html">dml_util.wrapper</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/daggerml/python-lib" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/_autosummary/dml_util.core.utils.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>dml_util.core.utils</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.batched"><code class="docutils literal notranslate"><span class="pre">batched()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.compute_hash"><code class="docutils literal notranslate"><span class="pre">compute_hash()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.dict_product"><code class="docutils literal notranslate"><span class="pre">dict_product()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.exactly_one"><code class="docutils literal notranslate"><span class="pre">exactly_one()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.if_read_file"><code class="docutils literal notranslate"><span class="pre">if_read_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.js_dump"><code class="docutils literal notranslate"><span class="pre">js_dump()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.now"><code class="docutils literal notranslate"><span class="pre">now()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.proc_exists"><code class="docutils literal notranslate"><span class="pre">proc_exists()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.tree_map"><code class="docutils literal notranslate"><span class="pre">tree_map()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-dml_util.core.utils">
+<span id="dml-util-core-utils"></span><h1>dml_util.core.utils<a class="headerlink" href="#module-dml_util.core.utils" title="Link to this heading">#</a></h1>
+<p>Core utilities with no external dependencies.</p>
+<p>This module contains utility functions that are used throughout the DaggerML utilities
+package. These functions have minimal or no external dependencies on DaggerML itself,
+making them suitable for use in environments where DaggerML is not available.</p>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>tree_map</dt><dd><p>Apply a function to elements of a nested data structure that satisfy a predicate.</p>
+</dd>
+<dt>dict_product</dt><dd><p>Generate all combinations of dictionary values for parameter sweeps.</p>
+</dd>
+<dt>now</dt><dd><p>Get current time.</p>
+</dd>
+<dt>_run_cli</dt><dd><p>Run a command-line program and capture output.</p>
+</dd>
+<dt>if_read_file</dt><dd><p>Read a file if it exists.</p>
+</dd>
+<dt>proc_exists</dt><dd><p>Check if a process exists.</p>
+</dd>
+<dt>js_dump</dt><dd><p>Dump data as JSON with consistent formatting.</p>
+</dd>
+<dt>compute_hash</dt><dd><p>Compute hash of a file-like object.</p>
+</dd>
+<dt>exactly_one</dt><dd><p>Ensure exactly one of multiple parameters is provided.</p>
+</dd>
+</dl>
+</section>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dml_util.core.utils.batched" title="dml_util.core.utils.batched"><code class="xref py py-obj docutils literal notranslate"><span class="pre">batched</span></code></a>(iterable, n, *[, strict])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#dml_util.core.utils.compute_hash" title="dml_util.core.utils.compute_hash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_hash</span></code></a>(obj[, chunk_size, hash_algorithm])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dml_util.core.utils.dict_product" title="dml_util.core.utils.dict_product"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict_product</span></code></a>(d)</p></td>
+<td><p>Given a dictionary of lists, yield all possible combinations of the lists.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#dml_util.core.utils.exactly_one" title="dml_util.core.utils.exactly_one"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exactly_one</span></code></a>(**kw)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dml_util.core.utils.if_read_file" title="dml_util.core.utils.if_read_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">if_read_file</span></code></a>(path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#dml_util.core.utils.js_dump" title="dml_util.core.utils.js_dump"><code class="xref py py-obj docutils literal notranslate"><span class="pre">js_dump</span></code></a>(data, **kw)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dml_util.core.utils.now" title="dml_util.core.utils.now"><code class="xref py py-obj docutils literal notranslate"><span class="pre">now</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#dml_util.core.utils.proc_exists" title="dml_util.core.utils.proc_exists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proc_exists</span></code></a>(pid)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dml_util.core.utils.tree_map" title="dml_util.core.utils.tree_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tree_map</span></code></a>(predicate, fn, item)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.batched">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">batched</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#batched"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.batched" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.compute_hash">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">compute_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8192</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hash_algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sha256'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#compute_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.compute_hash" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.dict_product">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">dict_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#dict_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.dict_product" title="Link to this definition">#</a></dt>
+<dd><p>Given a dictionary of lists, yield all possible combinations of the lists.
+Good for grid searches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – A dictionary where the keys are strings and the values are lists.
+The keys represent the names of the parameters, and the values are the
+possible values for those parameters.</p>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>dict</em> – A dictionary representing a single combination of parameter values.
+The keys are the same as the input dictionary, and the values are
+the corresponding values from the input lists.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">combination</span> <span class="ow">in</span> <span class="n">dict_product</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">combination</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: &#39;x&#39;}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: &#39;y&#39;}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;x&#39;}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;y&#39;}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.exactly_one">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">exactly_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#exactly_one"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.exactly_one" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.if_read_file">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">if_read_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#if_read_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.if_read_file" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.js_dump">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">js_dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#js_dump"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.js_dump" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.now">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">now</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#now"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.now" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.proc_exists">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">proc_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#proc_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.proc_exists" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="dml_util.core.utils.tree_map">
+<span class="sig-prename descclassname"><span class="pre">dml_util.core.utils.</span></span><span class="sig-name descname"><span class="pre">tree_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">predicate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/core/utils.html#tree_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.core.utils.tree_map" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dml_util.core.state.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">dml_util.core.state</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="dml_util.dags.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">dml_util.dags</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.batched"><code class="docutils literal notranslate"><span class="pre">batched()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.compute_hash"><code class="docutils literal notranslate"><span class="pre">compute_hash()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.dict_product"><code class="docutils literal notranslate"><span class="pre">dict_product()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.exactly_one"><code class="docutils literal notranslate"><span class="pre">exactly_one()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.if_read_file"><code class="docutils literal notranslate"><span class="pre">if_read_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.js_dump"><code class="docutils literal notranslate"><span class="pre">js_dump()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.now"><code class="docutils literal notranslate"><span class="pre">now()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.proc_exists"><code class="docutils literal notranslate"><span class="pre">proc_exists()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.core.utils.tree_map"><code class="docutils literal notranslate"><span class="pre">tree_map()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aaron Niskin and Micha Niskin
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Aaron Niskin and Micha Niskin.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

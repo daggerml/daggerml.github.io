@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>dml_util.aws.s3 &#8212; DaggerML Documentation foopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=6aa38c3a"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/dml_util.aws.s3';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="dml_util.core" href="dml_util.core.html" />
+    <link rel="prev" title="dml_util.aws.dynamodb" href="dml_util.aws.dynamodb.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo-nobg.png" class="logo__image only-light" alt="DaggerML Documentation foopy - Home"/>
+    <script>document.write(`<img src="../_static/logo-nobg.png" class="logo__image only-dark" alt="DaggerML Documentation foopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../index.html">
+                    DaggerML Documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Core Library (daggerml)</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../dml-util.html">DML-UTIL API Documentation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="dml_util.html">dml_util</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.adapters.html">dml_util.adapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.adapters.base.html">dml_util.adapters.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.adapters.lambda_.html">dml_util.adapters.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.adapters.local.html">dml_util.adapters.local</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="dml_util.aws.html">dml_util.aws</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="dml_util.aws.dynamodb.html">dml_util.aws.dynamodb</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">dml_util.aws.s3</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.core.html">dml_util.core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.core.config.html">dml_util.core.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.core.daggerml.html">dml_util.core.daggerml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.core.state.html">dml_util.core.state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.core.utils.html">dml_util.core.utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.dags.html">dml_util.dags</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.dags.batch.html">dml_util.dags.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.dags.ecr.html">dml_util.dags.ecr</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="dml_util.funk.html">dml_util.funk</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.lib.html">dml_util.lib</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.lib.dkr.html">dml_util.lib.dkr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.lib.submit.html">dml_util.lib.submit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="dml_util.runners.html">dml_util.runners</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.base.html">dml_util.runners.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.batch.html">dml_util.runners.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.cloudformation.html">dml_util.runners.cloudformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.container.html">dml_util.runners.container</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.lambda_.html">dml_util.runners.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.local.html">dml_util.runners.local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dml_util.runners.remote.html">dml_util.runners.remote</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="dml_util.wrapper.html">dml_util.wrapper</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/daggerml/python-lib" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/_autosummary/dml_util.aws.s3.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>dml_util.aws.s3</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store"><code class="docutils literal notranslate"><span class="pre">S3Store</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.bucket"><code class="docutils literal notranslate"><span class="pre">S3Store.bucket</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.cd"><code class="docutils literal notranslate"><span class="pre">S3Store.cd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.client"><code class="docutils literal notranslate"><span class="pre">S3Store.client</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.exists"><code class="docutils literal notranslate"><span class="pre">S3Store.exists()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.get"><code class="docutils literal notranslate"><span class="pre">S3Store.get()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.get_js"><code class="docutils literal notranslate"><span class="pre">S3Store.get_js()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.ls"><code class="docutils literal notranslate"><span class="pre">S3Store.ls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.parse_uri"><code class="docutils literal notranslate"><span class="pre">S3Store.parse_uri()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.prefix"><code class="docutils literal notranslate"><span class="pre">S3Store.prefix</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.put"><code class="docutils literal notranslate"><span class="pre">S3Store.put()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.put_js"><code class="docutils literal notranslate"><span class="pre">S3Store.put_js()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.rm"><code class="docutils literal notranslate"><span class="pre">S3Store.rm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.tar"><code class="docutils literal notranslate"><span class="pre">S3Store.tar()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.untar"><code class="docutils literal notranslate"><span class="pre">S3Store.untar()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-dml_util.aws.s3">
+<span id="dml-util-aws-s3"></span><h1>dml_util.aws.s3<a class="headerlink" href="#module-dml_util.aws.s3" title="Link to this heading">#</a></h1>
+<p>S3 storage utilities.</p>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dml_util.aws.s3.S3Store" title="dml_util.aws.s3.S3Store"><code class="xref py py-obj docutils literal notranslate"><span class="pre">S3Store</span></code></a>([bucket, prefix, client])</p></td>
+<td><p>S3 Store for DML</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dml_util.aws.s3.</span></span><span class="sig-name descname"><span class="pre">S3Store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>S3 Store for DML</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<em>str</em>) – S3 bucket name. Defaults to the value of the environment variable “DML_S3_BUCKET”.</p></li>
+<li><p><strong>prefix</strong> (<em>str</em>) – S3 prefix. Defaults to the value of the environment variable “DML_S3_PREFIX”.</p></li>
+<li><p><strong>client</strong> (<em>boto3.client</em><em>, </em><em>optional</em>) – Boto3 S3 client. Defaults to a new client created using the <cite>get_client</cite> function.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If <cite>prefix</cite> is not provided, “/data” is appended to the <cite>DML_S3_PREFIX</cite> environment variable.</p></li>
+<li><p><cite>prefix</cite> is stripped of leading and trailing slashes, so if you want to use a prefix like “/foo/”, you’ll need to
+handle those uris directly. E.g. to put data at “s3://my-bucket//foo/bar”, you would use
+<cite>S3Store().put(data, uri=”s3://my-bucket//foo/bar”)</cite>.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3Store</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="s2">&quot;my-bucket&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;my-prefix&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;greeting.txt&quot;</span><span class="p">)</span>
+<span class="go">Resource(uri=&#39;s3://my-bucket/my-prefix/greeting.txt&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">[&#39;s3://my-bucket/my-prefix/greeting.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;greeting.txt&quot;</span><span class="p">)</span>
+<span class="go">b&#39;Hello, World!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;greeting.txt&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">rm</span><span class="p">(</span><span class="s2">&quot;greeting.txt&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;greeting.txt&quot;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">put_js</span><span class="p">({</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="go">Resource(uri=&#39;s3://my-bucket/my-prefix/data.json&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">get_js</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="go">{&#39;key&#39;: &#39;value&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">tar</span><span class="p">(</span><span class="n">dml</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s2">&quot;my_data&quot;</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*.tmp&quot;</span><span class="p">])</span>
+<span class="go">Resource(uri=&#39;s3://my-bucket/my-prefix/my_data.tar&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">untar</span><span class="p">(</span><span class="s2">&quot;s3://my-bucket/my-prefix/my_data.tar&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;my_data&quot;</span><span class="p">)</span>
+<span class="go"># Extracts the tar archive to the local directory &quot;my_data&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s2">&quot;new-prefix&quot;</span><span class="p">)</span>
+<span class="go">S3Store(bucket=&#39;my-bucket&#39;, prefix=&#39;my-prefix/new-prefix&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">cd</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>  <span class="c1"># Go back to the previous prefix</span>
+<span class="go">S3Store(bucket=&#39;my-bucket&#39;, prefix=&#39;&#39;)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.bucket">
+<span class="sig-name descname"><span class="pre">bucket</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dml_util.aws.s3.S3Store.bucket" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.cd">
+<span class="sig-name descname"><span class="pre">cd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_prefix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.cd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.cd" title="Link to this definition">#</a></dt>
+<dd><p>Change the prefix of the S3 store.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#dml_util.aws.s3.S3Store" title="dml_util.aws.s3.S3Store"><em>S3Store</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.client">
+<span class="sig-name descname"><span class="pre">client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">client</span></em><a class="headerlink" href="#dml_util.aws.s3.S3Store.client" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_or_uri</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.exists" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_or_uri</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.get" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.get_js">
+<span class="sig-name descname"><span class="pre">get_js</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uri</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.get_js"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.get_js" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.ls">
+<span class="sig-name descname"><span class="pre">ls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s3_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lazy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.ls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.ls" title="Link to this definition">#</a></dt>
+<dd><p>List objects in the S3 bucket.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s3_root</strong> (<em>str</em><em>, </em><em>optional</em>) – Name or s3 root to list. Defaults to s3://&lt;bucket&gt;/&lt;prefix&gt;/.</p></li>
+<li><p><strong>recursive</strong> (<em>bool</em>) – If True, list all objects recursively. Defaults to False.</p></li>
+<li><p><strong>lazy</strong> (<em>bool</em>) – If True, return a generator. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A generator or list of S3 URIs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>generator or list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.parse_uri">
+<span class="sig-name descname"><span class="pre">parse_uri</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_or_uri</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.parse_uri"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.parse_uri" title="Link to this definition">#</a></dt>
+<dd><p>Parse a URI or name into bucket and key.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span> <span class="o">=</span> <span class="n">S3Store</span><span class="p">(</span><span class="n">bucket</span><span class="o">=</span><span class="s2">&quot;my-bucket&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;my-prefix&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">parse_uri</span><span class="p">(</span><span class="s2">&quot;s3://my-other-bucket/my-key&quot;</span><span class="p">)</span>
+<span class="go">(&#39;my-other-bucket&#39;, &#39;my-key&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">parse_uri</span><span class="p">(</span><span class="s2">&quot;my-key&quot;</span><span class="p">)</span>
+<span class="go">(&#39;my-bucket&#39;, &#39;my-prefix/my-key&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s3</span><span class="o">.</span><span class="n">parse_uri</span><span class="p">(</span><span class="n">Resource</span><span class="p">(</span><span class="s2">&quot;s3://my-other-bucket/my-key&quot;</span><span class="p">))</span>
+<span class="go">(&#39;my-other-bucket&#39;, &#39;my-key&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.prefix">
+<span class="sig-name descname"><span class="pre">prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dml_util.aws.s3.S3Store.prefix" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.put">
+<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.put"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.put" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.put_js">
+<span class="sig-name descname"><span class="pre">put_js</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.put_js"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.put_js" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="../api.html#daggerml.Resource" title="daggerml.core.Resource"><em>Resource</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.rm">
+<span class="sig-name descname"><span class="pre">rm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">name_or_uris</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.rm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.rm" title="Link to this definition">#</a></dt>
+<dd><p>Remove objects from S3.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name_or_uris</strong> (<em>str</em><em> | </em><a class="reference internal" href="../api.html#daggerml.Resource" title="daggerml.core.Resource"><em>Resource</em></a><em> | </em><em>list</em><em>[</em><em>str</em><em> | </em><a class="reference internal" href="../api.html#daggerml.Resource" title="daggerml.core.Resource"><em>Resource</em></a><em>]</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.tar">
+<span class="sig-name descname"><span class="pre">tar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">excludes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.tar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.tar" title="Link to this definition">#</a></dt>
+<dd><p>Create a tar archive and store it in S3.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dml_util.aws.s3.S3Store.untar">
+<span class="sig-name descname"><span class="pre">untar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tar_uri</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/dml_util/aws/s3.html#S3Store.untar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dml_util.aws.s3.S3Store.untar" title="Link to this definition">#</a></dt>
+<dd><p>Extract a tar archive from S3 to a local directory.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dml_util.aws.dynamodb.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">dml_util.aws.dynamodb</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="dml_util.core.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">dml_util.core</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store"><code class="docutils literal notranslate"><span class="pre">S3Store</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.bucket"><code class="docutils literal notranslate"><span class="pre">S3Store.bucket</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.cd"><code class="docutils literal notranslate"><span class="pre">S3Store.cd()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.client"><code class="docutils literal notranslate"><span class="pre">S3Store.client</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.exists"><code class="docutils literal notranslate"><span class="pre">S3Store.exists()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.get"><code class="docutils literal notranslate"><span class="pre">S3Store.get()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.get_js"><code class="docutils literal notranslate"><span class="pre">S3Store.get_js()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.ls"><code class="docutils literal notranslate"><span class="pre">S3Store.ls()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.parse_uri"><code class="docutils literal notranslate"><span class="pre">S3Store.parse_uri()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.prefix"><code class="docutils literal notranslate"><span class="pre">S3Store.prefix</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.put"><code class="docutils literal notranslate"><span class="pre">S3Store.put()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.put_js"><code class="docutils literal notranslate"><span class="pre">S3Store.put_js()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.rm"><code class="docutils literal notranslate"><span class="pre">S3Store.rm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.tar"><code class="docutils literal notranslate"><span class="pre">S3Store.tar()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dml_util.aws.s3.S3Store.untar"><code class="docutils literal notranslate"><span class="pre">S3Store.untar()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aaron Niskin and Micha Niskin
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Aaron Niskin and Micha Niskin.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

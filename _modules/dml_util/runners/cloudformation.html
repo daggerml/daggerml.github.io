@@ -1,0 +1,526 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dml_util.runners.cloudformation &#8212; DaggerML Documentation foopy</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=6aa38c3a"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/dml_util/runners/cloudformation';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo-nobg.png" class="logo__image only-light" alt="DaggerML Documentation foopy - Home"/>
+    <script>document.write(`<img src="../../../_static/logo-nobg.png" class="logo__image only-dark" alt="DaggerML Documentation foopy - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    DaggerML Documentation
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Example Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">Core Library (daggerml)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../dml-util.html">DML-UTIL API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../_autosummary/dml_util.html">dml_util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../_autosummary/dml_util.adapters.html">dml_util.adapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.adapters.base.html">dml_util.adapters.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.adapters.lambda_.html">dml_util.adapters.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.adapters.local.html">dml_util.adapters.local</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../_autosummary/dml_util.aws.html">dml_util.aws</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.aws.dynamodb.html">dml_util.aws.dynamodb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.aws.s3.html">dml_util.aws.s3</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../_autosummary/dml_util.core.html">dml_util.core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.core.config.html">dml_util.core.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.core.daggerml.html">dml_util.core.daggerml</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.core.state.html">dml_util.core.state</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.core.utils.html">dml_util.core.utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../_autosummary/dml_util.dags.html">dml_util.dags</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.dags.batch.html">dml_util.dags.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.dags.ecr.html">dml_util.dags.ecr</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/dml_util.funk.html">dml_util.funk</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../_autosummary/dml_util.lib.html">dml_util.lib</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.lib.dkr.html">dml_util.lib.dkr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.lib.submit.html">dml_util.lib.submit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../_autosummary/dml_util.runners.html">dml_util.runners</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.runners.base.html">dml_util.runners.base</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.runners.batch.html">dml_util.runners.batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.runners.cloudformation.html">dml_util.runners.cloudformation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.runners.container.html">dml_util.runners.container</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.runners.lambda_.html">dml_util.runners.lambda_</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.runners.local.html">dml_util.runners.local</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/dml_util.runners.remote.html">dml_util.runners.remote</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/dml_util.wrapper.html">dml_util.wrapper</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/daggerml/python-lib" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for dml_util.runners.cloudformation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">boto3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">botocore.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClientError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">daggerml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dml</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dml_util.runners.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">RunnerBase</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="CfnRunner">
+<a class="viewcode-back" href="../../../_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CfnRunner</span><span class="p">(</span><span class="n">RunnerBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runner for CloudFormation templates.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CfnRunner.funkify">
+<a class="viewcode-back" href="../../../_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.funkify">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">funkify</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="CfnRunner.fmt">
+<a class="viewcode-back" href="../../../_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.fmt">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stack_id</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">raw_status</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stack_id</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">raw_status</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+
+<div class="viewcode-block" id="CfnRunner.describe_stack">
+<a class="viewcode-back" href="../../../_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.describe_stack">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">describe_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">StackId</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">stack</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">describe_stacks</span><span class="p">(</span><span class="n">StackName</span><span class="o">=</span><span class="n">name</span><span class="p">)[</span><span class="s2">&quot;Stacks&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;does not exist&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="k">raise</span>
+        <span class="n">raw_status</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="s2">&quot;StackStatus&quot;</span><span class="p">]</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;StackId&quot;</span><span class="p">:</span> <span class="n">stack</span><span class="p">[</span><span class="s2">&quot;StackId&quot;</span><span class="p">],</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">StackId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;StackId&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">StackId</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;stack ID changed from </span><span class="si">{</span><span class="n">StackId</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;StackId&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">raw_status</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;CREATE_COMPLETE&quot;</span><span class="p">,</span> <span class="s2">&quot;UPDATE_COMPLETE&quot;</span><span class="p">]:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+            <span class="n">state</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">o</span><span class="p">[</span><span class="s2">&quot;OutputKey&quot;</span><span class="p">]:</span> <span class="n">o</span><span class="p">[</span><span class="s2">&quot;OutputValue&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">stack</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Outputs&quot;</span><span class="p">,</span> <span class="p">[])}</span>
+        <span class="k">elif</span> <span class="n">raw_status</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;ROLLBACK_COMPLETE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ROLLBACK_FAILED&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;CREATE_FAILED&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DELETE_FAILED&quot;</span><span class="p">,</span>
+        <span class="p">]:</span>
+            <span class="n">events</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">describe_stack_events</span><span class="p">(</span><span class="n">StackName</span><span class="o">=</span><span class="n">name</span><span class="p">)[</span><span class="s2">&quot;StackEvents&quot;</span><span class="p">]</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;failed&quot;</span>
+            <span class="n">failure_events</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span> <span class="k">if</span> <span class="s2">&quot;ResourceStatusReason&quot;</span> <span class="ow">in</span> <span class="n">e</span><span class="p">]</span>
+            <span class="n">state</span><span class="p">[</span><span class="s2">&quot;failure_reasons&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="s2">&quot;ResourceStatusReason&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">failure_events</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">StackId</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># create failed</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Stack failed:</span><span class="se">\n\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">StackId</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Cfn cannot create new stack while stack is currently being created&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;creating&quot;</span>
+        <span class="k">return</span> <span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;StackId&quot;</span><span class="p">],</span> <span class="n">status</span><span class="p">,</span> <span class="n">raw_status</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CfnRunner.submit">
+<a class="viewcode-back" href="../../../_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.submit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">Dml</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;dml is not installed...&quot;</span>
+        <span class="k">with</span> <span class="n">Dml</span><span class="o">.</span><span class="n">temporary</span><span class="p">()</span> <span class="k">as</span> <span class="n">dml</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">dump</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">js</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+        <span class="n">old_state</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">describe_stack</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">create_stack</span> <span class="k">if</span> <span class="n">old_state</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">client</span><span class="o">.</span><span class="n">update_stack</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span>
+                <span class="n">StackName</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">TemplateBody</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">js</span><span class="p">),</span>
+                <span class="n">Parameters</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;ParameterKey&quot;</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span> <span class="s2">&quot;ParameterValue&quot;</span><span class="p">:</span> <span class="n">v</span><span class="p">}</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
+                <span class="n">Capabilities</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;CAPABILITY_IAM&quot;</span><span class="p">,</span> <span class="s2">&quot;CAPABILITY_NAMED_IAM&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">response</span><span class="p">[</span><span class="s2">&quot;Error&quot;</span><span class="p">][</span><span class="s2">&quot;Message&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;No updates are to be performed.&quot;</span><span class="p">):</span>
+                <span class="k">raise</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">old_state</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;StackId&quot;</span><span class="p">:</span> <span class="n">resp</span><span class="p">[</span><span class="s2">&quot;StackId&quot;</span><span class="p">]}</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s2">&quot;StackId&quot;</span><span class="p">],</span> <span class="s2">&quot;creating&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span><span class="p">,</span> <span class="n">msg</span></div>
+
+
+<div class="viewcode-block" id="CfnRunner.update">
+<a class="viewcode-back" href="../../../_autosummary/dml_util.runners.cloudformation.html#dml_util.runners.cloudformation.CfnRunner.update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s2">&quot;cloudformation&quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="p">{}:</span>
+            <span class="n">state</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">state</span><span class="p">,</span> <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">describe_stack</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="o">**</span><span class="n">state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;outputs&quot;</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">_handler</span><span class="p">(</span><span class="n">dump</span><span class="p">):</span>
+                <span class="k">nonlocal</span> <span class="n">result</span>
+                <span class="n">result</span><span class="p">[</span><span class="s2">&quot;dump&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dump</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">Dml</span><span class="o">.</span><span class="n">temporary</span><span class="p">()</span> <span class="k">as</span> <span class="n">dml</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="n">dml</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">dump</span><span class="p">,</span> <span class="n">message_handler</span><span class="o">=</span><span class="n">_handler</span><span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                            <span class="n">dag</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                        <span class="n">dag</span><span class="o">.</span><span class="n">stack_id</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;StackId&quot;</span><span class="p">]</span>
+                        <span class="n">dag</span><span class="o">.</span><span class="n">stack_name</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                        <span class="n">dag</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;outputs&quot;</span><span class="p">]</span>
+                        <span class="n">dag</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">dag</span><span class="o">.</span><span class="n">outputs</span>
+            <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">state</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dump&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Aaron Niskin and Micha Niskin
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Aaron Niskin and Micha Niskin.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

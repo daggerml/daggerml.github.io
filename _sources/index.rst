@@ -26,6 +26,15 @@ Documentation is hosted on `daggerml.com <https://daggerml.com/api>`_.
    api
    dml-util
 
+.. note::
+   DML-UTIL version |util_version|.
+
+.. note::
+   DaggerML version |dml_version|.
+
+.. note::
+   DaggerML CLI version |cli_version|.
+
 Github Links
 ============
 

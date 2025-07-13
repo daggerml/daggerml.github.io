@@ -12,9 +12,17 @@ dml_util.__all__ = ("__version__", "dict_product", "tree_map")
 
 dml.__all__ = tuple([*dml.__all__, "new", "load"])
 project = "daggerml"
-copyright = "2025, Aaron Niskin and Micha Niskin"
+copyright = f"2025, Aaron Niskin and Micha Niskin | daggerml v{dml.__version__} | dml_util v{dml_util.__version__} | daggerml_cli v{daggerml_cli.__version__}"
 author = "Aaron Niskin and Micha Niskin"
 release = version = dml.__version__
+
+util_version = dml_util.__version__
+
+rst_prolog = f"""
+.. |dml_version| replace:: {dml.__version__}
+.. |util_version| replace:: {dml_util.__version__}
+.. |cli_version| replace:: {daggerml_cli.__version__}
+"""
 
 toc_object_entries = True
 
@@ -72,8 +80,8 @@ html_theme_options = {
     "use_repository_button": True,
     "home_page_in_toc": True,
     "show_toc_level": 2,
-    # # "show_nav_level": 4,
     "collapse_navigation": True,
+    "extra_navbar": f"<div>Version: daggerml: {dml.__version__} / dml_util: {dml_util.__version__}</div>",
 }
 
 nb_custom_formats = {

@@ -1,0 +1,101 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Runtimes</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A runtime is mutable state used while authoring a DAG or tracking execution. Finalizing it creates an immutable DAG. Use the CLI to inspect and administer open work; use named committed DAGs for completed research.</p>
+<section id="freeze-and-resume-authoring" class="level2">
+<h2 class="anchored" data-anchor-id="freeze-and-resume-authoring">Freeze and resume authoring</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">runtime_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> runtime create<span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">'["scalar",42]\n'</span> <span class="kw">|</span> <span class="ex">dml</span> runtime put-literal <span class="st">"</span><span class="va">$runtime_ref</span><span class="st">"</span> <span class="at">-</span> <span class="at">--name</span> answer <span class="op">&gt;</span>/dev/null</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">frozen_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> runtime freeze <span class="st">"</span><span class="va">$runtime_ref</span><span class="st">"</span> <span class="at">--message</span> <span class="st">"Review staged input"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> runtime list <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="at">--arg</span> frozen <span class="st">"</span><span class="va">$frozen_ref</span><span class="st">"</span> <span class="st">'.[] | select(.id == $frozen)'</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> runtime describe <span class="st">"</span><span class="va">$frozen_ref</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.state == "frozen" and .frozen_message == "Review staged input"'</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="va">answer_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> runtime get-node <span class="st">"</span><span class="va">$frozen_ref</span><span class="st">"</span> answer<span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> dag get-node <span class="st">"</span><span class="va">$answer_ref</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.[1] == 42'</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="va">resumed_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> runtime unfreeze <span class="st">"</span><span class="va">$frozen_ref</span><span class="st">"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> runtime freeze <span class="st">"</span><span class="va">$resumed_ref</span><span class="st">"</span> <span class="at">--message</span> <span class="st">"Leave the demonstration read-only"</span> <span class="op">&gt;</span>/dev/null</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{
+  "author": "runner@runnervmlun5p",
+  "created": "2026-09-20T08:21:48.888672+00:00",
+  "dag": "dag:fddaecd49ea1cbf67fd367bdb95372f57c42aaed9439a5b009d28c598331470e",
+  "frozen_message": "Review staged input",
+  "id": "frozenindex:01a0bde83c8b7abfb28b8b80771c0894",
+  "message": "",
+  "parents": [
+    "commit:3f88fc93122afa22d3078a896b89ccba6fb70158517a82b20239086c3999f24f"
+  ],
+  "state": "frozen",
+  "tree": "tree:9782de147dcf30b6fe2f64716c26ecc9f7409649416ee5e532f70a3711bcbbc0"
+}
+true
+true</code></pre>
+</div>
+</div>
+<p>Freezing preserves partial nodes, tags, and execution identity, but does not create a result. Its message is a reason, not a durable name. <code>Dag.freeze()</code> and <code>Dag.unfreeze()</code> manage the normal Python wrapper; <code>dml.resume(frozen, name=..., message=...)</code> resumes it in another process. Runtime and execution identities are complete <code>Ref</code> values (<code>index:</code> or <code>frozenindex:</code>), never bare IDs.</p>
+</section>
+<section id="inspect-cancel-and-refresh-deliberately" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-cancel-and-refresh-deliberately">Inspect, cancel, and refresh deliberately</h2>
+<p><code>runtime describe</code>, <code>describe-graph</code>, and <code>read-execution-record</code> report graph, lifecycle, lineage, cancellation, invalidation, adapter continuation, shared retry deadlines, and cleanup. Cleanup may remain pending or fail without making an otherwise reusable result unavailable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">course_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.dags["course-execution"]'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">first_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag get-node-by-name <span class="st">"</span><span class="va">$course_ref</span><span class="st">"</span> script-first<span class="va">)</span><span class="st">"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">execution_dag_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag describe-node <span class="st">"</span><span class="va">$first_ref</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.dag'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">cache_key</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag describe <span class="st">"</span><span class="va">$execution_dag_ref</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.cache_key'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="va">cache_description</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> cache describe <span class="st">"</span><span class="va">$cache_key</span><span class="st">"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">execution_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.execution'</span> <span class="op">&lt;&lt;&lt;</span> <span class="st">"</span><span class="va">$cache_description</span><span class="st">"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-e</span> <span class="at">--arg</span> dag <span class="st">"</span><span class="va">$execution_dag_ref</span><span class="st">"</span> <span class="st">'.dag == $dag and .lifecycle == "succeeded"'</span> <span class="op">&lt;&lt;&lt;</span> <span class="st">"</span><span class="va">$cache_description</span><span class="st">"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">'%s\n'</span> <span class="st">"</span><span class="va">$execution_ref</span><span class="st">"</span> <span class="op">&gt;</span> <span class="st">"</span><span class="va">$DOCS_WORKSPACE_ROOT</span><span class="st">/invalidated-course-execution"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> cache invalidate <span class="st">"</span><span class="va">$execution_ref</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>true
+{"invalidations":[{"cache_key":"fe612bf7a9a547ba609acb7d75c197744abb456e6b0d46725e8d8c4aeec2ad8e","execution_id":"01a0bde7fdda783390fb66f15b11113e","requested_at":1789892514,"requested_by":"runner@runnervmlun5p"}],"total_time":0.14574146270751953}</code></pre>
+</div>
+</div>
+<p>Rerunning the same stored runnable and argument produces a new execution for the same normalized cache key:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> daggerml <span class="im">as</span> dml</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>course <span class="op">=</span> dml.load(<span class="st">"course-execution"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dml.new(<span class="st">"course-refresh"</span>, message<span class="op">=</span><span class="st">"refresh invalidated course work"</span>) <span class="im">as</span> dag:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    runnable <span class="op">=</span> dag.put(course[<span class="st">"script"</span>], name<span class="op">=</span><span class="st">"script"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    source <span class="op">=</span> dag.put(course[<span class="st">"source"</span>], name<span class="op">=</span><span class="st">"source"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    refreshed <span class="op">=</span> runnable(source, name<span class="op">=</span><span class="st">"refreshed"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    dag.commit(refreshed)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> dml.load(<span class="st">"course-refresh"</span>).result.value() <span class="op">==</span> {<span class="st">"count"</span>: <span class="dv">3</span>, <span class="st">"total"</span>: <span class="dv">10</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">refreshed_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.dags["course-refresh"]'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">refreshed_result</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag get-node-by-name <span class="st">"</span><span class="va">$refreshed_ref</span><span class="st">"</span> refreshed<span class="va">)</span><span class="st">"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">refreshed_dag</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag describe-node <span class="st">"</span><span class="va">$refreshed_result</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.dag'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">refreshed_key</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag describe <span class="st">"</span><span class="va">$refreshed_dag</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.cache_key'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="va">new_execution</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> cache describe <span class="st">"</span><span class="va">$refreshed_key</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.execution'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="va">old_execution</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="fu">cat</span> <span class="st">"</span><span class="va">$DOCS_WORKSPACE_ROOT</span><span class="st">/invalidated-course-execution"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">test</span> <span class="st">"</span><span class="va">$new_execution</span><span class="st">"</span> != <span class="st">"</span><span class="va">$old_execution</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Invalidate exact execution refs, not cache keys or DAG refs. This affects every caller sharing <code>remote.root</code>, so inspect the returned identity and coordinate before refreshing work. Cancellation first selects the complete unreferenced set as <code>cancel-pending</code>, conditionally removes matching cache pointers, then cancels adapters concurrently. Retry responses share <code>not_before</code>; repeated <code>dml runtime cancel index:... --max-retries 3</code> resumes pending cancellation. An execution that already finished is a successful no-op. Continue with <a href="/docs/use/sharing">Sharing</a>; cache invalidation is deliberately last among workflows that need the original cached result.</p>
+</section>
+
+</main>

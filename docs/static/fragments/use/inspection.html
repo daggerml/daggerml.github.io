@@ -1,0 +1,116 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Inspection</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Completed DAGs retain named nodes, function provenance, runnable source, artifacts, and failures. These examples reopen the durable course state; no Python or shell variables from the execution page are required.</p>
+<section id="inspect-results-and-provenance" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-results-and-provenance">Inspect results and provenance</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">execution_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.dags["course-execution"]'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">first_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag get-node-by-name <span class="st">"</span><span class="va">$execution_ref</span><span class="st">"</span> script-first<span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">execution_dag_ref</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="ex">dml</span> dag describe-node <span class="st">"</span><span class="va">$first_ref</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-er</span> <span class="st">'.dag'</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> dag describe <span class="st">"</span><span class="va">$execution_ref</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.names["script-first"] and .names["docker-result"]'</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> dag describe-node <span class="st">"</span><span class="va">$first_ref</span><span class="st">"</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="at">--arg</span> dag <span class="st">"</span><span class="va">$execution_dag_ref</span><span class="st">"</span> <span class="st">'.dag == $dag'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>true
+true</code></pre>
+</div>
+</div>
+<p><code>context(root=False)</code> stops at the nearest function or import DAG; the default <code>context()</code> continues through nested producing boundaries to the rooted source context. For a direct function result, both resolve to its execution DAG rather than the outer DAG that stores the result node.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> daggerml <span class="im">as</span> dml</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.api <span class="im">import</span> NodeError, Projection</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>course <span class="op">=</span> dml.load(<span class="st">"course-execution"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> course[<span class="st">"script-first"</span>]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>function_dag <span class="op">=</span> first.context(root<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cached <span class="op">=</span> course[<span class="st">"script-cached"</span>]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> first.context().ref <span class="op">==</span> function_dag.ref</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> cached.context(root<span class="op">=</span><span class="va">False</span>).ref <span class="op">==</span> function_dag.ref</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> function_dag.tags <span class="op">==</span> [<span class="st">"course"</span>, <span class="st">"summary"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="inspect-collection-selections" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-collection-selections">Inspect collection selections</h2>
+<p>Indexing a collection node in an open DAG creates builtin <code>get</code> nodes in that DAG, so the selection becomes part of the authored graph immediately.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dml.new(<span class="st">"course-inspection-open-selection"</span>, message<span class="op">=</span><span class="st">"inspect open selection"</span>) <span class="im">as</span> dag:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    collection <span class="op">=</span> dag.put({<span class="st">"labels"</span>: [<span class="st">"fresh"</span>, <span class="st">"local"</span>, <span class="st">"seasonal"</span>]}, name<span class="op">=</span><span class="st">"collection"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    open_labels <span class="op">=</span> collection[<span class="st">"labels"</span>]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    open_label <span class="op">=</span> open_labels[<span class="dv">0</span>]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    dag.commit(open_label)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> open_label.value() <span class="op">==</span> <span class="st">"fresh"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Indexing a committed collection cannot mutate its DAG. It returns a read-only Python-side <code>Projection</code>: it has a <code>base</code> and a <code>path</code>, no independent node <code>ref</code>, and nested indexing extends that path. <code>value()</code> and <code>context()</code> inspect the selected value and its producing DAG.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>artifacts <span class="op">=</span> dml.load(<span class="st">"course-artifacts"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> artifacts.result[<span class="st">"labels"</span>][<span class="dv">0</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">isinstance</span>(label, Projection)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> label.base.ref <span class="op">==</span> artifacts.result.ref</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> label.path <span class="op">==</span> (<span class="st">"labels"</span>, <span class="dv">0</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> <span class="bu">hasattr</span>(label, <span class="st">"ref"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> label.value() <span class="op">==</span> <span class="st">"fresh"</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> label.context(root<span class="op">=</span><span class="va">False</span>).ref <span class="op">==</span> artifacts.ref</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Staging that projection in another open DAG managed by the same <code>Dml</code> preserves the committed base and selection path rather than copying the selected Python value. <a href="/docs/extend/codecs">Codecs</a> owns the lowering mechanism.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dml.new(<span class="st">"course-inspection-projection-reuse"</span>, message<span class="op">=</span><span class="st">"reuse selected label"</span>) <span class="im">as</span> dag:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    selected <span class="op">=</span> dag.put(label, name<span class="op">=</span><span class="st">"selected-label"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    dag.commit(selected)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> dml.load(<span class="st">"course-inspection-projection-reuse"</span>).result.value() <span class="op">==</span> <span class="st">"fresh"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="read-runnables-and-failures" class="level2">
+<h2 class="anchored" data-anchor-id="read-runnables-and-failures">Read runnables and failures</h2>
+<p>The staged script runnable persists its rendered source as <code>script_uri</code>. A Docker runnable retains wrapper configuration and its script <code>sub</code> runnable. The Start here <code>funks</code> DAG also deliberately retained a named failed call.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.s3 <span class="im">import</span> S3Store</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>script <span class="op">=</span> course[<span class="st">"script"</span>].value()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rendered <span class="op">=</span> S3Store().get(script.kwargs[<span class="st">"script_uri"</span>]).decode(<span class="st">"utf-8"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>docker <span class="op">=</span> course[<span class="st">"docker"</span>].value()</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"def summarize_artifact"</span> <span class="kw">in</span> rendered, rendered</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> docker.sub <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>, docker</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> docker.innermost().kwargs[<span class="st">"script_uri"</span>], docker.innermost()</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    dml.load(<span class="st">"funks"</span>)[<span class="st">"failed"</span>]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> NodeError <span class="im">as</span> error:</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    failed <span class="op">=</span> error.context()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="st">"division by zero"</span> <span class="kw">in</span> error.message, error.message</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> failed.ref, failed</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">AssertionError</span>(<span class="st">"the named failed call must remain inspectable"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For low-level detail, <code>dml dag describe</code>, <code>dml dag describe-node</code>, <code>dml dag get-node</code>, and <code>dml dag get-error</code> expose the persisted graph and error refs.</p>
+</section>
+<section id="inspect-in-the-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-in-the-dashboard">Inspect in the dashboard</h2>
+<p>Run <code>dml-dashboard</code>, register this project, and open its immutable commit and DAG views when interactive graph, value, runnable, script, or log inspection is more useful than JSON. A tagged DAG may also expose compatible dashboards contributed by installed packages; select one from the DAG page and use refresh when its provider’s editable code changed. Dashboard providers are trusted local code, so install only packages you would run in the dashboard process.</p>
+<!-- docs:pseudocode: Starting the persistent local dashboard would block the isolated documentation build. -->
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dml-dashboard</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Continue with <a href="/docs/use/runtimes">Runtimes</a> for active state and cache control.</p>
+</section>
+
+</main>

@@ -1,0 +1,674 @@
+{
+  "assets": [
+    "assets/start-here/dagclasses_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/start-here/dagclasses_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/start-here/dagclasses_files/libs/bootstrap/bootstrap.min.js",
+    "assets/start-here/dagclasses_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/start-here/dagclasses_files/libs/quarto-html/anchor.min.js",
+    "assets/start-here/dagclasses_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/start-here/dagclasses_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/start-here/dagclasses_files/libs/quarto-html/tippy.css",
+    "assets/start-here/dagclasses_files/libs/quarto-html/popper.min.js",
+    "assets/start-here/dagclasses_files/libs/quarto-html/quarto.js",
+    "assets/start-here/dagclasses_files/libs/clipboard/clipboard.min.js",
+    "assets/start-here/dagclasses_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/start-here/funks_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/start-here/funks_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/start-here/funks_files/libs/bootstrap/bootstrap.min.js",
+    "assets/start-here/funks_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/start-here/funks_files/libs/quarto-html/anchor.min.js",
+    "assets/start-here/funks_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/start-here/funks_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/start-here/funks_files/libs/quarto-html/tippy.css",
+    "assets/start-here/funks_files/libs/quarto-html/popper.min.js",
+    "assets/start-here/funks_files/libs/quarto-html/quarto.js",
+    "assets/start-here/funks_files/libs/clipboard/clipboard.min.js",
+    "assets/start-here/funks_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/start-here/get-started_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/start-here/get-started_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/start-here/get-started_files/libs/bootstrap/bootstrap.min.js",
+    "assets/start-here/get-started_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/start-here/get-started_files/libs/quarto-html/anchor.min.js",
+    "assets/start-here/get-started_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/start-here/get-started_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/start-here/get-started_files/libs/quarto-html/tippy.css",
+    "assets/start-here/get-started_files/libs/quarto-html/popper.min.js",
+    "assets/start-here/get-started_files/libs/quarto-html/quarto.js",
+    "assets/start-here/get-started_files/libs/clipboard/clipboard.min.js",
+    "assets/start-here/get-started_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/start-here/dags_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/start-here/dags_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/start-here/dags_files/libs/bootstrap/bootstrap.min.js",
+    "assets/start-here/dags_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/start-here/dags_files/libs/quarto-html/anchor.min.js",
+    "assets/start-here/dags_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/start-here/dags_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/start-here/dags_files/libs/quarto-html/tippy.css",
+    "assets/start-here/dags_files/libs/quarto-html/popper.min.js",
+    "assets/start-here/dags_files/libs/quarto-html/quarto.js",
+    "assets/start-here/dags_files/libs/clipboard/clipboard.min.js",
+    "assets/start-here/dags_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/start-here/index_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/start-here/index_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/start-here/index_files/libs/bootstrap/bootstrap.min.js",
+    "assets/start-here/index_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/start-here/index_files/libs/quarto-html/anchor.min.js",
+    "assets/start-here/index_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/start-here/index_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/start-here/index_files/libs/quarto-html/tippy.css",
+    "assets/start-here/index_files/libs/quarto-html/popper.min.js",
+    "assets/start-here/index_files/libs/quarto-html/quarto.js",
+    "assets/start-here/index_files/libs/clipboard/clipboard.min.js",
+    "assets/start-here/index_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/use/runtimes_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/use/runtimes_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/use/runtimes_files/libs/bootstrap/bootstrap.min.js",
+    "assets/use/runtimes_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/use/runtimes_files/libs/quarto-html/anchor.min.js",
+    "assets/use/runtimes_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/use/runtimes_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/use/runtimes_files/libs/quarto-html/tippy.css",
+    "assets/use/runtimes_files/libs/quarto-html/popper.min.js",
+    "assets/use/runtimes_files/libs/quarto-html/quarto.js",
+    "assets/use/runtimes_files/libs/clipboard/clipboard.min.js",
+    "assets/use/runtimes_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/use/execution_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/use/execution_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/use/execution_files/libs/bootstrap/bootstrap.min.js",
+    "assets/use/execution_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/use/execution_files/libs/quarto-html/anchor.min.js",
+    "assets/use/execution_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/use/execution_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/use/execution_files/libs/quarto-html/tippy.css",
+    "assets/use/execution_files/libs/quarto-html/popper.min.js",
+    "assets/use/execution_files/libs/quarto-html/quarto.js",
+    "assets/use/execution_files/libs/clipboard/clipboard.min.js",
+    "assets/use/execution_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/use/artifacts_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/use/artifacts_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/use/artifacts_files/libs/bootstrap/bootstrap.min.js",
+    "assets/use/artifacts_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/use/artifacts_files/libs/quarto-html/anchor.min.js",
+    "assets/use/artifacts_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/use/artifacts_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/use/artifacts_files/libs/quarto-html/tippy.css",
+    "assets/use/artifacts_files/libs/quarto-html/popper.min.js",
+    "assets/use/artifacts_files/libs/quarto-html/quarto.js",
+    "assets/use/artifacts_files/libs/clipboard/clipboard.min.js",
+    "assets/use/artifacts_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/use/sharing_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/use/sharing_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/use/sharing_files/libs/bootstrap/bootstrap.min.js",
+    "assets/use/sharing_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/use/sharing_files/libs/quarto-html/anchor.min.js",
+    "assets/use/sharing_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/use/sharing_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/use/sharing_files/libs/quarto-html/tippy.css",
+    "assets/use/sharing_files/libs/quarto-html/popper.min.js",
+    "assets/use/sharing_files/libs/quarto-html/quarto.js",
+    "assets/use/sharing_files/libs/clipboard/clipboard.min.js",
+    "assets/use/sharing_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/use/inspection_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/use/inspection_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/use/inspection_files/libs/bootstrap/bootstrap.min.js",
+    "assets/use/inspection_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/use/inspection_files/libs/quarto-html/anchor.min.js",
+    "assets/use/inspection_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/use/inspection_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/use/inspection_files/libs/quarto-html/tippy.css",
+    "assets/use/inspection_files/libs/quarto-html/popper.min.js",
+    "assets/use/inspection_files/libs/quarto-html/quarto.js",
+    "assets/use/inspection_files/libs/clipboard/clipboard.min.js",
+    "assets/use/inspection_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/use/projects_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/use/projects_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/use/projects_files/libs/bootstrap/bootstrap.min.js",
+    "assets/use/projects_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/use/projects_files/libs/quarto-html/anchor.min.js",
+    "assets/use/projects_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/use/projects_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/use/projects_files/libs/quarto-html/tippy.css",
+    "assets/use/projects_files/libs/quarto-html/popper.min.js",
+    "assets/use/projects_files/libs/quarto-html/quarto.js",
+    "assets/use/projects_files/libs/clipboard/clipboard.min.js",
+    "assets/use/projects_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/glossary_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/glossary_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/glossary_files/libs/bootstrap/bootstrap.min.js",
+    "assets/glossary_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/glossary_files/libs/quarto-html/anchor.min.js",
+    "assets/glossary_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/glossary_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/glossary_files/libs/quarto-html/tippy.css",
+    "assets/glossary_files/libs/quarto-html/popper.min.js",
+    "assets/glossary_files/libs/quarto-html/quarto.js",
+    "assets/glossary_files/libs/clipboard/clipboard.min.js",
+    "assets/glossary_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/sharp-bits-and-security_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/sharp-bits-and-security_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/sharp-bits-and-security_files/libs/bootstrap/bootstrap.min.js",
+    "assets/sharp-bits-and-security_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/sharp-bits-and-security_files/libs/quarto-html/anchor.min.js",
+    "assets/sharp-bits-and-security_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/sharp-bits-and-security_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/sharp-bits-and-security_files/libs/quarto-html/tippy.css",
+    "assets/sharp-bits-and-security_files/libs/quarto-html/popper.min.js",
+    "assets/sharp-bits-and-security_files/libs/quarto-html/quarto.js",
+    "assets/sharp-bits-and-security_files/libs/clipboard/clipboard.min.js",
+    "assets/sharp-bits-and-security_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/extend/adapters_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/extend/adapters_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/extend/adapters_files/libs/bootstrap/bootstrap.min.js",
+    "assets/extend/adapters_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/extend/adapters_files/libs/quarto-html/anchor.min.js",
+    "assets/extend/adapters_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/extend/adapters_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/extend/adapters_files/libs/quarto-html/tippy.css",
+    "assets/extend/adapters_files/libs/quarto-html/popper.min.js",
+    "assets/extend/adapters_files/libs/quarto-html/quarto.js",
+    "assets/extend/adapters_files/libs/clipboard/clipboard.min.js",
+    "assets/extend/adapters_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/extend/executors_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/extend/executors_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/extend/executors_files/libs/bootstrap/bootstrap.min.js",
+    "assets/extend/executors_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/extend/executors_files/libs/quarto-html/anchor.min.js",
+    "assets/extend/executors_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/extend/executors_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/extend/executors_files/libs/quarto-html/tippy.css",
+    "assets/extend/executors_files/libs/quarto-html/popper.min.js",
+    "assets/extend/executors_files/libs/quarto-html/quarto.js",
+    "assets/extend/executors_files/libs/clipboard/clipboard.min.js",
+    "assets/extend/executors_files/libs/quarto-html/tabsets/tabsets.js",
+    "assets/extend/codecs_files/libs/bootstrap/bootstrap-icons.woff",
+    "assets/extend/codecs_files/libs/bootstrap/bootstrap-icons.css",
+    "assets/extend/codecs_files/libs/bootstrap/bootstrap.min.js",
+    "assets/extend/codecs_files/libs/bootstrap/bootstrap-629a814643b520b416ddb88444eab353.min.css",
+    "assets/extend/codecs_files/libs/quarto-html/anchor.min.js",
+    "assets/extend/codecs_files/libs/quarto-html/tippy.umd.min.js",
+    "assets/extend/codecs_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css",
+    "assets/extend/codecs_files/libs/quarto-html/tippy.css",
+    "assets/extend/codecs_files/libs/quarto-html/popper.min.js",
+    "assets/extend/codecs_files/libs/quarto-html/quarto.js",
+    "assets/extend/codecs_files/libs/clipboard/clipboard.min.js",
+    "assets/extend/codecs_files/libs/quarto-html/tabsets/tabsets.js"
+  ],
+  "pages": [
+    {
+      "fragment": "fragments/extend/adapters.html",
+      "headings": [
+        {
+          "id": "dml-executable-request-and-response-contract",
+          "level": 2,
+          "text": "DML executable request and response contract"
+        },
+        {
+          "id": "delayed-authoring-and-contrib-adapters",
+          "level": 2,
+          "text": "Delayed authoring and contrib adapters"
+        },
+        {
+          "id": "contrib-hooks-and-registration",
+          "level": 2,
+          "text": "Contrib hooks and registration"
+        }
+      ],
+      "id": "extend/adapters",
+      "order": 1,
+      "title": "Adapters"
+    },
+    {
+      "fragment": "fragments/extend/codecs.html",
+      "headings": [
+        {
+          "id": "contract-and-normalization",
+          "level": 2,
+          "text": "Contract and normalization"
+        },
+        {
+          "id": "projection-normalization",
+          "level": 2,
+          "text": "Projection normalization"
+        },
+        {
+          "id": "register-package-and-inspect",
+          "level": 2,
+          "text": "Register, package, and inspect"
+        }
+      ],
+      "id": "extend/codecs",
+      "order": 0,
+      "title": "Codecs"
+    },
+    {
+      "fragment": "fragments/extend/executors.html",
+      "headings": [
+        {
+          "id": "registry-discovery-and-lowering",
+          "level": 2,
+          "text": "Registry, discovery, and lowering"
+        },
+        {
+          "id": "dispatch-and-lifecycle",
+          "level": 2,
+          "text": "Dispatch and lifecycle"
+        },
+        {
+          "id": "backend-implementation-and-built-ins",
+          "level": 2,
+          "text": "Backend implementation and built-ins"
+        }
+      ],
+      "id": "extend/executors",
+      "order": 2,
+      "title": "Executors"
+    },
+    {
+      "fragment": "fragments/glossary.html",
+      "headings": [],
+      "id": "glossary",
+      "order": 3,
+      "title": "Glossary"
+    },
+    {
+      "fragment": "fragments/sharp-bits-and-security.html",
+      "headings": [
+        {
+          "id": "sharp-bits",
+          "level": 2,
+          "text": "Sharp bits"
+        },
+        {
+          "id": "a-repository-without-remote.root-is-read-only",
+          "level": 3,
+          "text": "A repository without remote.root is read-only"
+        },
+        {
+          "id": "reconstructing-a-frozen-dag-can-lose-commit-metadata",
+          "level": 3,
+          "text": "Reconstructing a frozen DAG can lose commit metadata"
+        },
+        {
+          "id": "dagclass-dependency-inference-does-not-analyze-control-flow-or-item-access",
+          "level": 3,
+          "text": "Dagclass dependency inference does not analyze control flow or item access"
+        },
+        {
+          "id": "editable-dependency-changes-do-not-affect-a-funk-cache-key",
+          "level": 3,
+          "text": "Editable dependency changes do not affect a funk cache key"
+        },
+        {
+          "id": "do-not-run-administrative-work-while-pulling",
+          "level": 3,
+          "text": "Do not run administrative work while pulling"
+        },
+        {
+          "id": "shallow-history-limits-ancestry-operations",
+          "level": 3,
+          "text": "Shallow history limits ancestry operations"
+        },
+        {
+          "id": "known-security-holes",
+          "level": 2,
+          "text": "Known security holes"
+        },
+        {
+          "id": "dashboard-remote-binding-exposes-repository-metadata",
+          "level": 3,
+          "text": "Dashboard remote binding exposes repository metadata"
+        },
+        {
+          "id": "runnable-adapters-can-launch-arbitrary-local-executables",
+          "level": 3,
+          "text": "Runnable adapters can launch arbitrary local executables"
+        },
+        {
+          "id": "tar-archives-can-write-outside-their-extraction-destination",
+          "level": 3,
+          "text": "Tar archives can write outside their extraction destination"
+        },
+        {
+          "id": "hash-derived-object-names-are-not-verified-when-read",
+          "level": 3,
+          "text": "Hash-derived object names are not verified when read"
+        },
+        {
+          "id": "remote-cas-dependencies-are-traversed-before-identity-verification",
+          "level": 3,
+          "text": "Remote CAS dependencies are traversed before identity verification"
+        },
+        {
+          "id": "ssh-flags-can-run-commands-on-the-local-execution-host",
+          "level": 3,
+          "text": "SSH flags can run commands on the local execution host"
+        }
+      ],
+      "id": "sharp-bits-and-security",
+      "order": 4,
+      "title": "Sharp bits and security"
+    },
+    {
+      "fragment": "fragments/start-here/dagclasses.html",
+      "headings": [
+        {
+          "id": "start-with-constructor-values-and-an-entrypoint",
+          "level": 2,
+          "text": "Start with constructor values and an entrypoint"
+        },
+        {
+          "id": "compose-methods-and-name-intermediate-nodes",
+          "level": 2,
+          "text": "Compose methods and name intermediate nodes"
+        },
+        {
+          "id": "reuse-a-compiled-entrypoint-in-another-dag",
+          "level": 2,
+          "text": "Reuse a compiled entrypoint in another DAG"
+        },
+        {
+          "id": "nest-dagclasses-and-use-comprehensions",
+          "level": 2,
+          "text": "Nest dagclasses and use comprehensions"
+        },
+        {
+          "id": "choose-a-different-entrypoint",
+          "level": 2,
+          "text": "Choose a different entrypoint"
+        },
+        {
+          "id": "import-a-committed-result-lazily",
+          "level": 2,
+          "text": "Import a committed result lazily"
+        },
+        {
+          "id": "bind-an-existing-funk-into-the-class-namespace",
+          "level": 2,
+          "text": "Bind an existing funk into the class namespace"
+        },
+        {
+          "id": "decorate-a-method-for-another-executor",
+          "level": 2,
+          "text": "Decorate a method for another executor"
+        },
+        {
+          "id": "catch-dependency-mistakes-during-compilation",
+          "level": 2,
+          "text": "Catch dependency mistakes during compilation"
+        },
+        {
+          "id": "keep-dependency-syntax-direct",
+          "level": 2,
+          "text": "Keep dependency syntax direct"
+        },
+        {
+          "id": "references",
+          "level": 2,
+          "text": "References"
+        }
+      ],
+      "id": "start-here/dagclasses",
+      "order": 9,
+      "title": "Dagclasses"
+    },
+    {
+      "fragment": "fragments/start-here/dags.html",
+      "headings": [
+        {
+          "id": "put-values-in-the-dag",
+          "level": 2,
+          "text": "Put values in the DAG"
+        },
+        {
+          "id": "access-collections",
+          "level": 2,
+          "text": "Access collections"
+        },
+        {
+          "id": "call-a-node",
+          "level": 2,
+          "text": "Call a node"
+        },
+        {
+          "id": "references",
+          "level": 2,
+          "text": "References"
+        }
+      ],
+      "id": "start-here/dags",
+      "order": 7,
+      "title": "DAGs"
+    },
+    {
+      "fragment": "fragments/start-here/funks.html",
+      "headings": [
+        {
+          "id": "package-a-python-function",
+          "level": 2,
+          "text": "Package a Python function"
+        },
+        {
+          "id": "make-source-dependencies-explicit",
+          "level": 2,
+          "text": "Make source dependencies explicit"
+        },
+        {
+          "id": "how-funkify-serializes",
+          "level": 3,
+          "text": "How funkify serializes"
+        },
+        {
+          "id": "compose-funks-with-prepop",
+          "level": 2,
+          "text": "Compose funks with prepop"
+        },
+        {
+          "id": "choose-and-stack-executors",
+          "level": 2,
+          "text": "Choose and stack executors"
+        },
+        {
+          "id": "put-and-call-funks",
+          "level": 2,
+          "text": "Put and call funks"
+        },
+        {
+          "id": "errors-remain-inspectable",
+          "level": 2,
+          "text": "Errors remain inspectable"
+        },
+        {
+          "id": "commit-the-useful-results",
+          "level": 2,
+          "text": "Commit the useful results"
+        },
+        {
+          "id": "test-function-logic-without-a-runtime",
+          "level": 2,
+          "text": "Test function logic without a runtime"
+        },
+        {
+          "id": "inspect-caching-and-execution-dags",
+          "level": 2,
+          "text": "Inspect caching and execution DAGs"
+        },
+        {
+          "id": "what-funkify-controls",
+          "level": 2,
+          "text": "What funkify controls"
+        },
+        {
+          "id": "references",
+          "level": 2,
+          "text": "References"
+        }
+      ],
+      "id": "start-here/funks",
+      "order": 8,
+      "title": "Funks"
+    },
+    {
+      "fragment": "fragments/start-here/get-started.html",
+      "headings": [],
+      "id": "start-here/get-started",
+      "order": 6,
+      "title": "Get started"
+    },
+    {
+      "fragment": "fragments/start-here.html",
+      "headings": [
+        {
+          "id": "start-here",
+          "level": 3,
+          "text": "Start here"
+        },
+        {
+          "id": "use-daggerml",
+          "level": 3,
+          "text": "Use DaggerML"
+        },
+        {
+          "id": "build-integrations",
+          "level": 3,
+          "text": "Build integrations"
+        },
+        {
+          "id": "contribute-to-daggerml",
+          "level": 3,
+          "text": "Contribute to DaggerML"
+        },
+        {
+          "id": "keep-close-at-hand",
+          "level": 3,
+          "text": "Keep close at hand"
+        },
+        {
+          "id": "references",
+          "level": 2,
+          "text": "References"
+        }
+      ],
+      "id": "start-here",
+      "order": 5,
+      "title": "DaggerML"
+    },
+    {
+      "fragment": "fragments/use/artifacts.html",
+      "headings": [
+        {
+          "id": "record-inputs",
+          "level": 2,
+          "text": "Record inputs"
+        },
+        {
+          "id": "choose-a-durable-representation",
+          "level": 2,
+          "text": "Choose a durable representation"
+        }
+      ],
+      "id": "use/artifacts",
+      "order": 11,
+      "title": "Artifacts"
+    },
+    {
+      "fragment": "fragments/use/execution.html",
+      "headings": [
+        {
+          "id": "run-self-contained-script-work",
+          "level": 2,
+          "text": "Run self-contained script work"
+        },
+        {
+          "id": "compose-docker-work",
+          "level": 2,
+          "text": "Compose Docker work"
+        }
+      ],
+      "id": "use/execution",
+      "order": 12,
+      "title": "Execution"
+    },
+    {
+      "fragment": "fragments/use/inspection.html",
+      "headings": [
+        {
+          "id": "inspect-results-and-provenance",
+          "level": 2,
+          "text": "Inspect results and provenance"
+        },
+        {
+          "id": "inspect-collection-selections",
+          "level": 2,
+          "text": "Inspect collection selections"
+        },
+        {
+          "id": "read-runnables-and-failures",
+          "level": 2,
+          "text": "Read runnables and failures"
+        },
+        {
+          "id": "inspect-in-the-dashboard",
+          "level": 2,
+          "text": "Inspect in the dashboard"
+        }
+      ],
+      "id": "use/inspection",
+      "order": 13,
+      "title": "Inspection"
+    },
+    {
+      "fragment": "fragments/use/projects.html",
+      "headings": [
+        {
+          "id": "inspect-and-configure-the-course-project",
+          "level": 2,
+          "text": "Inspect and configure the course project"
+        },
+        {
+          "id": "open-durable-and-temporary-state",
+          "level": 2,
+          "text": "Open durable and temporary state"
+        }
+      ],
+      "id": "use/projects",
+      "order": 10,
+      "title": "Projects"
+    },
+    {
+      "fragment": "fragments/use/runtimes.html",
+      "headings": [
+        {
+          "id": "freeze-and-resume-authoring",
+          "level": 2,
+          "text": "Freeze and resume authoring"
+        },
+        {
+          "id": "inspect-cancel-and-refresh-deliberately",
+          "level": 2,
+          "text": "Inspect, cancel, and refresh deliberately"
+        }
+      ],
+      "id": "use/runtimes",
+      "order": 14,
+      "title": "Runtimes"
+    },
+    {
+      "fragment": "fragments/use/sharing.html",
+      "headings": [
+        {
+          "id": "publish-and-inspect-history",
+          "level": 2,
+          "text": "Publish and inspect history"
+        },
+        {
+          "id": "reuse-from-satellite-projects",
+          "level": 2,
+          "text": "Reuse from satellite projects"
+        }
+      ],
+      "id": "use/sharing",
+      "order": 15,
+      "title": "Sharing"
+    }
+  ]
+}

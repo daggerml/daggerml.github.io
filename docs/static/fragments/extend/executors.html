@@ -1,0 +1,85 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Executors</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Executors are a contrib invention for implementing backend behavior behind an <a href="/docs/extend/adapters">AdapterBase</a> adapter. Core dispatches only to an adapter executable; it neither discovers executors nor imports <code>ExecutorBase</code>.</p>
+<section id="registry-discovery-and-lowering" class="level2">
+<h2 class="anchored" data-anchor-id="registry-discovery-and-lowering">Registry, discovery, and lowering</h2>
+<p>The contrib registry discovers executor entry points by <code>(adapter name, input executor name)</code>. <code>AdapterBase.resolve_runnable(uri, kwargs, sub)</code> looks up <code>(adapter name, uri)</code> before resolution; the entry-point key is descriptive, but lookup uses <code>MyExecutor.adapter</code> and <code>MyExecutor.name</code>. Discovery is lazy, retains loaded objects, warns on duplicate keys with the last registration winning, and raises <code>DmlRepoError</code> if an entry point fails while loading.</p>
+<p>An executor’s <code>resolve_runnable()</code> validates backend options and nesting, normalizes kwargs, and returns a <code>Runnable</code> with its target URI, optional nested runnable, and adapter executable. The executable must be available to the runtime process on <code>PATH</code> or as a fully specified path.</p>
+<p>For example, the built-in Batch executor is looked up with the input name <code>batch</code> under adapter <code>lambda</code>, but resolves its <code>Runnable.target</code> to the <code>lambda_uri</code> option. Its output adapter is <code>dml-lambda-adapter</code>; core still requires that executable locally, and it synchronously invokes the deployed Lambda.</p>
+<!-- docs:pseudocode: This metadata belongs in an installable executor distribution. -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.entry-points."</span><span class="dt">daggerml.contrib.executors"</span><span class="kw">]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">example_backend</span> <span class="op">=</span> <span class="st">"my_package.executor:ExampleExecutor"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7292fc1d" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.status <span class="im">import</span> status</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>executor_keys <span class="op">=</span> {item[<span class="st">"key"</span>] <span class="cf">for</span> item <span class="kw">in</span> status()[<span class="st">"executors"</span>]}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> {<span class="st">"local:script"</span>, <span class="st">"local:docker"</span>, <span class="st">"local:ssh"</span>} <span class="op">&lt;=</span> executor_keys</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="dispatch-and-lifecycle" class="level2">
+<h2 class="anchored" data-anchor-id="dispatch-and-lifecycle">Dispatch and lifecycle</h2>
+<p><code>ExecutorBase</code> creates a fresh instance for every <code>handle()</code> call. <code>handle()</code> accepts only invoke, cleanup, and cancel, validates the adapter request and response schemas, and dispatches invoke without <code>adapter_state</code> to <code>start</code> or invoke with saved object state to <code>poll</code>. Cleanup calls <code>cleanup</code>; cancel calls <code>cancel</code>, regardless of state. Repeated <code>operation="invoke"</code> performs polling; there is no wire <code>poll</code> operation.</p>
+<div id="82ef07cd" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml <span class="im">import</span> Runnable, Uri</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.executors <span class="im">import</span> ExecutorBase</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExampleExecutor(ExecutorBase):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"example"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    adapter <span class="op">=</span> <span class="st">"example"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> resolve_runnable(cls, uri, kwargs, sub):</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Runnable(target<span class="op">=</span>Uri(uri), kwargs<span class="op">=</span>kwargs, sub<span class="op">=</span>sub, adapter<span class="op">=</span><span class="st">"example-adapter"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> start(<span class="va">self</span>, cache_key, execution_id, runnable, remote, scratch_uri):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> remote[<span class="st">"root"</span>] <span class="op">==</span> <span class="st">"s3://example/root"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"status"</span>: <span class="st">"retry"</span>, <span class="st">"adapter_state"</span>: {<span class="st">"job"</span>: <span class="st">"1"</span>}, <span class="st">"error"</span>: <span class="va">None</span>}</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> poll(<span class="va">self</span>, cache_key, execution_id, runnable, state, remote, scratch_uri):</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"status"</span>: <span class="st">"retry"</span>, <span class="st">"adapter_state"</span>: state, <span class="st">"error"</span>: <span class="va">None</span>}</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>payload <span class="op">=</span> {</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"operation"</span>: <span class="st">"invoke"</span>, <span class="st">"cache_key"</span>: <span class="st">"cache"</span>, <span class="st">"execution_id"</span>: <span class="st">"execution"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"remote"</span>: {<span class="st">"root"</span>: <span class="st">"s3://example/root"</span>}, <span class="st">"runnable"</span>: {<span class="st">"target"</span>: {<span class="st">"uri"</span>: <span class="st">"example"</span>}},</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"adapter_state"</span>: <span class="va">None</span>, <span class="st">"scratch_uri"</span>: <span class="st">"s3://example/scratch"</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ExampleExecutor.handle(<span class="op">**</span>payload)[<span class="st">"adapter_state"</span>] <span class="op">==</span> {<span class="st">"job"</span>: <span class="st">"1"</span>}</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ExampleExecutor.handle(<span class="op">**</span>{<span class="op">**</span>payload, <span class="st">"adapter_state"</span>: {<span class="st">"job"</span>: <span class="st">"1"</span>}})[<span class="st">"status"</span>] <span class="op">==</span> <span class="st">"retry"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is a minimal resolve-and-dispatch illustration, not a complete deployable backend.</p>
+<p><code>start(cache_key, execution_id, runnable, remote, scratch_uri)</code> launches work or returns a terminal response. <code>poll(..., state, ...)</code> idempotently checks the work using only durable state. An asynchronous response is <code>{"status": "retry", "adapter_state": {...}, "error": None}</code> and may include <code>retry_after_ms</code>; later fresh processes receive that saved state. Repeated calls for an execution ID must therefore be safe status checks, not repeated launches.</p>
+<p>The runtime independently publishes normal results and owns lifecycle/cache updates. Invoke success is valid only once a result is published. <code>cleanup(..., state, ..., result_ref)</code> is idempotent normal teardown after publication; it may retry but must not publish, alter, or invalidate the result. Do not put required teardown only in terminal <code>poll</code>, because publication can stop further invokes. The runtime gives eligible cleanup one call before returning a fresh or cached terminal result, without synchronously waiting for cleanup retries.</p>
+<p><code>cancel(..., cancel_requested_by, argv_ref)</code> is called only after the runtime selects <code>cancel-pending</code>. Return <code>cancelled</code> only after backend teardown; repeated cancel must be safe, and the runtime—not the executor—performs the CAS transition to <code>canceled</code>. Return retry with durable state while cancellation is incomplete.</p>
+</section>
+<section id="backend-implementation-and-built-ins" class="level2">
+<h2 class="anchored" data-anchor-id="backend-implementation-and-built-ins">Backend implementation and built-ins</h2>
+<p>A leaf <code>script</code> executor serializes a global function and accepts no <code>sub</code>. Only its source plus explicitly supplied <code>extra_objs</code> and <code>post_lines</code> reaches the worker: imports and globals from the authoring module do not. SSH forwards invoke, cleanup, and cancel operations to its nested adapter. Docker and Batch are wrappers that own detached job state and resource teardown while their nested adapter runs in the detached environment.</p>
+<p>Use the supplied remote scratch URI for detached input/output, not process-local handoff state. Runtime coordination records own durable execution state, shared retry timing, locking, result, lineage, cancellation, and invalidation. <code>S3Store</code> under <code>remote.root/data/</code> is only for integration-owned artifacts.</p>
+<p>Built-ins are <code>script</code>/local, <code>docker</code>/local, <code>ssh</code>/local, and <code>batch</code>/lambda. Docker needs an image; SSH needs a nonempty host; Batch needs a Lambda URI, image, and <code>CPU_QUEUE</code> or <code>GPU_QUEUE</code> plus <code>BATCH_TASK_ROLE_ARN</code> deployment configuration. Docker can load a compressed S3 image tar; <code>docker_build</code> either uploads that artifact or pushes a repository tag and best-effort removes its temporary local image.</p>
+<p>The script worker writes the rendered source as <code>_daggerml_live.py</code>, imports it as the top-level <code>_daggerml_live</code> module, and supplies normal module metadata. It injects a DEBUG <code>_daggerml_live</code> logger whose stderr is captured by the supervisor without enabling DEBUG output for dependency loggers. Put imports inside the function, include inspectable helpers in <code>extra_objs</code>, or use <code>post_lines</code> deliberately; ambient authoring globals are never transferred.</p>
+<p>SSH requires a reachable host and its nested adapter executable. Docker requires a Docker daemon and an image. Batch requires deployed Lambda and Batch infrastructure, including <code>CPU_QUEUE</code> or <code>GPU_QUEUE</code> and <code>BATCH_TASK_ROLE_ARN</code>.</p>
+</section>
+
+</main>

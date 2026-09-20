@@ -1,0 +1,57 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Projects</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The Start here course created this <code>research-demo</code> project and committed its <code>docs-image</code>, <code>funks</code>, and dagclass results. A project is a directory whose <code>.dml/</code> state contains the local database, checkout, and project configuration. Use the CLI to administer it; Python opens the existing project to author or read research.</p>
+<section id="inspect-and-configure-the-course-project" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-and-configure-the-course-project">Inspect and configure the course project</h2>
+<p>The documentation fixture owns a disposable Moto S3 endpoint. Configure that endpoint as this project’s single synchronization, script-execution, cache, and artifact endpoint. The assertions make the durable starting state explicit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> status <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.branch == "main"'</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.dags["docs-image"] and .dags.funks and .dags["number-pipeline"]'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> config set remote.root <span class="st">"</span><span class="va">$DML_REMOTE_ROOT</span><span class="st">"</span> <span class="op">&gt;</span>/dev/null</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> config show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="at">--arg</span> root <span class="st">"</span><span class="va">$DML_REMOTE_ROOT</span><span class="st">"</span> <span class="st">'.remote.root == $root'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>true
+true
+true</code></pre>
+</div>
+</div>
+<p>Configuration precedence is defaults, global configuration, project <code>.dml/config.json</code>, environment variables, then explicit CLI or Python overrides. Important project settings include <code>default.branch_name</code>, <code>default.db_map_size_headroom</code>, <code>default.db_map_size_max</code>, <code>remote.root</code>, <code>remote.fetch_workers</code>, and <code>user</code>. <code>remote.root</code> is not a dependency registry: add an import-only endpoint later with <code>dml dep add NAME ROOT</code>.</p>
+</section>
+<section id="open-durable-and-temporary-state" class="level2">
+<h2 class="anchored" data-anchor-id="open-durable-and-temporary-state">Open durable and temporary state</h2>
+<p>Python’s default session opens this initialized project. <code>Dml(project_home=...)</code> opens another existing project; use <code>dml init</code> rather than <code>Dml.init()</code> for the normal researcher workflow.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> daggerml <span class="im">as</span> dml</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> dml.load(<span class="st">"funks"</span>).result[<span class="st">"first"</span>].value() <span class="op">==</span> {<span class="st">"count"</span>: <span class="dv">3</span>, <span class="st">"total"</span>: <span class="dv">10</span>}</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dml.temporary() <span class="im">as</span> temporary:</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> dml.new(<span class="st">"scratch"</span>, dml<span class="op">=</span>temporary) <span class="im">as</span> dag:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        result <span class="op">=</span> dag.put(<span class="st">"ephemeral"</span>, name<span class="op">=</span><span class="st">"note"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        dag.commit(result)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> dml.load(<span class="st">"scratch"</span>, dml<span class="op">=</span>temporary).result.value() <span class="op">==</span> <span class="st">"ephemeral"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>dml.temporary()</code> creates an initialized isolated project and removes its state when the context exits. Use it for experiments and tests, not results that must be retained or shared. Continue with <a href="/docs/use/artifacts">Artifacts</a>, which records a durable input in this configured project.</p>
+</section>
+
+</main>

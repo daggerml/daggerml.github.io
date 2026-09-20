@@ -1,0 +1,158 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Adapters</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>An adapter is the executable boundary between DaggerML core and a backend. This page follows <a href="/docs/extend/codecs">Codecs</a>; <a href="/docs/extend/executors">Executors</a> documents the optional contrib implementation used by the built-in adapters.</p>
+<section id="dml-executable-request-and-response-contract" class="level2">
+<h2 class="anchored" data-anchor-id="dml-executable-request-and-response-contract">DML executable request and response contract</h2>
+<p>For a non-builtin <code>Runnable</code>, core locates <code>runnable.adapter</code> as an executable on <code>PATH</code> (or uses a fully specified executable path), writes one JSON request to its standard input, and reads one JSON response from standard output. Core does not import adapter plugins or know a contrib <code>Executor</code> abstraction at runtime. An adapter executable is therefore any CLI script that implements this stdin/stdout contract; it need not use <code>AdapterBase</code>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operation</th>
+<th>Exact fields</th>
+<th>Success status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>invoke</td>
+<td><code>operation</code>, <code>cache_key</code>, <code>execution_id</code>, <code>remote</code>, <code>runnable</code>, <code>adapter_state</code>, <code>scratch_uri</code></td>
+<td><code>success</code></td>
+</tr>
+<tr class="even">
+<td>cleanup</td>
+<td>invoke fields plus <code>result_ref</code></td>
+<td><code>success</code></td>
+</tr>
+<tr class="odd">
+<td>cancel</td>
+<td>invoke fields plus <code>argv_ref</code>, <code>requested_by</code></td>
+<td><code>cancelled</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>remote</code> is exactly <code>{"root": str}</code>; identifiers and <code>scratch_uri</code> are nonempty strings. Cleanup requires a DAG <code>result_ref</code>; cancel requires a <code>node-argv</code> <code>argv_ref</code>, while <code>requested_by</code> is a string or null. Invoke and cleanup return <code>success</code>, <code>retry</code>, or a nonempty failure code. Retry requires object <code>adapter_state</code> and may include nonnegative <code>retry_after_ms</code>; failure requires diagnostics. Cancel returns <code>cancelled</code>, <code>retry</code>, or failure. The runtime owns state persistence, result publication, lifecycle transitions, cache pointers, and cancellation coordination—an executable must not mutate them.</p>
+<!-- docs:pseudocode: Field names are the exact JSON wire schemas; values are runtime-generated. -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"operation"</span><span class="fu">:</span><span class="st">"invoke"</span><span class="fu">,</span><span class="dt">"cache_key"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"execution_id"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"remote"</span><span class="fu">:{</span><span class="dt">"root"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">},</span><span class="dt">"runnable"</span><span class="fu">:{},</span><span class="dt">"adapter_state"</span><span class="fu">:</span><span class="kw">null</span><span class="fu">,</span><span class="dt">"scratch_uri"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"operation"</span><span class="fu">:</span><span class="st">"cleanup"</span><span class="fu">,</span><span class="dt">"cache_key"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"execution_id"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"remote"</span><span class="fu">:{</span><span class="dt">"root"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">},</span><span class="dt">"runnable"</span><span class="fu">:{},</span><span class="dt">"adapter_state"</span><span class="fu">:{},</span><span class="dt">"scratch_uri"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"result_ref"</span><span class="fu">:</span><span class="st">"dag:..."</span><span class="fu">}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"operation"</span><span class="fu">:</span><span class="st">"cancel"</span><span class="fu">,</span><span class="dt">"cache_key"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"execution_id"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"argv_ref"</span><span class="fu">:</span><span class="st">"node-argv:..."</span><span class="fu">,</span><span class="dt">"remote"</span><span class="fu">:{</span><span class="dt">"root"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">},</span><span class="dt">"runnable"</span><span class="fu">:{},</span><span class="dt">"adapter_state"</span><span class="fu">:{},</span><span class="dt">"scratch_uri"</span><span class="fu">:</span><span class="st">"..."</span><span class="fu">,</span><span class="dt">"requested_by"</span><span class="fu">:</span><span class="kw">null</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!-- docs:pseudocode: These JSON response schemas describe runtime-generated protocol values. -->
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"status"</span><span class="fu">:</span> <span class="st">"retry"</span><span class="fu">,</span> <span class="dt">"adapter_state"</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">"retry_after_ms"</span><span class="fu">:</span> <span class="dv">1000</span><span class="fu">,</span> <span class="dt">"error"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"status"</span><span class="fu">:</span> <span class="st">"success"</span><span class="fu">,</span> <span class="dt">"adapter_state"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">,</span> <span class="dt">"error"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">}</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"status"</span><span class="fu">:</span> <span class="st">"provider-error"</span><span class="fu">,</span> <span class="dt">"adapter_state"</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">"error"</span><span class="fu">:</span> <span class="st">"diagnostic"</span><span class="fu">}</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"status"</span><span class="fu">:</span> <span class="st">"cancelled"</span><span class="fu">,</span> <span class="dt">"adapter_state"</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">"error"</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There is no wire <code>poll</code> operation. Repeated <code>invoke</code> requests carry saved <code>adapter_state</code>.</p>
+</section>
+<section id="delayed-authoring-and-contrib-adapters" class="level2">
+<h2 class="anchored" data-anchor-id="delayed-authoring-and-contrib-adapters">Delayed authoring and contrib adapters</h2>
+<p><code>funkify()</code> creates a <code>DelayedRunnable</code>. When a DAG stages it, the delayed-action codec looks up its <strong>logical adapter key</strong> and calls that adapter’s <code>resolve_runnable(uri, kwargs, sub)</code>. An adapter may construct the concrete <code>Runnable</code> directly. <code>AdapterBase</code> is a contrib semi-implementation: its default <code>resolve_runnable()</code> can optionally delegate to an executor; see <a href="/docs/extend/executors">Executors</a> for that contrib convention.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Identity</th>
+<th>Example</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>logical adapter key</td>
+<td><code>local</code></td>
+<td>delayed authoring and adapter registry</td>
+</tr>
+<tr class="even">
+<td>target URI</td>
+<td><code>script</code></td>
+<td>adapter or delegated executor resolution</td>
+</tr>
+<tr class="odd">
+<td>adapter executable</td>
+<td><code>dml-local-adapter</code></td>
+<td>core runtime process dispatch</td>
+</tr>
+</tbody>
+</table>
+<p>Contrib plugin distributions are needed where delayed work is authored and lowered. The selected adapter executable must be available to the runtime process; a Lambda adapter additionally needs its target Lambda deployed.</p>
+<p>This minimal hook illustration constructs the <code>Runnable</code> directly; it is not a complete deployable backend.</p>
+<div id="9e6328ce" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml <span class="im">import</span> Runnable, Uri</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.adapters <span class="im">import</span> AdapterBase</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExampleAdapter(AdapterBase):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> <span class="st">"example"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> resolve_runnable(cls, uri, kwargs, sub):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Runnable(target<span class="op">=</span>Uri(uri), kwargs<span class="op">=</span>kwargs, sub<span class="op">=</span>sub, adapter<span class="op">=</span><span class="st">"example-adapter"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> send(cls, <span class="op">**</span>payload):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> payload[<span class="st">"operation"</span>] <span class="op">==</span> <span class="st">"invoke"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">"status"</span>: <span class="st">"retry"</span>, <span class="st">"adapter_state"</span>: {<span class="st">"job"</span>: <span class="st">"example"</span>}, <span class="st">"error"</span>: <span class="va">None</span>}</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>runnable <span class="op">=</span> ExampleAdapter.resolve_runnable(<span class="st">"example:job"</span>, {<span class="st">"queue"</span>: <span class="st">"short"</span>}, <span class="va">None</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> runnable.target <span class="op">==</span> Uri(<span class="st">"example:job"</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> runnable.adapter <span class="op">==</span> <span class="st">"example-adapter"</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ExampleAdapter.send(</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    operation<span class="op">=</span><span class="st">"invoke"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    cache_key<span class="op">=</span><span class="st">"cache"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    execution_id<span class="op">=</span><span class="st">"execution"</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    remote<span class="op">=</span>{<span class="st">"root"</span>: <span class="st">"s3://example/root"</span>},</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    runnable<span class="op">=</span>{<span class="st">"target"</span>: {<span class="st">"uri"</span>: <span class="st">"example:job"</span>}},</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    adapter_state<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    scratch_uri<span class="op">=</span><span class="st">"s3://example/scratch"</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> response <span class="op">==</span> {<span class="st">"status"</span>: <span class="st">"retry"</span>, <span class="st">"adapter_state"</span>: {<span class="st">"job"</span>: <span class="st">"example"</span>}, <span class="st">"error"</span>: <span class="va">None</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="52dfd486" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.adapters <span class="im">import</span> list_adapters</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> {<span class="st">"local"</span>, <span class="st">"lambda"</span>} <span class="op">&lt;=</span> <span class="bu">set</span>(list_adapters())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="contrib-hooks-and-registration" class="level2">
+<h2 class="anchored" data-anchor-id="contrib-hooks-and-registration">Contrib hooks and registration</h2>
+<p><code>AdapterBase</code> supplies three hooks: <code>resolve_runnable()</code> optionally delegates to the contrib default described on <a href="/docs/extend/executors">Executors</a>, <code>send(**payload)</code> performs one transport operation, and <code>cli()</code> exposes <code>send()</code> as an executable.</p>
+<p><code>AdapterBase.cli()</code> reads JSON from <code>-i</code>/<code>--input</code> and writes JSON to <code>-o</code>/<code>--output</code>; each accepts <code>-</code>, a local path, or an S3 URI. <code>--poll</code> is an ephemeral helper for a nested Docker or Batch adapter: it repeats <strong>invoke</strong> on <code>retry</code>, then drives nested cleanup after success. It never sends <code>operation="poll"</code> and cannot coordinate cancellation.</p>
+<p>Register one class per installed entry point. The entry-point key is descriptive; lookup uses the class’s <code>name</code>. Discovery is lazy, retains loaded objects, warns on duplicates with the last registration winning, and raises <code>DmlRepoError</code> on a failed entry point without completing loading. <code>daggerml.contrib.status.status()</code> provides JSON-safe registrations and diagnostics.</p>
+<!-- docs:pseudocode: Package metadata and cloud deployment require an installed integration distribution. -->
+<div class="sourceCode" id="cb5"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.entry-points."</span><span class="dt">daggerml.contrib.adapters"</span><span class="kw">]</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">example_transport</span> <span class="op">=</span> <span class="st">"my_package.adapter:ExampleAdapter"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.scripts]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">example-adapter</span> <span class="op">=</span> <span class="st">"my_package.adapter:ExampleAdapter.cli"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Install plugin distributions for authoring and lowering and deploy the selected adapter executable for runtime dispatch. A Lambda transport also requires a deployed function that accepts and returns the same JSON payload.</p>
+</section>
+
+</main>

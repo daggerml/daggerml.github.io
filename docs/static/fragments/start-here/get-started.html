@@ -1,0 +1,36 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Get started</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>DaggerML requires Python 3.11 or later. Install it, then create a project with the CLI.</p>
+<!-- docs:pseudocode: reader installation command; the docs build must use the current repository environment rather than install a released package. -->
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install daggerml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> research-demo</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> research-demo</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{"ahead":null,"behind":null,"branch":"main","branches":[],"commit":null,"mode":"attached","num_indexes":0,"upstream":null}</code></pre>
+</div>
+</div>
+<p>The commands remain in one shell block so <code>dml init</code> runs inside the new <code>research-demo</code> directory. It creates <code>.dml/</code> there. The next page uses that same project to create and query a live DAG.</p>
+<p>Continue with <a href="/docs/start-here/dags">DAGs</a>. Use <code>dml --help</code> for generated command details; the ordered <a href="/docs/use/projects">Use course</a> applies administrative commands in their project, runtime, and sharing workflows.</p>
+
+</main>

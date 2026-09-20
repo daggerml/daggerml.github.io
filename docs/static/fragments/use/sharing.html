@@ -1,0 +1,97 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sharing</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Commits are trees of named DAG snapshots. Branches and tags point to commits; <code>HEAD</code> selects the checkout. This page publishes the completed course project to the fixture-owned Moto remote, then uses separate satellite projects for reuse and shallow-history operations.</p>
+<section id="publish-and-inspect-history" class="level2">
+<h2 class="anchored" data-anchor-id="publish-and-inspect-history">Publish and inspect history</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> log <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'length &gt; 0'</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.dags["course-execution"] and .dags["course-artifacts"]'</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> tag create course-v1 <span class="op">&gt;</span>/dev/null</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> tag list <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.[] | select(.name == "course-v1")'</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> config show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="at">--arg</span> root <span class="st">"</span><span class="va">$DML_REMOTE_ROOT</span><span class="st">"</span> <span class="st">'.remote.root == $root'</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> push <span class="op">&gt;</span>/dev/null</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> branch list <span class="at">--remote</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.[] | select(.name == "main")'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>true
+true
+{
+  "commit": "commit:11c14855ca3079b2827b616563813e7eab98477777e61d2ae21798bd13ee3a6c",
+  "name": "course-v1"
+}
+true
+{
+  "commit": "commit:11c14855ca3079b2827b616563813e7eab98477777e61d2ae21798bd13ee3a6c",
+  "name": "main"
+}</code></pre>
+</div>
+</div>
+<p><code>dml log</code>, <code>show</code>, and <code>diff</code> inspect history; branches can have one upstream, while tags do not. <code>push</code> publishes the current attached branch to its upstream; the local tag remains an exact name for the course commit. Endpoint listing is read-only: it does not fetch commits or update local tracking refs.</p>
+</section>
+<section id="reuse-from-satellite-projects" class="level2">
+<h2 class="anchored" data-anchor-id="reuse-from-satellite-projects">Reuse from satellite projects</h2>
+<p>The satellites are deliberately outside <code>research-demo</code>, so fetch, dependency, and shallow-history exercises cannot disturb the course project.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">reuse_home</span><span class="op">=</span><span class="st">"</span><span class="va">$DOCS_WORKSPACE_ROOT</span><span class="st">/course-reuse"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">dep_home</span><span class="op">=</span><span class="st">"</span><span class="va">$DOCS_WORKSPACE_ROOT</span><span class="st">/course-dependency"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">shallow_home</span><span class="op">=</span><span class="st">"</span><span class="va">$DOCS_WORKSPACE_ROOT</span><span class="st">/course-shallow"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="st">"</span><span class="va">$reuse_home</span><span class="st">"</span> <span class="st">"</span><span class="va">$dep_home</span><span class="st">"</span> <span class="st">"</span><span class="va">$shallow_home</span><span class="st">"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="bu">cd</span> <span class="st">"</span><span class="va">$reuse_home</span><span class="st">"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> init</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> config set remote.root <span class="st">"</span><span class="va">$DML_REMOTE_ROOT</span><span class="st">"</span> <span class="op">&gt;</span>/dev/null</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> fetch main <span class="op">&gt;</span>/dev/null</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> dag checkout main course-execution <span class="at">--remote</span> <span class="at">--name</span> reused-execution</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.dags["reused-execution"]'</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="bu">cd</span> <span class="st">"</span><span class="va">$dep_home</span><span class="st">"</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> init</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> dep add tutorial <span class="st">"</span><span class="va">$DML_REMOTE_ROOT</span><span class="st">"</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> fetch <span class="at">--dep</span> tutorial main <span class="op">&gt;</span>/dev/null</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> dag checkout main course-artifacts <span class="at">--dep</span> tutorial <span class="at">--name</span> dependency-artifacts</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.dags["dependency-artifacts"]'</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="bu">cd</span> <span class="st">"</span><span class="va">$shallow_home</span><span class="st">"</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> <span class="at">--remote-root</span> <span class="st">"</span><span class="va">$DML_REMOTE_ROOT</span><span class="st">"</span> clone main <span class="at">--depth</span> 1 <span class="at">--project-home</span> .</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> show <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-e</span> <span class="st">'.dags["course-execution"]'</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="ex">dml</span> fetch <span class="at">--unshallow</span> main <span class="op">&gt;</span>/dev/null</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{"ahead":null,"behind":null,"branch":"main","branches":[],"commit":null,"mode":"attached","num_indexes":0,"upstream":null}
+commit:1bb80e49ffa7092006a621e67079cc8214ea3c9db0da3c3586df8afa032d633d
+"dag:102f8b85c469c719b437a2497fc3011a648cc4308c3515d7f15c0c6add11f12e"
+{"ahead":null,"behind":null,"branch":"main","branches":[],"commit":null,"mode":"attached","num_indexes":0,"upstream":null}
+tutorial
+commit:40234cc502d33b51ec119c9aeaca25453c9391ed537d03a9f9114b01bd2403c6
+"dag:bd8e5e5b71213031bbd1f7017bbc10f8fe90706d29ccd2a1a5f4dc8cd76d65ce"
+{"ahead":0,"behind":0,"branch":"main","branches":["main"],"commit":"commit:11c14855ca3079b2827b616563813e7eab98477777e61d2ae21798bd13ee3a6c","mode":"attached","num_indexes":0,"upstream":"main"}
+"dag:102f8b85c469c719b437a2497fc3011a648cc4308c3515d7f15c0c6add11f12e"</code></pre>
+</div>
+</div>
+<p><code>dml.load("name")</code> reads a committed DAG and <code>dag.require("name")</code> imports one into new work. A shallow clone contains the selected commit’s complete tree, DAGs, nodes, data, and imports; only older parents may be unavailable. Use a larger <code>fetch --depth N</code> to deepen history or <code>fetch --unshallow</code> to retrieve it all. Dependencies are import-only endpoints, not the project’s cache or execution remote. A normal push can advance an observed shallow branch; creating a remote branch or forcing publication requires complete ancestry.</p>
+</section>
+
+</main>

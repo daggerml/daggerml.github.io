@@ -1,0 +1,217 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Funks</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A funk is a function packaged as DaggerML data. It can be stored in a DAG, called like any other callable node, cached by its actual inputs, and executed somewhere other than the authoring process.</p>
+<p>Every Python block on this page runs in order during the docs build. The definitions are ordinary inline notebook code—the same form you can use while exploring interactively.</p>
+<section id="package-a-python-function" class="level2">
+<h2 class="anchored" data-anchor-id="package-a-python-function">Package a Python function</h2>
+<p>The authoring helpers live in <code>daggerml.contrib.api</code>:</p>
+<div id="ec1ccb14" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.parse <span class="im">import</span> urlparse</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> daggerml <span class="im">as</span> dml</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.api <span class="im">import</span> NodeError</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib <span class="im">import</span> api</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.testing <span class="im">import</span> defunkify</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>@api.funkify</code> does not immediately call the decorated function. It creates a delayed runnable describing how the function should execute. The default is a local script worker.</p>
+<p>A script funk’s first parameter is its execution <code>dag</code>. Every other argument is node-like, so use <code>.value()</code> when ordinary Python code needs the materialized value. The return value becomes the result of a new execution DAG.</p>
+</section>
+<section id="make-source-dependencies-explicit" class="level2">
+<h2 class="anchored" data-anchor-id="make-source-dependencies-explicit">Make source dependencies explicit</h2>
+<p>The worker receives the funk’s source, not the imports and globals surrounding it in the authoring process. Import dependencies inside the function when possible. For a source-defined helper, use <code>extra_objs</code>; use <code>post_lines</code> for a small explicit definition that must appear in the generated worker module.</p>
+<div id="9b278e06" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SCALE <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> clamp(value):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(<span class="dv">0</span>, <span class="bu">min</span>(value, <span class="dv">1</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">@api.funkify</span>(extra_objs<span class="op">=</span>(clamp,), post_lines<span class="op">=</span>[<span class="st">"SCALE = 100"</span>])</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normalize(dag, number):</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> clamp(number.value() <span class="op">/</span> SCALE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Including these dependencies makes the generated script self-contained and makes their source part of the runnable’s cache identity. This avoids silently reusing old work after an external helper changes.</p>
+<section id="how-funkify-serializes" class="level3">
+<h3 class="anchored" data-anchor-id="how-funkify-serializes">How <code>funkify</code> serializes</h3>
+<p>When <code>funkify</code> decorates the function, the script executor normalizes the function and its explicit source dependencies into the Python string it will persist. Capturing source eagerly is what makes this work in a notebook. Comments are removed during normalization.</p>
+<div id="4b874024" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(normalize.kwargs[<span class="st">"script"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>def clamp(value):
+    return max(0, min(value, 1))
+
+def normalize(dag, number):
+    return clamp(number.value() / SCALE)
+
+SCALE = 100</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="compose-funks-with-prepop" class="level2">
+<h2 class="anchored" data-anchor-id="compose-funks-with-prepop">Compose funks with <code>prepop</code></h2>
+<p>A funk can call another funk. <code>prepop</code> stages values under names in the worker DAG before the function body runs, so the outer function does not need to receive every helper as an argument.</p>
+<div id="b20056a9" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.funkify</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> total(dag, values):</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(values.value())</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="at">@api.funkify</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    prepop<span class="op">=</span>{<span class="st">"total"</span>: total},</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    tags<span class="op">=</span>[<span class="st">"tutorial"</span>, <span class="st">"summary"</span>],</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarize(dag, values):</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    numbers <span class="op">=</span> values.value()</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    total_node <span class="op">=</span> dag.total(values)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dag.put(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"count"</span>: <span class="bu">len</span>(numbers), <span class="st">"total"</span>: total_node},</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">"summary"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Inside <code>summarize</code>, <code>dag.total</code> is a callable node. Its call produces another node in the execution DAG, and putting that node into the returned dictionary preserves the relationship.</p>
+<p>The optional <code>tags</code> belong to every execution DAG produced by this script funk. They are normalized, stored, and retained when a cached result is reused.</p>
+</section>
+<section id="choose-and-stack-executors" class="level2">
+<h2 class="anchored" data-anchor-id="choose-and-stack-executors">Choose and stack executors</h2>
+<p>Each <code>funkify</code> layer is one runnable. The inner <code>summarize</code> layer renders and runs Python; this outer layer runs that script runnable inside Docker.</p>
+<div id="026aa932" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>containerized_summarize <span class="op">=</span> api.funkify(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    summarize,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    uri<span class="op">=</span><span class="st">"docker"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    image<span class="op">=</span>api.ref(<span class="st">"image"</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">=</span>api.ref(<span class="st">"docker-flags"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>api.ref("image")</code> and <code>api.ref("docker-flags")</code> defer those lookups until the runnable is put into a DAG. The named nodes must exist first. This is useful when execution configuration is produced by earlier DAG work rather than known when the function is defined.</p>
+<p>Additional wrappers use the same nesting model: for example, SSH or a cluster executor can wrap Docker, which wraps the script. Each layer consumes its own configuration and forwards its nested runnable.</p>
+</section>
+<section id="put-and-call-funks" class="level2">
+<h2 class="anchored" data-anchor-id="put-and-call-funks">Put and call funks</h2>
+<p><code>api.load()</code> is the delayed counterpart to <code>dml.load()</code>: when staged, it imports a committed DAG result into the current DAG. Here it imports the small image built on the previous page. The docs harness supplies portable Docker flags behind the scenes for local and CI execution.</p>
+<div id="c028dd53" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dag <span class="op">=</span> dml.new(<span class="st">"funks"</span>, message<span class="op">=</span><span class="st">"run and reuse funks"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> dag.put(api.load(<span class="st">"docs-image"</span>), name<span class="op">=</span><span class="st">"image"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dag.put(flags, name<span class="op">=</span><span class="st">"docker-flags"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>normalize_node <span class="op">=</span> dag.put(normalize, name<span class="op">=</span><span class="st">"normalize"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>summarize_node <span class="op">=</span> dag.put(containerized_summarize, name<span class="op">=</span><span class="st">"summarize"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>normalized <span class="op">=</span> normalize_node(<span class="dv">125</span>, name<span class="op">=</span><span class="st">"normalized"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> summarize_node([<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>], name<span class="op">=</span><span class="st">"first"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>cached <span class="op">=</span> summarize_node([<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>], name<span class="op">=</span><span class="st">"cached"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Putting each delayed runnable produces a callable node. Calling <code>summarize_node(...)</code> is equivalent to <code>dag.call(summarize_node, ...)</code>, but the callable form makes composition easier to read. Every call itself is a named node in this authoring DAG.</p>
+</section>
+<section id="errors-remain-inspectable" class="level2">
+<h2 class="anchored" data-anchor-id="errors-remain-inspectable">Errors remain inspectable</h2>
+<p>A failed funk call raises an error to the author while retaining its named call node and failed execution DAG. Catching it allows this authoring DAG to continue and commit other useful results.</p>
+<div id="fc05e32f" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.funkify</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> divide(dag, numerator, denominator):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> numerator.value() <span class="op">/</span> denominator.value()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>divide_node <span class="op">=</span> dag.put(divide, name<span class="op">=</span><span class="st">"divide"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="8c0339e1" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    divide_node(<span class="dv">1</span>, <span class="dv">0</span>, name<span class="op">=</span><span class="st">"failed"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> dml.Error <span class="im">as</span> error:</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(error.message)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>division by zero</code></pre>
+</div>
+</div>
+<p>After commit, accessing the failed node raises <code>daggerml.api.NodeError</code>; its <code>.context()</code> is the failed function execution DAG, including the persisted error and any nodes created before failure.</p>
+</section>
+<section id="commit-the-useful-results" class="level2">
+<h2 class="anchored" data-anchor-id="commit-the-useful-results">Commit the useful results</h2>
+<p>The failed call is already retained by name. We commit the successful nodes as the result of the outer DAG.</p>
+<div id="37833873" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dag.commit(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"normalized"</span>: normalized,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"first"</span>: first,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cached"</span>: cached,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="test-function-logic-without-a-runtime" class="level2">
+<h2 class="anchored" data-anchor-id="test-function-logic-without-a-runtime">Test function logic without a runtime</h2>
+<p><code>defunkify()</code> unwraps the innermost script function and supplies lightweight node-like arguments. It is useful for fast unit tests of ordinary function logic; it does not exercise an executor, remote storage, or caching.</p>
+<div id="8e4eb602" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> defunkify(normalize)(<span class="va">None</span>, <span class="dv">125</span>) <span class="op">==</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="inspect-caching-and-execution-dags" class="level2">
+<h2 class="anchored" data-anchor-id="inspect-caching-and-execution-dags">Inspect caching and execution DAGs</h2>
+<p>The runnable plus normalized DaggerML arguments form the cache identity. The two identical calls above are distinct nodes in <code>funks</code>, but both resolve to the same completed execution DAG.</p>
+<div id="c3878529" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>recorded <span class="op">=</span> dml.load(<span class="st">"funks"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>first_execution <span class="op">=</span> recorded[<span class="st">"first"</span>].context(root<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>cached_execution <span class="op">=</span> recorded[<span class="st">"cached"</span>].context(root<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(recorded.result.value())</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_execution.ref <span class="op">==</span> cached_execution.ref)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_execution.tags)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first_execution.keys())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'cached': {'count': 3, 'total': 10}, 'first': {'count': 3, 'total': 10}, 'normalized': 1}
+True
+['summary', 'tutorial']
+['summary', 'total']</code></pre>
+</div>
+</div>
+<p><code>context(root=False)</code> stops at the immediate function execution. That DAG has ordinary names, inputs, a result, tags, and error state, so it can be queried like any DAG. Changing the runnable or normalized inputs produces a different cache identity. Invalidation is an explicit operation; deleting an authoring node is not cache invalidation.</p>
+<p>The output comes from executing the blocks above in order. <code>True</code> confirms cache reuse, while the final names show the prepopulated <code>total</code> funk and its <code>summary</code> result inside the execution DAG.</p>
+</section>
+<section id="what-funkify-controls" class="level2">
+<h2 class="anchored" data-anchor-id="what-funkify-controls">What <code>funkify</code> controls</h2>
+<p>The commonly used arguments are:</p>
+<ul>
+<li><code>adapter</code>: dispatch mechanism; defaults to <code>local</code>.</li>
+<li><code>uri</code>: executor type; defaults to <code>script</code>.</li>
+<li><code>prepop</code>: values staged as named nodes in the worker DAG.</li>
+<li><code>tags</code>: classifications stored on script execution DAGs.</li>
+<li><code>extra_objs</code>: additional inspectable definitions copied into script source.</li>
+<li><code>post_lines</code>: explicit source lines appended to the worker module.</li>
+<li>Executor-specific keywords such as Docker <code>image</code> and <code>flags</code>.</li>
+</ul>
+<p>Script stdout, stderr, and logging are captured by the supervisor. The generated module is named <code>_daggerml_live</code>; imports should remain inside the function or be injected explicitly. Remote-backed script execution requires <code>remote.root</code>.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><a href="/docs/use/execution">Execution</a></li>
+<li><a href="/docs/use/inspection">Inspection</a></li>
+<li><a href="/docs/use/runtimes">Runtimes</a></li>
+<li><a href="/docs/extend/executors">Executors</a></li>
+<li><a href="/docs/sharp-bits-and-security">Sharp bits and security</a></li>
+</ul>
+</section>
+
+</main>

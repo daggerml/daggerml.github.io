@@ -1,0 +1,97 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Execution</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Funks package computation as <code>Runnable</code> values. Calling a staged funk records an execution DAG; its normalized runnable and DaggerML arguments form the cache identity. This page reads the durable artifact produced by the preceding page and runs one fixture-owned script path and one Docker path.</p>
+<section id="run-self-contained-script-work" class="level2">
+<h2 class="anchored" data-anchor-id="run-self-contained-script-work">Run self-contained script work</h2>
+<p>A script worker receives persisted source, not the authoring interpreter’s imports or globals. Import dependencies inside the function, or explicitly inject source with <code>extra_objs</code> or <code>post_lines</code>.</p>
+<div id="89f7736d" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.parse <span class="im">import</span> urlparse</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> daggerml <span class="im">as</span> dml</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib <span class="im">import</span> api</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">@api.funkify</span>(tags<span class="op">=</span>[<span class="st">"course"</span>, <span class="st">"summary"</span>])</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summarize_artifact(dag, source):</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> daggerml.contrib.s3 <span class="im">import</span> S3Store</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    values <span class="op">=</span> [<span class="bu">int</span>(value) <span class="cf">for</span> value <span class="kw">in</span> S3Store().get(source.value()).splitlines()[<span class="dv">0</span>].split(<span class="st">b","</span>)]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"count"</span>: <span class="bu">len</span>(values), <span class="st">"total"</span>: <span class="bu">sum</span>(values)}</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>flags <span class="op">=</span> []</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>endpoint <span class="op">=</span> os.environ.get(<span class="st">"AWS_ENDPOINT_URL"</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> endpoint:</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    parsed <span class="op">=</span> urlparse(endpoint)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> parsed.scheme <span class="op">==</span> <span class="st">"http"</span> <span class="kw">and</span> parsed.port <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        flags <span class="op">+=</span> [</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="st">"--add-host=host.docker.internal:host-gateway"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            <span class="st">"-e"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"AWS_ENDPOINT_URL=http://host.docker.internal:</span><span class="sc">{</span>parsed<span class="sc">.</span>port<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key <span class="kw">in</span> (<span class="st">"AWS_ACCESS_KEY_ID"</span>, <span class="st">"AWS_SECRET_ACCESS_KEY"</span>, <span class="st">"AWS_SESSION_TOKEN"</span>, <span class="st">"AWS_REGION"</span>, <span class="st">"AWS_DEFAULT_REGION"</span>):</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> value <span class="op">:=</span> os.environ.get(key):</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        flags <span class="op">+=</span> [<span class="st">"-e"</span>, <span class="ss">f"</span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">=</span><span class="sc">{</span>value<span class="sc">}</span><span class="ss">"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="compose-docker-work" class="level2">
+<h2 class="anchored" data-anchor-id="compose-docker-work">Compose Docker work</h2>
+<p>Docker is an outer runnable wrapper around the inner script. Its image and flags are staged data, so they also participate in the execution boundary and identity.</p>
+<div id="634f7e03" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>docker_summarize <span class="op">=</span> api.funkify(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    summarize_artifact,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    uri<span class="op">=</span><span class="st">"docker"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    image<span class="op">=</span>api.ref(<span class="st">"image"</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    flags<span class="op">=</span>api.ref(<span class="st">"docker-flags"</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dml.new(<span class="st">"course-execution"</span>, message<span class="op">=</span><span class="st">"execute course artifact"</span>) <span class="im">as</span> dag:</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    source <span class="op">=</span> dag.require(<span class="st">"course-artifacts"</span>, <span class="st">"measurements"</span>, name<span class="op">=</span><span class="st">"source"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    dag.put(dml.load(<span class="st">"docs-image"</span>).result, name<span class="op">=</span><span class="st">"image"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    dag.put(flags, name<span class="op">=</span><span class="st">"docker-flags"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    script <span class="op">=</span> dag.put(summarize_artifact, name<span class="op">=</span><span class="st">"script"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    docker <span class="op">=</span> dag.put(docker_summarize, name<span class="op">=</span><span class="st">"docker"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    first <span class="op">=</span> script(source, name<span class="op">=</span><span class="st">"script-first"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    cached <span class="op">=</span> script(source, name<span class="op">=</span><span class="st">"script-cached"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    container <span class="op">=</span> docker(source, name<span class="op">=</span><span class="st">"docker-result"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    dag.commit({<span class="st">"script"</span>: first, <span class="st">"cached"</span>: cached, <span class="st">"docker"</span>: container})</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>recorded <span class="op">=</span> dml.load(<span class="st">"course-execution"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> recorded.result.value() <span class="op">==</span> {</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"cached"</span>: {<span class="st">"count"</span>: <span class="dv">3</span>, <span class="st">"total"</span>: <span class="dv">10</span>},</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"docker"</span>: {<span class="st">"count"</span>: <span class="dv">3</span>, <span class="st">"total"</span>: <span class="dv">10</span>},</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"script"</span>: {<span class="st">"count"</span>: <span class="dv">3</span>, <span class="st">"total"</span>: <span class="dv">10</span>},</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Script execution and cache coordination require <code>remote.root</code>; Docker also needs Docker, S3 access at its execution boundary, and an image containing the script’s dependencies. The built-in choices are script and Docker through the local adapter, SSH-wrapped work through the local adapter, and AWS Batch through the Lambda adapter. SSH can source <code>env_files</code>; Batch additionally needs a Lambda integration, container image, queues, task role, and AWS credentials. Other schedulers or cloud integrations require an installed extension.</p>
+<!-- docs:pseudocode: An SSH host, scheduler, or cloud adapter is not owned by the documentation fixture. Configure its credentials and installed integration before composing this wrapper. -->
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remote_docker <span class="op">=</span> api.funkify(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    docker_summarize,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    uri<span class="op">=</span><span class="st">"ssh"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    host<span class="op">=</span><span class="st">"research-host"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    env_files<span class="op">=</span>[<span class="st">"/etc/research.env"</span>],</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Continue with <a href="/docs/use/inspection">Inspection</a> to inspect these completed results from persisted DAG state.</p>
+</section>
+
+</main>

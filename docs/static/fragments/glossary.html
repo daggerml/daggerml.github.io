@@ -1,0 +1,37 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Glossary</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<ul>
+<li><strong>Project</strong>: a DaggerML repository rooted at <code>.dml/</code>, with local history and configuration.</li>
+<li><strong>DAG</strong>: a durable directed acyclic graph that records a computation and its result.</li>
+<li><strong>Node</strong>: a value, import, runnable, or function result in a DAG.</li>
+<li><strong>Result</strong>: the node committed as a DAG’s final outcome.</li>
+<li><strong>Funk</strong>: any DaggerML-packaged <code>Runnable</code> object. Once inserted into a DAG, DaggerML knows how to run it. Current authoring tooling is Python-based, but a funk is not inherently Python-specific.</li>
+<li><strong>Runtime</strong>: mutable, open computation state while a DAG is being authored or inspected. A runtime is finalized into a DAG.</li>
+<li><strong>Cache</strong>: a remote mapping from normalized DaggerML data that identifies a computation to its current execution attempt. Terminal semantic state carries the reusable DAG result independently from cleanup status. Cache identity is part of the DaggerML data model, not a Python-specific mechanism.</li>
+<li><strong>Artifact</strong>: external data represented by a <code>Uri</code> in a DAG rather than embedded as repository data.</li>
+<li><strong>Codec</strong>: a conversion from a Python value to a value DaggerML can store.</li>
+<li><strong>Provenance</strong>: the chain of DAG imports and function calls that produced a value.</li>
+<li><strong>Remote</strong>: S3-backed storage used for project synchronization and, when needed, distributed execution and cache coordination.</li>
+<li><strong>Shallow history</strong>: a local repository state with complete materialized commit snapshots but intentionally unavailable older commit parents recorded under <code>.dml/</code>.</li>
+</ul>
+
+</main>

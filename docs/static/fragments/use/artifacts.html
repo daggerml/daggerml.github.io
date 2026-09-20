@@ -1,0 +1,52 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Artifacts</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Store small, ordinary values directly in a DAG. Store large payloads outside it and commit their <code>Uri</code>, preserving the payload’s identity without embedding its bytes. This project now has the Moto-backed <code>remote.root</code> configured by <a href="/docs/use/projects">Projects</a>, so <code>S3Store()</code> uses the fixture-owned data prefix.</p>
+<section id="record-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="record-inputs">Record inputs</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> daggerml <span class="im">as</span> dml</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.s3 <span class="im">import</span> S3Store</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>store <span class="op">=</span> S3Store()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>measurements <span class="op">=</span> store.put(data<span class="op">=</span><span class="st">b"2,3,5</span><span class="ch">\n</span><span class="st">"</span>, suffix<span class="op">=</span><span class="st">".csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dml.new(<span class="st">"course-artifacts"</span>, message<span class="op">=</span><span class="st">"record course input"</span>) <span class="im">as</span> dag:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    source <span class="op">=</span> dag.put(measurements, name<span class="op">=</span><span class="st">"measurements"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    dataset <span class="op">=</span> dag.put(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"source"</span>: source, <span class="st">"labels"</span>: [<span class="st">"fresh"</span>, <span class="st">"local"</span>, <span class="st">"seasonal"</span>]},</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">"dataset"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    dag.commit(dataset)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>recorded <span class="op">=</span> dml.load(<span class="st">"course-artifacts"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> store.get(recorded[<span class="st">"measurements"</span>].value()) <span class="op">==</span> <span class="st">b"2,3,5</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>recorded_result <span class="op">=</span> recorded.result.value()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> recorded_result[<span class="st">"labels"</span>][<span class="dv">0</span>] <span class="op">==</span> <span class="st">"fresh"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="choose-a-durable-representation" class="level2">
+<h2 class="anchored" data-anchor-id="choose-a-durable-representation">Choose a durable representation</h2>
+<p>Built-in normalization accepts scalars, lists, dictionaries, <code>Uri</code> values, and runnables. Nodes from the active DAG are reused; committed nodes are imported; <code>S3Store.put()</code> is content-addressed; <code>put_js</code>/<code>get_js</code> handle JSON and <code>tar</code>/<code>untar</code> handle directory artifacts.</p>
+<p>Optional installed pandas and polars codecs externalize data frames as parquet URIs. Use an installed codec for another repeatable Python representation; if one is unavailable, convert to a supported value or implement a codec in Extend. Continue with <a href="/docs/use/execution">Execution</a>, which consumes the named <code>course-artifacts</code> input without relying on this page’s Python process.</p>
+</section>
+
+</main>

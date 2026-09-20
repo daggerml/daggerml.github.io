@@ -1,0 +1,75 @@
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Codecs</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Codecs turn Python values into values DaggerML can stage. This is the first Extend course page; <a href="/docs/extend/adapters">Adapters</a> uses the same normalization path to lower delayed work.</p>
+<section id="contract-and-normalization" class="level2">
+<h2 class="anchored" data-anchor-id="contract-and-normalization">Contract and normalization</h2>
+<p>The public <code>LiteralCodec</code> contract has <code>can_encode(value)</code> and <code>encode(value, dag)</code>. Selection stops at the first matching codec. <code>encode()</code> must return a value that is not an instance of its input type so normalization makes progress; otherwise DaggerML raises <code>CodecError</code>. Codec exceptions are wrapped as <code>CodecError</code>, except <code>DmlRepoError</code>, which remains meaningful to callers.</p>
+<p><code>apply_codecs()</code> repeats codec application until it reaches a DaggerML scalar, collection, or <code>Ref</code>. It then recursively normalizes list and dict values, URI text, and a runnable’s target, nested runnable, and kwargs. A codec may therefore return a <code>Uri</code>, <code>Runnable</code>, collection, reference, or another encodable intermediate value, but the chain must terminate.</p>
+<div id="4eee7335" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> decimal <span class="im">import</span> Decimal</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DecimalCodec:</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> can_encode(<span class="va">self</span>, value):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">isinstance</span>(value, Decimal)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> encode(<span class="va">self</span>, value, dag):</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">str</span>(value)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> literal_codecs():</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [(<span class="dv">10</span>, DecimalCodec())]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>priority, codec <span class="op">=</span> literal_codecs()[<span class="dv">0</span>]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> priority <span class="op">==</span> <span class="dv">10</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> codec.can_encode(Decimal(<span class="st">"1.25"</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> codec.encode(Decimal(<span class="st">"1.25"</span>), dag<span class="op">=</span><span class="va">None</span>) <span class="op">==</span> <span class="st">"1.25"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Keep <code>can_encode()</code> narrow. Test direct values and every nested shape your codec accepts; nested collection members are recursively normalized and do not need to be normalized before a codec returns the collection.</p>
+</section>
+<section id="projection-normalization" class="level2">
+<h2 class="anchored" data-anchor-id="projection-normalization">Projection normalization</h2>
+<p><code>ProjectionCodec</code> uses <code>NodeCodec</code> to handle the committed base, then stages a built-in <code>daggerml:get</code> for each path step in the writable target DAG. The selected Python value is not copied. See <a href="/docs/use/inspection">Inspection</a> for researcher-facing projection behavior.</p>
+<!-- docs:pseudocode: This graph trace explains projection encoding rather than providing authored runnable source. -->
+<pre class="text"><code>ImportNode(projection.base) -&gt; get(imported_base, "my_key") -&gt; get(previous_result, "my_key1")</code></pre>
+<p>For delayed authoring and lowering, see <a href="/docs/extend/adapters">Adapters</a>.</p>
+</section>
+<section id="register-package-and-inspect" class="level2">
+<h2 class="anchored" data-anchor-id="register-package-and-inspect">Register, package, and inspect</h2>
+<p>Publish a zero-argument factory, not a codec instance, under <code>daggerml.codecs</code>. Factories are lazily loaded once per process on first codec use. Entry points are sorted by name and value; registrations are then sorted by descending priority while ties preserve registration order. A failed load does not mark plugins loaded, so a later use can retry.</p>
+<!-- docs:pseudocode: Install this metadata in the distribution that owns the codec; do not install it from a documentation example. -->
+<div class="sourceCode" id="cb3"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.entry-points."</span><span class="dt">daggerml.codecs"</span><span class="kw">]</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">my_package</span> <span class="op">=</span> <span class="st">"my_package.codecs:literal_codecs"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Install that distribution wherever values are authored and normalized. Use the public diagnostics helper to inspect discovered codecs and loading errors rather than relying on registry internals.</p>
+<div id="9131ea9f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.status <span class="im">import</span> status</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>report <span class="op">=</span> status()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> report[<span class="st">"summary"</span>][<span class="st">"codec_registration_count"</span>] <span class="op">&gt;=</span> <span class="dv">2</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">all</span>(<span class="st">"key"</span> <span class="kw">in</span> item <span class="kw">and</span> <span class="st">"implements"</span> <span class="kw">in</span> item <span class="cf">for</span> item <span class="kw">in</span> report[<span class="st">"codecs"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Built-ins include node, collection, and projection codecs. Contrib supplies the delayed-action codec and, when their optional libraries are importable, pandas and polars dataframe codecs that externalize Parquet through <code>S3Store</code> and return a <code>Uri</code>. See <a href="/docs/use/artifacts">Artifacts</a> for general <code>S3Store</code> behavior.</p>
+</section>
+
+</main>

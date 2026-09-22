@@ -195,6 +195,2117 @@
   ],
   "pages": [
     {
+      "fragment": "fragments/api/daggerml/api.html",
+      "headings": [
+        {
+          "id": "logger",
+          "level": 2,
+          "text": "logger"
+        },
+        {
+          "id": "Scalar",
+          "level": 2,
+          "text": "Scalar"
+        },
+        {
+          "id": "Collection",
+          "level": 2,
+          "text": "Collection"
+        },
+        {
+          "id": "ProjectionStep",
+          "level": 2,
+          "text": "ProjectionStep"
+        },
+        {
+          "id": "get_default_dml",
+          "level": 2,
+          "text": "get_default_dml"
+        },
+        {
+          "id": "set_default_dml",
+          "level": 2,
+          "text": "set_default_dml"
+        },
+        {
+          "id": "clear_default_dml",
+          "level": 2,
+          "text": "clear_default_dml"
+        },
+        {
+          "id": "use_default_dml",
+          "level": 2,
+          "text": "use_default_dml"
+        },
+        {
+          "id": "new",
+          "level": 2,
+          "text": "new"
+        },
+        {
+          "id": "load",
+          "level": 2,
+          "text": "load"
+        },
+        {
+          "id": "resume",
+          "level": 2,
+          "text": "resume"
+        },
+        {
+          "id": "temporary",
+          "level": 2,
+          "text": "temporary"
+        },
+        {
+          "id": "status",
+          "level": 2,
+          "text": "status"
+        },
+        {
+          "id": "Dag",
+          "level": 2,
+          "text": "Dag"
+        },
+        {
+          "id": "Dag.__init__",
+          "level": 3,
+          "text": "Dag.__init__"
+        },
+        {
+          "id": "Dag.dml",
+          "level": 3,
+          "text": "Dag.dml"
+        },
+        {
+          "id": "Dag.token",
+          "level": 3,
+          "text": "Dag.token"
+        },
+        {
+          "id": "Dag.ref",
+          "level": 3,
+          "text": "Dag.ref"
+        },
+        {
+          "id": "Dag.name",
+          "level": 3,
+          "text": "Dag.name"
+        },
+        {
+          "id": "Dag.message",
+          "level": 3,
+          "text": "Dag.message"
+        },
+        {
+          "id": "Dag.tags",
+          "level": 3,
+          "text": "Dag.tags"
+        },
+        {
+          "id": "Dag.keys",
+          "level": 3,
+          "text": "Dag.keys"
+        },
+        {
+          "id": "Dag.values",
+          "level": 3,
+          "text": "Dag.values"
+        },
+        {
+          "id": "Dag.argv",
+          "level": 3,
+          "text": "Dag.argv"
+        },
+        {
+          "id": "Dag.result",
+          "level": 3,
+          "text": "Dag.result"
+        },
+        {
+          "id": "Dag.put",
+          "level": 3,
+          "text": "Dag.put"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "examples",
+          "level": 6,
+          "text": "Examples"
+        },
+        {
+          "id": "Dag.require",
+          "level": 3,
+          "text": "Dag.require"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "examples",
+          "level": 6,
+          "text": "Examples"
+        },
+        {
+          "id": "Dag.call",
+          "level": 3,
+          "text": "Dag.call"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "raises",
+          "level": 6,
+          "text": "Raises"
+        },
+        {
+          "id": "Dag.commit",
+          "level": 3,
+          "text": "Dag.commit"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "Dag.freeze",
+          "level": 3,
+          "text": "Dag.freeze"
+        },
+        {
+          "id": "Dag.unfreeze",
+          "level": 3,
+          "text": "Dag.unfreeze"
+        },
+        {
+          "id": "Dag.cancel",
+          "level": 3,
+          "text": "Dag.cancel"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "NodeError",
+          "level": 2,
+          "text": "NodeError"
+        },
+        {
+          "id": "NodeError.__init__",
+          "level": 3,
+          "text": "NodeError.__init__"
+        },
+        {
+          "id": "NodeError.node_ref",
+          "level": 3,
+          "text": "NodeError.node_ref"
+        },
+        {
+          "id": "NodeError.dag",
+          "level": 3,
+          "text": "NodeError.dag"
+        },
+        {
+          "id": "NodeError.context",
+          "level": 3,
+          "text": "NodeError.context"
+        },
+        {
+          "id": "Node",
+          "level": 2,
+          "text": "Node"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "Node.__init__",
+          "level": 3,
+          "text": "Node.__init__"
+        },
+        {
+          "id": "Node.dag",
+          "level": 3,
+          "text": "Node.dag"
+        },
+        {
+          "id": "Node.ref",
+          "level": 3,
+          "text": "Node.ref"
+        },
+        {
+          "id": "Node.context",
+          "level": 3,
+          "text": "Node.context"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "examples",
+          "level": 6,
+          "text": "Examples"
+        },
+        {
+          "id": "Node.type",
+          "level": 3,
+          "text": "Node.type"
+        },
+        {
+          "id": "Node.value",
+          "level": 3,
+          "text": "Node.value"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "ScalarNode",
+          "level": 2,
+          "text": "ScalarNode"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "RunnableNode",
+          "level": 2,
+          "text": "RunnableNode"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "Projection",
+          "level": 2,
+          "text": "Projection"
+        },
+        {
+          "id": "Projection.__init__",
+          "level": 3,
+          "text": "Projection.__init__"
+        },
+        {
+          "id": "Projection.dag",
+          "level": 3,
+          "text": "Projection.dag"
+        },
+        {
+          "id": "Projection.base",
+          "level": 3,
+          "text": "Projection.base"
+        },
+        {
+          "id": "Projection.path",
+          "level": 3,
+          "text": "Projection.path"
+        },
+        {
+          "id": "Projection.from_step",
+          "level": 3,
+          "text": "Projection.from_step"
+        },
+        {
+          "id": "Projection.value",
+          "level": 3,
+          "text": "Projection.value"
+        },
+        {
+          "id": "Projection.context",
+          "level": 3,
+          "text": "Projection.context"
+        },
+        {
+          "id": "Projection.type",
+          "level": 3,
+          "text": "Projection.type"
+        },
+        {
+          "id": "Projection.keys",
+          "level": 3,
+          "text": "Projection.keys"
+        },
+        {
+          "id": "CollectionNode",
+          "level": 2,
+          "text": "CollectionNode"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "CollectionNode.contains",
+          "level": 3,
+          "text": "CollectionNode.contains"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "ListNode",
+          "level": 2,
+          "text": "ListNode"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "ListNode.conj",
+          "level": 3,
+          "text": "ListNode.conj"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "notes",
+          "level": 6,
+          "text": "Notes"
+        },
+        {
+          "id": "ListNode.append",
+          "level": 3,
+          "text": "ListNode.append"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "see-also",
+          "level": 6,
+          "text": "See Also"
+        },
+        {
+          "id": "DictNode",
+          "level": 2,
+          "text": "DictNode"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "DictNode.keys",
+          "level": 3,
+          "text": "DictNode.keys"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "DictNode.get",
+          "level": 3,
+          "text": "DictNode.get"
+        },
+        {
+          "id": "DictNode.items",
+          "level": 3,
+          "text": "DictNode.items"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "DictNode.values",
+          "level": 3,
+          "text": "DictNode.values"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "DictNode.assoc",
+          "level": 3,
+          "text": "DictNode.assoc"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "DictNode.update",
+          "level": 3,
+          "text": "DictNode.update"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "notes",
+          "level": 6,
+          "text": "Notes"
+        },
+        {
+          "id": "see-also",
+          "level": 6,
+          "text": "See Also"
+        },
+        {
+          "id": "LITERAL_CODEC_ENTRYPOINT_GROUP",
+          "level": 2,
+          "text": "LITERAL_CODEC_ENTRYPOINT_GROUP"
+        },
+        {
+          "id": "LiteralCodec",
+          "level": 2,
+          "text": "LiteralCodec"
+        },
+        {
+          "id": "LiteralCodec.__init__",
+          "level": 3,
+          "text": "LiteralCodec.__init__"
+        },
+        {
+          "id": "LiteralCodec.can_encode",
+          "level": 3,
+          "text": "LiteralCodec.can_encode"
+        },
+        {
+          "id": "LiteralCodec.encode",
+          "level": 3,
+          "text": "LiteralCodec.encode"
+        },
+        {
+          "id": "CodecError",
+          "level": 2,
+          "text": "CodecError"
+        },
+        {
+          "id": "attributes",
+          "level": 6,
+          "text": "Attributes"
+        },
+        {
+          "id": "CodecError.__init__",
+          "level": 3,
+          "text": "CodecError.__init__"
+        },
+        {
+          "id": "ensure_literal_codec_plugins_loaded",
+          "level": 2,
+          "text": "ensure_literal_codec_plugins_loaded"
+        },
+        {
+          "id": "iter_codecs",
+          "level": 2,
+          "text": "iter_codecs"
+        },
+        {
+          "id": "apply_codec",
+          "level": 2,
+          "text": "apply_codec"
+        },
+        {
+          "id": "apply_codecs",
+          "level": 2,
+          "text": "apply_codecs"
+        },
+        {
+          "id": "MiscPyTypeCodec",
+          "level": 2,
+          "text": "MiscPyTypeCodec"
+        },
+        {
+          "id": "MiscPyTypeCodec.can_encode",
+          "level": 3,
+          "text": "MiscPyTypeCodec.can_encode"
+        },
+        {
+          "id": "MiscPyTypeCodec.encode",
+          "level": 3,
+          "text": "MiscPyTypeCodec.encode"
+        },
+        {
+          "id": "NodeCodec",
+          "level": 2,
+          "text": "NodeCodec"
+        },
+        {
+          "id": "NodeCodec.can_encode",
+          "level": 3,
+          "text": "NodeCodec.can_encode"
+        },
+        {
+          "id": "NodeCodec.encode",
+          "level": 3,
+          "text": "NodeCodec.encode"
+        },
+        {
+          "id": "ProjectionCodec",
+          "level": 2,
+          "text": "ProjectionCodec"
+        },
+        {
+          "id": "ProjectionCodec.can_encode",
+          "level": 3,
+          "text": "ProjectionCodec.can_encode"
+        },
+        {
+          "id": "ProjectionCodec.encode",
+          "level": 3,
+          "text": "ProjectionCodec.encode"
+        },
+        {
+          "id": "codecs",
+          "level": 2,
+          "text": "codecs"
+        }
+      ],
+      "id": "api/daggerml/api",
+      "order": null,
+      "title": "daggerml.api"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/adapters.html",
+      "headings": [
+        {
+          "id": "AdapterBase",
+          "level": 2,
+          "text": "AdapterBase"
+        },
+        {
+          "id": "AdapterBase.name",
+          "level": 3,
+          "text": "AdapterBase.name"
+        },
+        {
+          "id": "AdapterBase.resolve_runnable",
+          "level": 3,
+          "text": "AdapterBase.resolve_runnable"
+        },
+        {
+          "id": "AdapterBase.send",
+          "level": 3,
+          "text": "AdapterBase.send"
+        },
+        {
+          "id": "AdapterBase.cli",
+          "level": 3,
+          "text": "AdapterBase.cli"
+        },
+        {
+          "id": "LocalAdapter",
+          "level": 2,
+          "text": "LocalAdapter"
+        },
+        {
+          "id": "LocalAdapter.name",
+          "level": 3,
+          "text": "LocalAdapter.name"
+        },
+        {
+          "id": "LocalAdapter.executable",
+          "level": 3,
+          "text": "LocalAdapter.executable"
+        },
+        {
+          "id": "LocalAdapter.send",
+          "level": 3,
+          "text": "LocalAdapter.send"
+        },
+        {
+          "id": "LambdaAdapter",
+          "level": 2,
+          "text": "LambdaAdapter"
+        },
+        {
+          "id": "LambdaAdapter.name",
+          "level": 3,
+          "text": "LambdaAdapter.name"
+        },
+        {
+          "id": "LambdaAdapter.executable",
+          "level": 3,
+          "text": "LambdaAdapter.executable"
+        },
+        {
+          "id": "LambdaAdapter.send",
+          "level": 3,
+          "text": "LambdaAdapter.send"
+        },
+        {
+          "id": "ADAPTER_ENTRYPOINT_GROUP",
+          "level": 2,
+          "text": "ADAPTER_ENTRYPOINT_GROUP"
+        },
+        {
+          "id": "load_adapter_plugins",
+          "level": 2,
+          "text": "load_adapter_plugins"
+        },
+        {
+          "id": "get_adapter",
+          "level": 2,
+          "text": "get_adapter"
+        },
+        {
+          "id": "list_adapters",
+          "level": 2,
+          "text": "list_adapters"
+        }
+      ],
+      "id": "api/daggerml/contrib/adapters",
+      "order": null,
+      "title": "daggerml.contrib.adapters"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/api.html",
+      "headings": [
+        {
+          "id": "FunkifyInput",
+          "level": 2,
+          "text": "FunkifyInput"
+        },
+        {
+          "id": "is_node_like",
+          "level": 2,
+          "text": "is_node_like"
+        },
+        {
+          "id": "ref",
+          "level": 2,
+          "text": "ref"
+        },
+        {
+          "id": "load",
+          "level": 2,
+          "text": "load"
+        },
+        {
+          "id": "dagclass",
+          "level": 2,
+          "text": "dagclass"
+        },
+        {
+          "id": "run",
+          "level": 2,
+          "text": "run"
+        },
+        {
+          "id": "funkify",
+          "level": 2,
+          "text": "funkify"
+        }
+      ],
+      "id": "api/daggerml/contrib/api",
+      "order": null,
+      "title": "daggerml.contrib.api"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/codecs.html",
+      "headings": [
+        {
+          "id": "PandasDataFrameCodec",
+          "level": 2,
+          "text": "PandasDataFrameCodec"
+        },
+        {
+          "id": "PandasDataFrameCodec.__init__",
+          "level": 3,
+          "text": "PandasDataFrameCodec.__init__"
+        },
+        {
+          "id": "PandasDataFrameCodec.can_encode",
+          "level": 3,
+          "text": "PandasDataFrameCodec.can_encode"
+        },
+        {
+          "id": "PandasDataFrameCodec.encode",
+          "level": 3,
+          "text": "PandasDataFrameCodec.encode"
+        },
+        {
+          "id": "PolarsDataFrameCodec",
+          "level": 2,
+          "text": "PolarsDataFrameCodec"
+        },
+        {
+          "id": "PolarsDataFrameCodec.__init__",
+          "level": 3,
+          "text": "PolarsDataFrameCodec.__init__"
+        },
+        {
+          "id": "PolarsDataFrameCodec.can_encode",
+          "level": 3,
+          "text": "PolarsDataFrameCodec.can_encode"
+        },
+        {
+          "id": "PolarsDataFrameCodec.encode",
+          "level": 3,
+          "text": "PolarsDataFrameCodec.encode"
+        },
+        {
+          "id": "DelayedRef",
+          "level": 2,
+          "text": "DelayedRef"
+        },
+        {
+          "id": "DelayedRef.__init__",
+          "level": 3,
+          "text": "DelayedRef.__init__"
+        },
+        {
+          "id": "DelayedRef.name",
+          "level": 3,
+          "text": "DelayedRef.name"
+        },
+        {
+          "id": "DelayedLoad",
+          "level": 2,
+          "text": "DelayedLoad"
+        },
+        {
+          "id": "DelayedLoad.__init__",
+          "level": 3,
+          "text": "DelayedLoad.__init__"
+        },
+        {
+          "id": "DelayedLoad.dagname",
+          "level": 3,
+          "text": "DelayedLoad.dagname"
+        },
+        {
+          "id": "DelayedLoad.nodename",
+          "level": 3,
+          "text": "DelayedLoad.nodename"
+        },
+        {
+          "id": "DelayedRunnable",
+          "level": 2,
+          "text": "DelayedRunnable"
+        },
+        {
+          "id": "DelayedRunnable.__init__",
+          "level": 3,
+          "text": "DelayedRunnable.__init__"
+        },
+        {
+          "id": "DelayedRunnable.uri",
+          "level": 3,
+          "text": "DelayedRunnable.uri"
+        },
+        {
+          "id": "DelayedRunnable.adapter",
+          "level": 3,
+          "text": "DelayedRunnable.adapter"
+        },
+        {
+          "id": "DelayedRunnable.sub",
+          "level": 3,
+          "text": "DelayedRunnable.sub"
+        },
+        {
+          "id": "DelayedRunnable.kwargs",
+          "level": 3,
+          "text": "DelayedRunnable.kwargs"
+        },
+        {
+          "id": "DelayedActionCodec",
+          "level": 2,
+          "text": "DelayedActionCodec"
+        },
+        {
+          "id": "DelayedActionCodec.can_encode",
+          "level": 3,
+          "text": "DelayedActionCodec.can_encode"
+        },
+        {
+          "id": "DelayedActionCodec.encode",
+          "level": 3,
+          "text": "DelayedActionCodec.encode"
+        },
+        {
+          "id": "literal_codecs",
+          "level": 2,
+          "text": "literal_codecs"
+        }
+      ],
+      "id": "api/daggerml/contrib/codecs",
+      "order": null,
+      "title": "daggerml.contrib.codecs"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/executors.html",
+      "headings": [
+        {
+          "id": "ExecutorBase",
+          "level": 2,
+          "text": "ExecutorBase"
+        },
+        {
+          "id": "ExecutorBase.name",
+          "level": 3,
+          "text": "ExecutorBase.name"
+        },
+        {
+          "id": "ExecutorBase.adapter",
+          "level": 3,
+          "text": "ExecutorBase.adapter"
+        },
+        {
+          "id": "ExecutorBase.start",
+          "level": 3,
+          "text": "ExecutorBase.start"
+        },
+        {
+          "id": "ExecutorBase.poll",
+          "level": 3,
+          "text": "ExecutorBase.poll"
+        },
+        {
+          "id": "ExecutorBase.cleanup",
+          "level": 3,
+          "text": "ExecutorBase.cleanup"
+        },
+        {
+          "id": "ExecutorBase.cancel",
+          "level": 3,
+          "text": "ExecutorBase.cancel"
+        },
+        {
+          "id": "ExecutorBase.handle",
+          "level": 3,
+          "text": "ExecutorBase.handle"
+        },
+        {
+          "id": "BatchExecutor",
+          "level": 2,
+          "text": "BatchExecutor"
+        },
+        {
+          "id": "BatchExecutor.name",
+          "level": 3,
+          "text": "BatchExecutor.name"
+        },
+        {
+          "id": "BatchExecutor.resolve_runnable",
+          "level": 3,
+          "text": "BatchExecutor.resolve_runnable"
+        },
+        {
+          "id": "BatchExecutor.start",
+          "level": 3,
+          "text": "BatchExecutor.start"
+        },
+        {
+          "id": "BatchExecutor.poll",
+          "level": 3,
+          "text": "BatchExecutor.poll"
+        },
+        {
+          "id": "BatchExecutor.cleanup",
+          "level": 3,
+          "text": "BatchExecutor.cleanup"
+        },
+        {
+          "id": "BatchExecutor.cancel",
+          "level": 3,
+          "text": "BatchExecutor.cancel"
+        },
+        {
+          "id": "DockerExecutor",
+          "level": 2,
+          "text": "DockerExecutor"
+        },
+        {
+          "id": "DockerExecutor.name",
+          "level": 3,
+          "text": "DockerExecutor.name"
+        },
+        {
+          "id": "DockerExecutor.adapter",
+          "level": 3,
+          "text": "DockerExecutor.adapter"
+        },
+        {
+          "id": "DockerExecutor.resolve_runnable",
+          "level": 3,
+          "text": "DockerExecutor.resolve_runnable"
+        },
+        {
+          "id": "DockerExecutor.start",
+          "level": 3,
+          "text": "DockerExecutor.start"
+        },
+        {
+          "id": "DockerExecutor.poll",
+          "level": 3,
+          "text": "DockerExecutor.poll"
+        },
+        {
+          "id": "DockerExecutor.cleanup",
+          "level": 3,
+          "text": "DockerExecutor.cleanup"
+        },
+        {
+          "id": "DockerExecutor.cancel",
+          "level": 3,
+          "text": "DockerExecutor.cancel"
+        },
+        {
+          "id": "ScriptExecutor",
+          "level": 2,
+          "text": "ScriptExecutor"
+        },
+        {
+          "id": "ScriptExecutor.name",
+          "level": 3,
+          "text": "ScriptExecutor.name"
+        },
+        {
+          "id": "ScriptExecutor.adapter",
+          "level": 3,
+          "text": "ScriptExecutor.adapter"
+        },
+        {
+          "id": "ScriptExecutor.resolve_runnable",
+          "level": 3,
+          "text": "ScriptExecutor.resolve_runnable"
+        },
+        {
+          "id": "ScriptExecutor.start",
+          "level": 3,
+          "text": "ScriptExecutor.start"
+        },
+        {
+          "id": "ScriptExecutor.poll",
+          "level": 3,
+          "text": "ScriptExecutor.poll"
+        },
+        {
+          "id": "ScriptExecutor.cleanup",
+          "level": 3,
+          "text": "ScriptExecutor.cleanup"
+        },
+        {
+          "id": "ScriptExecutor.cancel",
+          "level": 3,
+          "text": "ScriptExecutor.cancel"
+        },
+        {
+          "id": "SshExecutor",
+          "level": 2,
+          "text": "SshExecutor"
+        },
+        {
+          "id": "SshExecutor.name",
+          "level": 3,
+          "text": "SshExecutor.name"
+        },
+        {
+          "id": "SshExecutor.adapter",
+          "level": 3,
+          "text": "SshExecutor.adapter"
+        },
+        {
+          "id": "SshExecutor.start",
+          "level": 3,
+          "text": "SshExecutor.start"
+        },
+        {
+          "id": "SshExecutor.poll",
+          "level": 3,
+          "text": "SshExecutor.poll"
+        },
+        {
+          "id": "SshExecutor.cancel",
+          "level": 3,
+          "text": "SshExecutor.cancel"
+        },
+        {
+          "id": "SshExecutor.cleanup",
+          "level": 3,
+          "text": "SshExecutor.cleanup"
+        },
+        {
+          "id": "SshExecutor.resolve_runnable",
+          "level": 3,
+          "text": "SshExecutor.resolve_runnable"
+        }
+      ],
+      "id": "api/daggerml/contrib/executors",
+      "order": null,
+      "title": "daggerml.contrib.executors"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/funks.html",
+      "headings": [
+        {
+          "id": "docker_build",
+          "level": 2,
+          "text": "docker_build"
+        }
+      ],
+      "id": "api/daggerml/contrib/funks",
+      "order": null,
+      "title": "daggerml.contrib.funks"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/s3.html",
+      "headings": [
+        {
+          "id": "is_s3_uri",
+          "level": 2,
+          "text": "is_s3_uri"
+        },
+        {
+          "id": "S3Store",
+          "level": 2,
+          "text": "S3Store"
+        },
+        {
+          "id": "S3Store.__init__",
+          "level": 3,
+          "text": "S3Store.__init__"
+        },
+        {
+          "id": "S3Store.bucket",
+          "level": 3,
+          "text": "S3Store.bucket"
+        },
+        {
+          "id": "S3Store.prefix",
+          "level": 3,
+          "text": "S3Store.prefix"
+        },
+        {
+          "id": "S3Store.client",
+          "level": 3,
+          "text": "S3Store.client"
+        },
+        {
+          "id": "S3Store.from_remote_root",
+          "level": 3,
+          "text": "S3Store.from_remote_root"
+        },
+        {
+          "id": "S3Store.parse_uri",
+          "level": 3,
+          "text": "S3Store.parse_uri"
+        },
+        {
+          "id": "S3Store.put",
+          "level": 3,
+          "text": "S3Store.put"
+        },
+        {
+          "id": "S3Store.get",
+          "level": 3,
+          "text": "S3Store.get"
+        },
+        {
+          "id": "S3Store.exists",
+          "level": 3,
+          "text": "S3Store.exists"
+        },
+        {
+          "id": "S3Store.ls",
+          "level": 3,
+          "text": "S3Store.ls"
+        },
+        {
+          "id": "S3Store.rm",
+          "level": 3,
+          "text": "S3Store.rm"
+        },
+        {
+          "id": "S3Store.put_js",
+          "level": 3,
+          "text": "S3Store.put_js"
+        },
+        {
+          "id": "S3Store.get_js",
+          "level": 3,
+          "text": "S3Store.get_js"
+        },
+        {
+          "id": "S3Store.tar",
+          "level": 3,
+          "text": "S3Store.tar"
+        },
+        {
+          "id": "S3Store.untar",
+          "level": 3,
+          "text": "S3Store.untar"
+        },
+        {
+          "id": "S3Store.cd",
+          "level": 3,
+          "text": "S3Store.cd"
+        }
+      ],
+      "id": "api/daggerml/contrib/s3",
+      "order": null,
+      "title": "daggerml.contrib.s3"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/status.html",
+      "headings": [
+        {
+          "id": "status",
+          "level": 2,
+          "text": "status"
+        }
+      ],
+      "id": "api/daggerml/contrib/status",
+      "order": null,
+      "title": "daggerml.contrib.status"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/supervisor.html",
+      "headings": [
+        {
+          "id": "logger",
+          "level": 2,
+          "text": "logger"
+        },
+        {
+          "id": "run",
+          "level": 2,
+          "text": "run"
+        },
+        {
+          "id": "main",
+          "level": 2,
+          "text": "main"
+        }
+      ],
+      "id": "api/daggerml/contrib/supervisor",
+      "order": null,
+      "title": "daggerml.contrib.supervisor"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib/testing.html",
+      "headings": [
+        {
+          "id": "MockNode",
+          "level": 2,
+          "text": "MockNode"
+        },
+        {
+          "id": "MockNode.__init__",
+          "level": 3,
+          "text": "MockNode.__init__"
+        },
+        {
+          "id": "MockNode.value",
+          "level": 3,
+          "text": "MockNode.value"
+        },
+        {
+          "id": "MockNode.from_value",
+          "level": 3,
+          "text": "MockNode.from_value"
+        },
+        {
+          "id": "defunkify",
+          "level": 2,
+          "text": "defunkify"
+        }
+      ],
+      "id": "api/daggerml/contrib/testing",
+      "order": null,
+      "title": "daggerml.contrib.testing"
+    },
+    {
+      "fragment": "fragments/api/daggerml/contrib.html",
+      "headings": [],
+      "id": "api/daggerml/contrib",
+      "order": null,
+      "title": "daggerml.contrib"
+    },
+    {
+      "fragment": "fragments/api/daggerml/util.html",
+      "headings": [
+        {
+          "id": "logger",
+          "level": 2,
+          "text": "logger"
+        },
+        {
+          "id": "current_time_millis",
+          "level": 2,
+          "text": "current_time_millis"
+        },
+        {
+          "id": "BackoffWithJitter",
+          "level": 2,
+          "text": "BackoffWithJitter"
+        },
+        {
+          "id": "BackoffWithJitter.__init__",
+          "level": 3,
+          "text": "BackoffWithJitter.__init__"
+        },
+        {
+          "id": "BackoffWithJitter.min",
+          "level": 3,
+          "text": "BackoffWithJitter.min"
+        },
+        {
+          "id": "BackoffWithJitter.max",
+          "level": 3,
+          "text": "BackoffWithJitter.max"
+        },
+        {
+          "id": "BackoffWithJitter.k",
+          "level": 3,
+          "text": "BackoffWithJitter.k"
+        },
+        {
+          "id": "BackoffWithJitter.state",
+          "level": 3,
+          "text": "BackoffWithJitter.state"
+        },
+        {
+          "id": "get_client",
+          "level": 2,
+          "text": "get_client"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        }
+      ],
+      "id": "api/daggerml/util",
+      "order": null,
+      "title": "daggerml.util"
+    },
+    {
+      "fragment": "fragments/api/daggerml.html",
+      "headings": [
+        {
+          "id": "BadExecutionStatusError",
+          "level": 2,
+          "text": "BadExecutionStatusError"
+        },
+        {
+          "id": "BadExecutionStatusError.__init__",
+          "level": 3,
+          "text": "BadExecutionStatusError.__init__"
+        },
+        {
+          "id": "BadExecutionStatusError.lifecycle",
+          "level": 3,
+          "text": "BadExecutionStatusError.lifecycle"
+        },
+        {
+          "id": "CanceledExecutionError",
+          "level": 2,
+          "text": "CanceledExecutionError"
+        },
+        {
+          "id": "CanceledExecutionError.__init__",
+          "level": 3,
+          "text": "CanceledExecutionError.__init__"
+        },
+        {
+          "id": "CanceledExecutionError.type",
+          "level": 3,
+          "text": "CanceledExecutionError.type"
+        },
+        {
+          "id": "CancellationError",
+          "level": 2,
+          "text": "CancellationError"
+        },
+        {
+          "id": "CancellationError.__init__",
+          "level": 3,
+          "text": "CancellationError.__init__"
+        },
+        {
+          "id": "CancellationError.type",
+          "level": 3,
+          "text": "CancellationError.type"
+        },
+        {
+          "id": "Dag",
+          "level": 2,
+          "text": "Dag"
+        },
+        {
+          "id": "Dag.__init__",
+          "level": 3,
+          "text": "Dag.__init__"
+        },
+        {
+          "id": "Dag.dml",
+          "level": 3,
+          "text": "Dag.dml"
+        },
+        {
+          "id": "Dag.token",
+          "level": 3,
+          "text": "Dag.token"
+        },
+        {
+          "id": "Dag.ref",
+          "level": 3,
+          "text": "Dag.ref"
+        },
+        {
+          "id": "Dag.name",
+          "level": 3,
+          "text": "Dag.name"
+        },
+        {
+          "id": "Dag.message",
+          "level": 3,
+          "text": "Dag.message"
+        },
+        {
+          "id": "Dag.tags",
+          "level": 3,
+          "text": "Dag.tags"
+        },
+        {
+          "id": "Dag.keys",
+          "level": 3,
+          "text": "Dag.keys"
+        },
+        {
+          "id": "Dag.values",
+          "level": 3,
+          "text": "Dag.values"
+        },
+        {
+          "id": "Dag.argv",
+          "level": 3,
+          "text": "Dag.argv"
+        },
+        {
+          "id": "Dag.result",
+          "level": 3,
+          "text": "Dag.result"
+        },
+        {
+          "id": "Dag.put",
+          "level": 3,
+          "text": "Dag.put"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "examples",
+          "level": 6,
+          "text": "Examples"
+        },
+        {
+          "id": "Dag.require",
+          "level": 3,
+          "text": "Dag.require"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "examples",
+          "level": 6,
+          "text": "Examples"
+        },
+        {
+          "id": "Dag.call",
+          "level": 3,
+          "text": "Dag.call"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "raises",
+          "level": 6,
+          "text": "Raises"
+        },
+        {
+          "id": "Dag.commit",
+          "level": 3,
+          "text": "Dag.commit"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "Dag.freeze",
+          "level": 3,
+          "text": "Dag.freeze"
+        },
+        {
+          "id": "Dag.unfreeze",
+          "level": 3,
+          "text": "Dag.unfreeze"
+        },
+        {
+          "id": "Dag.cancel",
+          "level": 3,
+          "text": "Dag.cancel"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "Dml",
+          "level": 2,
+          "text": "Dml"
+        },
+        {
+          "id": "Dml.__init__",
+          "level": 3,
+          "text": "Dml.__init__"
+        },
+        {
+          "id": "Dml.from_config_vars",
+          "level": 3,
+          "text": "Dml.from_config_vars"
+        },
+        {
+          "id": "Dml.init",
+          "level": 3,
+          "text": "Dml.init"
+        },
+        {
+          "id": "Dml.clone",
+          "level": 3,
+          "text": "Dml.clone"
+        },
+        {
+          "id": "Dml.status",
+          "level": 3,
+          "text": "Dml.status"
+        },
+        {
+          "id": "Dml.log",
+          "level": 3,
+          "text": "Dml.log"
+        },
+        {
+          "id": "Dml.show",
+          "level": 3,
+          "text": "Dml.show"
+        },
+        {
+          "id": "Dml.diff",
+          "level": 3,
+          "text": "Dml.diff"
+        },
+        {
+          "id": "Dml.rev_parse",
+          "level": 3,
+          "text": "Dml.rev_parse"
+        },
+        {
+          "id": "Dml.revert",
+          "level": 3,
+          "text": "Dml.revert"
+        },
+        {
+          "id": "Dml.checkout",
+          "level": 3,
+          "text": "Dml.checkout"
+        },
+        {
+          "id": "Dml.merge",
+          "level": 3,
+          "text": "Dml.merge"
+        },
+        {
+          "id": "Dml.rebase",
+          "level": 3,
+          "text": "Dml.rebase"
+        },
+        {
+          "id": "Dml.fetch",
+          "level": 3,
+          "text": "Dml.fetch"
+        },
+        {
+          "id": "Dml.pull",
+          "level": 3,
+          "text": "Dml.pull"
+        },
+        {
+          "id": "Dml.push",
+          "level": 3,
+          "text": "Dml.push"
+        },
+        {
+          "id": "Dml.gc",
+          "level": 3,
+          "text": "Dml.gc"
+        },
+        {
+          "id": "Dml.branch",
+          "level": 3,
+          "text": "Dml.branch"
+        },
+        {
+          "id": "Dml.dep",
+          "level": 3,
+          "text": "Dml.dep"
+        },
+        {
+          "id": "Dml.cache",
+          "level": 3,
+          "text": "Dml.cache"
+        },
+        {
+          "id": "Dml.tag",
+          "level": 3,
+          "text": "Dml.tag"
+        },
+        {
+          "id": "Dml.config",
+          "level": 3,
+          "text": "Dml.config"
+        },
+        {
+          "id": "Dml.runtime",
+          "level": 3,
+          "text": "Dml.runtime"
+        },
+        {
+          "id": "Dml.dag",
+          "level": 3,
+          "text": "Dml.dag"
+        },
+        {
+          "id": "Dml.skills",
+          "level": 3,
+          "text": "Dml.skills"
+        },
+        {
+          "id": "Error",
+          "level": 2,
+          "text": "Error"
+        },
+        {
+          "id": "attributes",
+          "level": 6,
+          "text": "Attributes"
+        },
+        {
+          "id": "Error.__init__",
+          "level": 3,
+          "text": "Error.__init__"
+        },
+        {
+          "id": "Error.message",
+          "level": 3,
+          "text": "Error.message"
+        },
+        {
+          "id": "Error.origin",
+          "level": 3,
+          "text": "Error.origin"
+        },
+        {
+          "id": "Error.type",
+          "level": 3,
+          "text": "Error.type"
+        },
+        {
+          "id": "Error.stack",
+          "level": 3,
+          "text": "Error.stack"
+        },
+        {
+          "id": "Error.from_ex",
+          "level": 3,
+          "text": "Error.from_ex"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "ExecutionDriver",
+          "level": 2,
+          "text": "ExecutionDriver"
+        },
+        {
+          "id": "ExecutionDriver.lock",
+          "level": 3,
+          "text": "ExecutionDriver.lock"
+        },
+        {
+          "id": "ExecutionDriver.not_before",
+          "level": 3,
+          "text": "ExecutionDriver.not_before"
+        },
+        {
+          "id": "ExecutionDriver.adapter_state",
+          "level": 3,
+          "text": "ExecutionDriver.adapter_state"
+        },
+        {
+          "id": "ExecutionDriver.cleanup",
+          "level": 3,
+          "text": "ExecutionDriver.cleanup"
+        },
+        {
+          "id": "ExecutionMetadata",
+          "level": 2,
+          "text": "ExecutionMetadata"
+        },
+        {
+          "id": "ExecutionMetadata.execution_id",
+          "level": 3,
+          "text": "ExecutionMetadata.execution_id"
+        },
+        {
+          "id": "ExecutionMetadata.cache_key",
+          "level": 3,
+          "text": "ExecutionMetadata.cache_key"
+        },
+        {
+          "id": "ExecutionMetadata.argv_ref",
+          "level": 3,
+          "text": "ExecutionMetadata.argv_ref"
+        },
+        {
+          "id": "ExecutionMetadata.created_at",
+          "level": 3,
+          "text": "ExecutionMetadata.created_at"
+        },
+        {
+          "id": "ExecutionRecord",
+          "level": 2,
+          "text": "ExecutionRecord"
+        },
+        {
+          "id": "ExecutionRecord.metadata",
+          "level": 3,
+          "text": "ExecutionRecord.metadata"
+        },
+        {
+          "id": "ExecutionRecord.state",
+          "level": 3,
+          "text": "ExecutionRecord.state"
+        },
+        {
+          "id": "ExecutionRecord.driver",
+          "level": 3,
+          "text": "ExecutionRecord.driver"
+        },
+        {
+          "id": "ExecutionSemanticState",
+          "level": 2,
+          "text": "ExecutionSemanticState"
+        },
+        {
+          "id": "ExecutionSemanticState.lifecycle",
+          "level": 3,
+          "text": "ExecutionSemanticState.lifecycle"
+        },
+        {
+          "id": "ExecutionSemanticState.result_ref",
+          "level": 3,
+          "text": "ExecutionSemanticState.result_ref"
+        },
+        {
+          "id": "ExecutionSemanticState.result_source",
+          "level": 3,
+          "text": "ExecutionSemanticState.result_source"
+        },
+        {
+          "id": "ExecutionSemanticState.spawned_execution_ids",
+          "level": 3,
+          "text": "ExecutionSemanticState.spawned_execution_ids"
+        },
+        {
+          "id": "ExecutionSemanticState.child_execution_ids",
+          "level": 3,
+          "text": "ExecutionSemanticState.child_execution_ids"
+        },
+        {
+          "id": "ExecutionSemanticState.cancelation",
+          "level": 3,
+          "text": "ExecutionSemanticState.cancelation"
+        },
+        {
+          "id": "ExecutionSemanticState.invalidation",
+          "level": 3,
+          "text": "ExecutionSemanticState.invalidation"
+        },
+        {
+          "id": "ExecutionSemanticState.updated_at",
+          "level": 3,
+          "text": "ExecutionSemanticState.updated_at"
+        },
+        {
+          "id": "Node",
+          "level": 2,
+          "text": "Node"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "Node.__init__",
+          "level": 3,
+          "text": "Node.__init__"
+        },
+        {
+          "id": "Node.dag",
+          "level": 3,
+          "text": "Node.dag"
+        },
+        {
+          "id": "Node.ref",
+          "level": 3,
+          "text": "Node.ref"
+        },
+        {
+          "id": "Node.context",
+          "level": 3,
+          "text": "Node.context"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "examples",
+          "level": 6,
+          "text": "Examples"
+        },
+        {
+          "id": "Node.type",
+          "level": 3,
+          "text": "Node.type"
+        },
+        {
+          "id": "Node.value",
+          "level": 3,
+          "text": "Node.value"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "Ref",
+          "level": 2,
+          "text": "Ref"
+        },
+        {
+          "id": "attributes",
+          "level": 6,
+          "text": "Attributes"
+        },
+        {
+          "id": "notes",
+          "level": 6,
+          "text": "Notes"
+        },
+        {
+          "id": "Ref.__init__",
+          "level": 3,
+          "text": "Ref.__init__"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "raises",
+          "level": 6,
+          "text": "Raises"
+        },
+        {
+          "id": "Ref.ns",
+          "level": 3,
+          "text": "Ref.ns"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "raises",
+          "level": 6,
+          "text": "Raises"
+        },
+        {
+          "id": "notes",
+          "level": 6,
+          "text": "Notes"
+        },
+        {
+          "id": "Ref.id",
+          "level": 3,
+          "text": "Ref.id"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "raises",
+          "level": 6,
+          "text": "Raises"
+        },
+        {
+          "id": "notes",
+          "level": 6,
+          "text": "Notes"
+        },
+        {
+          "id": "Ref.nss",
+          "level": 3,
+          "text": "Ref.nss"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
+          "id": "raises",
+          "level": 6,
+          "text": "Raises"
+        },
+        {
+          "id": "Ref.to",
+          "level": 3,
+          "text": "Ref.to"
+        },
+        {
+          "id": "Uri",
+          "level": 2,
+          "text": "Uri"
+        },
+        {
+          "id": "Uri.__init__",
+          "level": 3,
+          "text": "Uri.__init__"
+        },
+        {
+          "id": "Uri.uri",
+          "level": 3,
+          "text": "Uri.uri"
+        },
+        {
+          "id": "Runnable",
+          "level": 2,
+          "text": "Runnable"
+        },
+        {
+          "id": "Runnable.__init__",
+          "level": 3,
+          "text": "Runnable.__init__"
+        },
+        {
+          "id": "Runnable.target",
+          "level": 3,
+          "text": "Runnable.target"
+        },
+        {
+          "id": "Runnable.sub",
+          "level": 3,
+          "text": "Runnable.sub"
+        },
+        {
+          "id": "Runnable.kwargs",
+          "level": 3,
+          "text": "Runnable.kwargs"
+        },
+        {
+          "id": "Runnable.adapter",
+          "level": 3,
+          "text": "Runnable.adapter"
+        },
+        {
+          "id": "Runnable.innermost",
+          "level": 3,
+          "text": "Runnable.innermost"
+        },
+        {
+          "id": "get_default_dml",
+          "level": 2,
+          "text": "get_default_dml"
+        },
+        {
+          "id": "set_default_dml",
+          "level": 2,
+          "text": "set_default_dml"
+        },
+        {
+          "id": "use_default_dml",
+          "level": 2,
+          "text": "use_default_dml"
+        },
+        {
+          "id": "clear_default_dml",
+          "level": 2,
+          "text": "clear_default_dml"
+        },
+        {
+          "id": "new",
+          "level": 2,
+          "text": "new"
+        },
+        {
+          "id": "load",
+          "level": 2,
+          "text": "load"
+        },
+        {
+          "id": "resume",
+          "level": 2,
+          "text": "resume"
+        },
+        {
+          "id": "status",
+          "level": 2,
+          "text": "status"
+        },
+        {
+          "id": "temporary",
+          "level": 2,
+          "text": "temporary"
+        }
+      ],
+      "id": "api/daggerml",
+      "order": null,
+      "title": "daggerml"
+    },
+    {
+      "fragment": "fragments/api.html",
+      "headings": [
+        {
+          "id": "api-reference",
+          "level": 1,
+          "text": "API reference"
+        }
+      ],
+      "id": "api",
+      "order": 0,
+      "title": "API reference"
+    },
+    {
       "fragment": "fragments/extend/adapters.html",
       "headings": [
         {

@@ -23,13 +23,13 @@
 <p>Every Python block on this page runs in order during the docs build.</p>
 <section id="start-with-constructor-values-and-an-entrypoint" class="level2">
 <h2 class="anchored" data-anchor-id="start-with-constructor-values-and-an-entrypoint">Start with constructor values and an entrypoint</h2>
-<div id="7e94fd90" class="cell" data-execution_count="2">
+<div id="d8017cf5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> daggerml <span class="im">as</span> dml</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.api <span class="im">import</span> DmlRepoError</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib <span class="im">import</span> api</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Decorating a class with <code>@api.dagclass</code> also makes it a dataclass. Annotated fields become constructor arguments. Inside a method, their values are nodes, so read them with <code>.value()</code> when ordinary Python needs the stored value.</p>
-<div id="1f95ae26" class="cell" data-execution_count="3">
+<div id="ac82eec5" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ScaledTotal:</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    scale: <span class="bu">int</span></span>
@@ -57,7 +57,7 @@
 <section id="compose-methods-and-name-intermediate-nodes" class="level2">
 <h2 class="anchored" data-anchor-id="compose-methods-and-name-intermediate-nodes">Compose methods and name intermediate nodes</h2>
 <p>Direct <code>self.member</code> reads tell the compiler which members a method needs. That lets <code>main</code> call <code>clean</code>, then <code>total</code>, without manually passing either funk through the constructor.</p>
-<div id="b4d76766" class="cell" data-execution_count="4">
+<div id="2358e4e8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> NumberPipeline:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    scale: <span class="bu">int</span></span>
@@ -90,7 +90,7 @@
 <section id="reuse-a-compiled-entrypoint-in-another-dag" class="level2">
 <h2 class="anchored" data-anchor-id="reuse-a-compiled-entrypoint-in-another-dag">Reuse a compiled entrypoint in another DAG</h2>
 <p>A compiled instance holds runnable methods. Stage its entrypoint and call it like any other funk.</p>
-<div id="e74faf6b" class="cell" data-execution_count="5">
+<div id="41d34030" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>compiled_pipeline <span class="op">=</span> NumberPipeline(scale<span class="op">=</span><span class="dv">3</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>dag <span class="op">=</span> dml.new(<span class="st">"reuse-dagclass"</span>, message<span class="op">=</span><span class="st">"reuse a compiled dagclass"</span>)</span>
@@ -109,7 +109,7 @@
 <section id="nest-dagclasses-and-use-comprehensions" class="level2">
 <h2 class="anchored" data-anchor-id="nest-dagclasses-and-use-comprehensions">Nest dagclasses and use comprehensions</h2>
 <p>A dagclass can be a member of another dagclass. Dependency discovery also sees direct member reads inside comprehensions.</p>
-<div id="4fe153b4" class="cell" data-execution_count="6">
+<div id="5200914e" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MultiPipeline:</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    pipeline <span class="op">=</span> NumberPipeline(scale<span class="op">=</span><span class="dv">1</span>)</span>
@@ -137,7 +137,7 @@
 <section id="choose-a-different-entrypoint" class="level2">
 <h2 class="anchored" data-anchor-id="choose-a-different-entrypoint">Choose a different entrypoint</h2>
 <p>Use <code>entrypoint=</code> when <code>main</code> is not the clearest public name.</p>
-<div id="53fe290e" class="cell" data-execution_count="7">
+<div id="480923cd" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span>(entrypoint<span class="op">=</span><span class="st">"calculate"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomEntrypoint:</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    offset: <span class="bu">int</span></span>
@@ -157,7 +157,7 @@
 <section id="import-a-committed-result-lazily" class="level2">
 <h2 class="anchored" data-anchor-id="import-a-committed-result-lazily">Import a committed result lazily</h2>
 <p><code>api.load()</code> is a delayed class member. It becomes a <code>dag.require()</code> node only when the dagclass is staged, so the new DAG records exactly which prior commit it consumed.</p>
-<div id="5eb2572d" class="cell" data-execution_count="8">
+<div id="37b93758" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PreviousResult:</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    previous <span class="op">=</span> api.load(<span class="st">"number-pipeline"</span>)</span>
@@ -177,7 +177,7 @@
 <section id="bind-an-existing-funk-into-the-class-namespace" class="level2">
 <h2 class="anchored" data-anchor-id="bind-an-existing-funk-into-the-class-namespace">Bind an existing funk into the class namespace</h2>
 <p>Class members do not have to be methods. An externally defined funk can use <code>api.ref()</code> to request configuration from whichever dagclass contains it.</p>
-<div id="98bb0cb4" class="cell" data-execution_count="9">
+<div id="3794bfa5" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.funkify</span>(prepop<span class="op">=</span>{<span class="st">"offset"</span>: api.ref(<span class="st">"offset"</span>)})</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_offset(dag, value):</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dag.offset.value() <span class="op">+</span> value.value()</span>
@@ -203,7 +203,7 @@
 <section id="decorate-a-method-for-another-executor" class="level2">
 <h2 class="anchored" data-anchor-id="decorate-a-method-for-another-executor">Decorate a method for another executor</h2>
 <p>Dagclass methods accept the same <code>@api.funkify</code> options as standalone funks. This one runs in the tiny image built on the <a href="/docs/start-here/dags">DAGs</a> page and reuses the Docker flags committed on the <a href="/docs/start-here/funks">Funks</a> page.</p>
-<div id="c33d63d2" class="cell" data-execution_count="10">
+<div id="df4ea25b" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ContainerTotal:</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    image: <span class="bu">object</span></span>
@@ -238,7 +238,7 @@
 <section id="catch-dependency-mistakes-during-compilation" class="level2">
 <h2 class="anchored" data-anchor-id="catch-dependency-mistakes-during-compilation">Catch dependency mistakes during compilation</h2>
 <p>Because direct <code>self.member</code> reads define the dependency graph, the compiler can reject missing members and cycles immediately.</p>
-<div id="d5587cc8" class="cell" data-execution_count="11">
+<div id="7acec77e" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UnknownMember:</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> main(<span class="va">self</span>, value):</span>
@@ -288,7 +288,7 @@ Cannot assign to reserved dagclass names: put</code></pre>
 <section id="keep-dependency-syntax-direct" class="level2">
 <h2 class="anchored" data-anchor-id="keep-dependency-syntax-direct">Keep dependency syntax direct</h2>
 <p>Dependency inference is deliberately syntactic. Any direct assignment to <code>self.output</code> makes <code>output</code> local to the invocation for the whole method, regardless of control flow. Dynamic item access is invisible to the compiler.</p>
-<div id="c7413ea1" class="cell" data-execution_count="12">
+<div id="112f83d3" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="at">@api.dagclass</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConditionalOutput:</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> main(<span class="va">self</span>, value, ready):</span>

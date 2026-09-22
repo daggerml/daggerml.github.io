@@ -102,7 +102,7 @@
 </table>
 <p>Contrib plugin distributions are needed where delayed work is authored and lowered. The selected adapter executable must be available to the runtime process; a Lambda adapter additionally needs its target Lambda deployed.</p>
 <p>This minimal hook illustration constructs the <code>Runnable</code> directly; it is not a complete deployable backend.</p>
-<div id="62b8251c" class="cell" data-execution_count="2">
+<div id="2ba1df29" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml <span class="im">import</span> Runnable, Uri</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.adapters <span class="im">import</span> AdapterBase</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -134,7 +134,7 @@
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> response <span class="op">==</span> {<span class="st">"status"</span>: <span class="st">"retry"</span>, <span class="st">"adapter_state"</span>: {<span class="st">"job"</span>: <span class="st">"example"</span>}, <span class="st">"error"</span>: <span class="va">None</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7b100dbf" class="cell" data-execution_count="3">
+<div id="8aaef196" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.adapters <span class="im">import</span> list_adapters</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>

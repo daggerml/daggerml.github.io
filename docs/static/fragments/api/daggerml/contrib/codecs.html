@@ -1,0 +1,547 @@
+<main class="pdoc">
+            <section class="module-info">
+                <h1>daggerml.contrib.codecs</h1>
+                
+                
+                
+                        <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">daggerml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Uri</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">daggerml.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dag</span><span class="p">,</span> <span class="n">apply_codecs</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">daggerml.contrib.adapters</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_adapter</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">daggerml.contrib.s3</span><span class="w"> </span><span class="kn">import</span> <span class="n">S3Store</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PandasDataFrameCodec</span><span class="p">:</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span> <span class="o">=</span> <span class="n">dataframe_type</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span><span class="p">)</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">Dag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Uri</span><span class="p">:</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>            <span class="n">value</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>            <span class="k">return</span> <span class="n">S3Store</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PolarsDataFrameCodec</span><span class="p">:</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span> <span class="o">=</span> <span class="n">dataframe_type</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span><span class="p">)</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">Dag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Uri</span><span class="p">:</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>            <span class="n">value</span><span class="o">.</span><span class="n">write_parquet</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>            <span class="k">return</span> <span class="n">S3Store</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedRef</span><span class="p">:</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedLoad</span><span class="p">:</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>    <span class="n">dagname</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>    <span class="n">nodename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedRunnable</span><span class="p">:</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="n">adapter</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="n">sub</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="s2">"DelayedRunnable"</span> <span class="o">|</span> <span class="kc">None</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedActionCodec</span><span class="p">:</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">DelayedRef</span><span class="p">,</span> <span class="n">DelayedLoad</span><span class="p">,</span> <span class="n">DelayedRunnable</span><span class="p">))</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DelayedRef</span> <span class="o">|</span> <span class="n">DelayedLoad</span> <span class="o">|</span> <span class="n">DelayedRunnable</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="s2">"Dag"</span><span class="p">):</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedRef</span><span class="p">):</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>            <span class="k">return</span> <span class="n">apply_codecs</span><span class="p">(</span><span class="n">dag</span><span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">)</span>  <span class="c1"># apply_codecs required for `Node` objects.</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedLoad</span><span class="p">):</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>            <span class="k">return</span> <span class="n">apply_codecs</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">dagname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">nodename</span><span class="p">),</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">)</span>  <span class="c1"># apply_codecs required</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>        <span class="n">adapter_spec</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">adapter</span><span class="p">)</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>        <span class="c1"># no need for `apply_codecs` because we return a Runnable which is recursed</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>        <span class="k">return</span> <span class="n">adapter_spec</span><span class="o">.</span><span class="n">resolve_runnable</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sub</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="k">def</span><span class="w"> </span><span class="nf">_import_optional</span><span class="p">(</span><span class="n">module_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>        <span class="k">return</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module_name</span><span class="p">)</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">module_name</span><span class="p">:</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>            <span class="k">return</span> <span class="kc">None</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a>        <span class="k">raise</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>
+</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>
+</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a><span class="k">def</span><span class="w"> </span><span class="nf">literal_codecs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a>    <span class="n">codecs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="n">DelayedActionCodec</span><span class="p">())]</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a>    <span class="n">pandas</span> <span class="o">=</span> <span class="n">_import_optional</span><span class="p">(</span><span class="s2">"pandas"</span><span class="p">)</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a>    <span class="k">if</span> <span class="n">pandas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a>        <span class="n">codecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">PandasDataFrameCodec</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)))</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a>    <span class="n">polars</span> <span class="o">=</span> <span class="n">_import_optional</span><span class="p">(</span><span class="s2">"polars"</span><span class="p">)</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos">88</span></a>    <span class="k">if</span> <span class="n">polars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos">89</span></a>        <span class="n">codecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">PolarsDataFrameCodec</span><span class="p">(</span><span class="n">polars</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)))</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos">90</span></a>    <span class="k">return</span> <span class="n">codecs</span>
+</span></pre></div>
+</details>
+
+            </section>
+        <section class="api-member">
+            <h2 id="PandasDataFrameCodec">PandasDataFrameCodec</h2>
+            <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">PandasDataFrameCodec</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#PandasDataFrameCodec"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PandasDataFrameCodec-15"><a href="#PandasDataFrameCodec-15"><span class="linenos">15</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PandasDataFrameCodec</span><span class="p">:</span>
+</span><span id="PandasDataFrameCodec-16"><a href="#PandasDataFrameCodec-16"><span class="linenos">16</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+</span><span id="PandasDataFrameCodec-17"><a href="#PandasDataFrameCodec-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span> <span class="o">=</span> <span class="n">dataframe_type</span>
+</span><span id="PandasDataFrameCodec-18"><a href="#PandasDataFrameCodec-18"><span class="linenos">18</span></a>
+</span><span id="PandasDataFrameCodec-19"><a href="#PandasDataFrameCodec-19"><span class="linenos">19</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="PandasDataFrameCodec-20"><a href="#PandasDataFrameCodec-20"><span class="linenos">20</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span><span class="p">)</span>
+</span><span id="PandasDataFrameCodec-21"><a href="#PandasDataFrameCodec-21"><span class="linenos">21</span></a>
+</span><span id="PandasDataFrameCodec-22"><a href="#PandasDataFrameCodec-22"><span class="linenos">22</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">Dag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Uri</span><span class="p">:</span>
+</span><span id="PandasDataFrameCodec-23"><a href="#PandasDataFrameCodec-23"><span class="linenos">23</span></a>        <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+</span><span id="PandasDataFrameCodec-24"><a href="#PandasDataFrameCodec-24"><span class="linenos">24</span></a>            <span class="n">value</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="PandasDataFrameCodec-25"><a href="#PandasDataFrameCodec-25"><span class="linenos">25</span></a>            <span class="k">return</span> <span class="n">S3Store</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    <div class="classattr">
+                        <h3 id="PandasDataFrameCodec.__init__">PandasDataFrameCodec.__init__</h3>
+                        <div class="attr function">
+            
+        <span class="name">PandasDataFrameCodec</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#PandasDataFrameCodec.__init__"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PandasDataFrameCodec.__init__-16"><a href="#PandasDataFrameCodec.__init__-16"><span class="linenos">16</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+</span><span id="PandasDataFrameCodec.__init__-17"><a href="#PandasDataFrameCodec.__init__-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span> <span class="o">=</span> <span class="n">dataframe_type</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="PandasDataFrameCodec.can_encode">PandasDataFrameCodec.can_encode</h3>
+                        <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">can_encode</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#PandasDataFrameCodec.can_encode"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PandasDataFrameCodec.can_encode-19"><a href="#PandasDataFrameCodec.can_encode-19"><span class="linenos">19</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="PandasDataFrameCodec.can_encode-20"><a href="#PandasDataFrameCodec.can_encode-20"><span class="linenos">20</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="PandasDataFrameCodec.encode">PandasDataFrameCodec.encode</h3>
+                        <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">encode</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span>, </span><span class="param"><span class="n">dag</span><span class="p">:</span> <span class="n"><a href="/docs/api/daggerml#Dag">daggerml.Dag</a></span></span><span class="return-annotation">) -> <span class="n"><a href="/docs/api/daggerml#Uri">daggerml.Uri</a></span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#PandasDataFrameCodec.encode"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PandasDataFrameCodec.encode-22"><a href="#PandasDataFrameCodec.encode-22"><span class="linenos">22</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">Dag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Uri</span><span class="p">:</span>
+</span><span id="PandasDataFrameCodec.encode-23"><a href="#PandasDataFrameCodec.encode-23"><span class="linenos">23</span></a>        <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+</span><span id="PandasDataFrameCodec.encode-24"><a href="#PandasDataFrameCodec.encode-24"><span class="linenos">24</span></a>            <span class="n">value</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="PandasDataFrameCodec.encode-25"><a href="#PandasDataFrameCodec.encode-25"><span class="linenos">25</span></a>            <span class="k">return</span> <span class="n">S3Store</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+        </section>
+        <section class="api-member">
+            <h2 id="PolarsDataFrameCodec">PolarsDataFrameCodec</h2>
+            <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">PolarsDataFrameCodec</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#PolarsDataFrameCodec"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PolarsDataFrameCodec-28"><a href="#PolarsDataFrameCodec-28"><span class="linenos">28</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PolarsDataFrameCodec</span><span class="p">:</span>
+</span><span id="PolarsDataFrameCodec-29"><a href="#PolarsDataFrameCodec-29"><span class="linenos">29</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+</span><span id="PolarsDataFrameCodec-30"><a href="#PolarsDataFrameCodec-30"><span class="linenos">30</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span> <span class="o">=</span> <span class="n">dataframe_type</span>
+</span><span id="PolarsDataFrameCodec-31"><a href="#PolarsDataFrameCodec-31"><span class="linenos">31</span></a>
+</span><span id="PolarsDataFrameCodec-32"><a href="#PolarsDataFrameCodec-32"><span class="linenos">32</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="PolarsDataFrameCodec-33"><a href="#PolarsDataFrameCodec-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span><span class="p">)</span>
+</span><span id="PolarsDataFrameCodec-34"><a href="#PolarsDataFrameCodec-34"><span class="linenos">34</span></a>
+</span><span id="PolarsDataFrameCodec-35"><a href="#PolarsDataFrameCodec-35"><span class="linenos">35</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">Dag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Uri</span><span class="p">:</span>
+</span><span id="PolarsDataFrameCodec-36"><a href="#PolarsDataFrameCodec-36"><span class="linenos">36</span></a>        <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+</span><span id="PolarsDataFrameCodec-37"><a href="#PolarsDataFrameCodec-37"><span class="linenos">37</span></a>            <span class="n">value</span><span class="o">.</span><span class="n">write_parquet</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="PolarsDataFrameCodec-38"><a href="#PolarsDataFrameCodec-38"><span class="linenos">38</span></a>            <span class="k">return</span> <span class="n">S3Store</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    <div class="classattr">
+                        <h3 id="PolarsDataFrameCodec.__init__">PolarsDataFrameCodec.__init__</h3>
+                        <div class="attr function">
+            
+        <span class="name">PolarsDataFrameCodec</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#PolarsDataFrameCodec.__init__"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PolarsDataFrameCodec.__init__-29"><a href="#PolarsDataFrameCodec.__init__-29"><span class="linenos">29</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+</span><span id="PolarsDataFrameCodec.__init__-30"><a href="#PolarsDataFrameCodec.__init__-30"><span class="linenos">30</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span> <span class="o">=</span> <span class="n">dataframe_type</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="PolarsDataFrameCodec.can_encode">PolarsDataFrameCodec.can_encode</h3>
+                        <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">can_encode</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#PolarsDataFrameCodec.can_encode"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PolarsDataFrameCodec.can_encode-32"><a href="#PolarsDataFrameCodec.can_encode-32"><span class="linenos">32</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="PolarsDataFrameCodec.can_encode-33"><a href="#PolarsDataFrameCodec.can_encode-33"><span class="linenos">33</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dataframe_type</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="PolarsDataFrameCodec.encode">PolarsDataFrameCodec.encode</h3>
+                        <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">encode</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span>, </span><span class="param"><span class="n">dag</span><span class="p">:</span> <span class="n"><a href="/docs/api/daggerml#Dag">daggerml.Dag</a></span></span><span class="return-annotation">) -> <span class="n"><a href="/docs/api/daggerml#Uri">daggerml.Uri</a></span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#PolarsDataFrameCodec.encode"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="PolarsDataFrameCodec.encode-35"><a href="#PolarsDataFrameCodec.encode-35"><span class="linenos">35</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="n">Dag</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Uri</span><span class="p">:</span>
+</span><span id="PolarsDataFrameCodec.encode-36"><a href="#PolarsDataFrameCodec.encode-36"><span class="linenos">36</span></a>        <span class="k">with</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+</span><span id="PolarsDataFrameCodec.encode-37"><a href="#PolarsDataFrameCodec.encode-37"><span class="linenos">37</span></a>            <span class="n">value</span><span class="o">.</span><span class="n">write_parquet</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</span><span id="PolarsDataFrameCodec.encode-38"><a href="#PolarsDataFrameCodec.encode-38"><span class="linenos">38</span></a>            <span class="k">return</span> <span class="n">S3Store</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">".parquet"</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+        </section>
+        <section class="api-member">
+            <h2 id="DelayedRef">DelayedRef</h2>
+            <div class="attr class">
+                    <div class="decorator decorator-dataclass">@dataclass(frozen=True)</div>
+
+    <span class="def">class</span>
+    <span class="name">DelayedRef</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRef"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="DelayedRef-41"><a href="#DelayedRef-41"><span class="linenos">41</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="DelayedRef-42"><a href="#DelayedRef-42"><span class="linenos">42</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedRef</span><span class="p">:</span>
+</span><span id="DelayedRef-43"><a href="#DelayedRef-43"><span class="linenos">43</span></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+</span></pre></div>
+</details>
+
+    
+
+                    <div class="classattr">
+                        <h3 id="DelayedRef.__init__">DelayedRef.__init__</h3>
+                        <div class="attr function">
+            
+        <span class="name">DelayedRef</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">name</span><span class="p">:</span> <span class="nb">str</span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRef.__init__"></a>
+    
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedRef.name">DelayedRef.name</h3>
+                        <div class="attr variable">
+            <span class="name">name</span><span class="annotation">: str</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRef.name"></a>
+    
+    
+
+                    </div>
+        </section>
+        <section class="api-member">
+            <h2 id="DelayedLoad">DelayedLoad</h2>
+            <div class="attr class">
+                    <div class="decorator decorator-dataclass">@dataclass(frozen=True)</div>
+
+    <span class="def">class</span>
+    <span class="name">DelayedLoad</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedLoad"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="DelayedLoad-46"><a href="#DelayedLoad-46"><span class="linenos">46</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="DelayedLoad-47"><a href="#DelayedLoad-47"><span class="linenos">47</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedLoad</span><span class="p">:</span>
+</span><span id="DelayedLoad-48"><a href="#DelayedLoad-48"><span class="linenos">48</span></a>    <span class="n">dagname</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DelayedLoad-49"><a href="#DelayedLoad-49"><span class="linenos">49</span></a>    <span class="n">nodename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span></pre></div>
+</details>
+
+    
+
+                    <div class="classattr">
+                        <h3 id="DelayedLoad.__init__">DelayedLoad.__init__</h3>
+                        <div class="attr function">
+            
+        <span class="name">DelayedLoad</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">dagname</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">nodename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedLoad.__init__"></a>
+    
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedLoad.dagname">DelayedLoad.dagname</h3>
+                        <div class="attr variable">
+            <span class="name">dagname</span><span class="annotation">: str</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedLoad.dagname"></a>
+    
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedLoad.nodename">DelayedLoad.nodename</h3>
+                        <div class="attr variable">
+            <span class="name">nodename</span><span class="annotation">: str | None</span>= <span class="default_value">None</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedLoad.nodename"></a>
+    
+    
+
+                    </div>
+        </section>
+        <section class="api-member">
+            <h2 id="DelayedRunnable">DelayedRunnable</h2>
+            <div class="attr class">
+                    <div class="decorator decorator-dataclass">@dataclass(frozen=True)</div>
+
+    <span class="def">class</span>
+    <span class="name">DelayedRunnable</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRunnable"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="DelayedRunnable-52"><a href="#DelayedRunnable-52"><span class="linenos">52</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="DelayedRunnable-53"><a href="#DelayedRunnable-53"><span class="linenos">53</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedRunnable</span><span class="p">:</span>
+</span><span id="DelayedRunnable-54"><a href="#DelayedRunnable-54"><span class="linenos">54</span></a>    <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DelayedRunnable-55"><a href="#DelayedRunnable-55"><span class="linenos">55</span></a>    <span class="n">adapter</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="DelayedRunnable-56"><a href="#DelayedRunnable-56"><span class="linenos">56</span></a>    <span class="n">sub</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="s2">"DelayedRunnable"</span> <span class="o">|</span> <span class="kc">None</span>
+</span><span id="DelayedRunnable-57"><a href="#DelayedRunnable-57"><span class="linenos">57</span></a>    <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+</span></pre></div>
+</details>
+
+    
+
+                    <div class="classattr">
+                        <h3 id="DelayedRunnable.__init__">DelayedRunnable.__init__</h3>
+                        <div class="attr function">
+            
+        <span class="name">DelayedRunnable</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="n">uri</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">adapter</span><span class="p">:</span> <span class="nb">str</span>,</span><span class="param">	<span class="n">sub</span><span class="p">:</span> <span class="s2">"Any | 'DelayedRunnable' | None"</span>,</span><span class="param">	<span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span></span>)</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRunnable.__init__"></a>
+    
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedRunnable.uri">DelayedRunnable.uri</h3>
+                        <div class="attr variable">
+            <span class="name">uri</span><span class="annotation">: str</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRunnable.uri"></a>
+    
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedRunnable.adapter">DelayedRunnable.adapter</h3>
+                        <div class="attr variable">
+            <span class="name">adapter</span><span class="annotation">: str</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRunnable.adapter"></a>
+    
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedRunnable.sub">DelayedRunnable.sub</h3>
+                        <div class="attr variable">
+            <span class="name">sub</span><span class="annotation">: &#34;Any | &#39;DelayedRunnable&#39; | None&#34;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRunnable.sub"></a>
+    
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedRunnable.kwargs">DelayedRunnable.kwargs</h3>
+                        <div class="attr variable">
+            <span class="name">kwargs</span><span class="annotation">: dict[str, typing.Any]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedRunnable.kwargs"></a>
+    
+    
+
+                    </div>
+        </section>
+        <section class="api-member">
+            <h2 id="DelayedActionCodec">DelayedActionCodec</h2>
+            <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">DelayedActionCodec</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedActionCodec"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="DelayedActionCodec-60"><a href="#DelayedActionCodec-60"><span class="linenos">60</span></a><span class="k">class</span><span class="w"> </span><span class="nc">DelayedActionCodec</span><span class="p">:</span>
+</span><span id="DelayedActionCodec-61"><a href="#DelayedActionCodec-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="DelayedActionCodec-62"><a href="#DelayedActionCodec-62"><span class="linenos">62</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">DelayedRef</span><span class="p">,</span> <span class="n">DelayedLoad</span><span class="p">,</span> <span class="n">DelayedRunnable</span><span class="p">))</span>
+</span><span id="DelayedActionCodec-63"><a href="#DelayedActionCodec-63"><span class="linenos">63</span></a>
+</span><span id="DelayedActionCodec-64"><a href="#DelayedActionCodec-64"><span class="linenos">64</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DelayedRef</span> <span class="o">|</span> <span class="n">DelayedLoad</span> <span class="o">|</span> <span class="n">DelayedRunnable</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="s2">"Dag"</span><span class="p">):</span>
+</span><span id="DelayedActionCodec-65"><a href="#DelayedActionCodec-65"><span class="linenos">65</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedRef</span><span class="p">):</span>
+</span><span id="DelayedActionCodec-66"><a href="#DelayedActionCodec-66"><span class="linenos">66</span></a>            <span class="k">return</span> <span class="n">apply_codecs</span><span class="p">(</span><span class="n">dag</span><span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">)</span>  <span class="c1"># apply_codecs required for `Node` objects.</span>
+</span><span id="DelayedActionCodec-67"><a href="#DelayedActionCodec-67"><span class="linenos">67</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedLoad</span><span class="p">):</span>
+</span><span id="DelayedActionCodec-68"><a href="#DelayedActionCodec-68"><span class="linenos">68</span></a>            <span class="k">return</span> <span class="n">apply_codecs</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">dagname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">nodename</span><span class="p">),</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">)</span>  <span class="c1"># apply_codecs required</span>
+</span><span id="DelayedActionCodec-69"><a href="#DelayedActionCodec-69"><span class="linenos">69</span></a>        <span class="n">adapter_spec</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">adapter</span><span class="p">)</span>
+</span><span id="DelayedActionCodec-70"><a href="#DelayedActionCodec-70"><span class="linenos">70</span></a>        <span class="c1"># no need for `apply_codecs` because we return a Runnable which is recursed</span>
+</span><span id="DelayedActionCodec-71"><a href="#DelayedActionCodec-71"><span class="linenos">71</span></a>        <span class="k">return</span> <span class="n">adapter_spec</span><span class="o">.</span><span class="n">resolve_runnable</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sub</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    <div class="classattr">
+                        <h3 id="DelayedActionCodec.can_encode">DelayedActionCodec.can_encode</h3>
+                        <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">can_encode</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">value</span><span class="p">:</span> <span class="n">Any</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedActionCodec.can_encode"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="DelayedActionCodec.can_encode-61"><a href="#DelayedActionCodec.can_encode-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="DelayedActionCodec.can_encode-62"><a href="#DelayedActionCodec.can_encode-62"><span class="linenos">62</span></a>        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">DelayedRef</span><span class="p">,</span> <span class="n">DelayedLoad</span><span class="p">,</span> <span class="n">DelayedRunnable</span><span class="p">))</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+                    <div class="classattr">
+                        <h3 id="DelayedActionCodec.encode">DelayedActionCodec.encode</h3>
+                        <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">encode</span><span class="signature pdoc-code multiline">(<span class="param">	<span class="bp">self</span>,</span><span class="param">	<span class="n">value</span><span class="p">:</span> <span class="n"><a href="#DelayedRef">DelayedRef</a></span> <span class="o">|</span> <span class="n"><a href="#DelayedLoad">DelayedLoad</a></span> <span class="o">|</span> <span class="n"><a href="#DelayedRunnable">DelayedRunnable</a></span>,</span><span class="param">	<span class="n">dag</span><span class="p">:</span> <span class="n"><a href="/docs/api/daggerml#Dag">daggerml.Dag</a></span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#DelayedActionCodec.encode"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="DelayedActionCodec.encode-64"><a href="#DelayedActionCodec.encode-64"><span class="linenos">64</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">DelayedRef</span> <span class="o">|</span> <span class="n">DelayedLoad</span> <span class="o">|</span> <span class="n">DelayedRunnable</span><span class="p">,</span> <span class="n">dag</span><span class="p">:</span> <span class="s2">"Dag"</span><span class="p">):</span>
+</span><span id="DelayedActionCodec.encode-65"><a href="#DelayedActionCodec.encode-65"><span class="linenos">65</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedRef</span><span class="p">):</span>
+</span><span id="DelayedActionCodec.encode-66"><a href="#DelayedActionCodec.encode-66"><span class="linenos">66</span></a>            <span class="k">return</span> <span class="n">apply_codecs</span><span class="p">(</span><span class="n">dag</span><span class="p">[</span><span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">)</span>  <span class="c1"># apply_codecs required for `Node` objects.</span>
+</span><span id="DelayedActionCodec.encode-67"><a href="#DelayedActionCodec.encode-67"><span class="linenos">67</span></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">DelayedLoad</span><span class="p">):</span>
+</span><span id="DelayedActionCodec.encode-68"><a href="#DelayedActionCodec.encode-68"><span class="linenos">68</span></a>            <span class="k">return</span> <span class="n">apply_codecs</span><span class="p">(</span><span class="n">dag</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">dagname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">nodename</span><span class="p">),</span> <span class="n">dag</span><span class="o">=</span><span class="n">dag</span><span class="p">)</span>  <span class="c1"># apply_codecs required</span>
+</span><span id="DelayedActionCodec.encode-69"><a href="#DelayedActionCodec.encode-69"><span class="linenos">69</span></a>        <span class="n">adapter_spec</span> <span class="o">=</span> <span class="n">get_adapter</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">adapter</span><span class="p">)</span>
+</span><span id="DelayedActionCodec.encode-70"><a href="#DelayedActionCodec.encode-70"><span class="linenos">70</span></a>        <span class="c1"># no need for `apply_codecs` because we return a Runnable which is recursed</span>
+</span><span id="DelayedActionCodec.encode-71"><a href="#DelayedActionCodec.encode-71"><span class="linenos">71</span></a>        <span class="k">return</span> <span class="n">adapter_spec</span><span class="o">.</span><span class="n">resolve_runnable</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="n">sub</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+</span></pre></div>
+</details>
+
+    
+
+                    </div>
+        </section>
+        <section class="api-member">
+            <h2 id="literal_codecs">literal_codecs</h2>
+            <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">literal_codecs</span><span class="signature pdoc-code condensed">(<span class="return-annotation">) -> <span class="nb">list</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span>:</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#literal_codecs"></a>
+            <details class="api-source"><summary>View source</summary><div class="pdoc-code codehilite"><pre><span></span><span id="literal_codecs-83"><a href="#literal_codecs-83"><span class="linenos">83</span></a><span class="k">def</span><span class="w"> </span><span class="nf">literal_codecs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+</span><span id="literal_codecs-84"><a href="#literal_codecs-84"><span class="linenos">84</span></a>    <span class="n">codecs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="n">DelayedActionCodec</span><span class="p">())]</span>
+</span><span id="literal_codecs-85"><a href="#literal_codecs-85"><span class="linenos">85</span></a>    <span class="n">pandas</span> <span class="o">=</span> <span class="n">_import_optional</span><span class="p">(</span><span class="s2">"pandas"</span><span class="p">)</span>
+</span><span id="literal_codecs-86"><a href="#literal_codecs-86"><span class="linenos">86</span></a>    <span class="k">if</span> <span class="n">pandas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="literal_codecs-87"><a href="#literal_codecs-87"><span class="linenos">87</span></a>        <span class="n">codecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">PandasDataFrameCodec</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)))</span>
+</span><span id="literal_codecs-88"><a href="#literal_codecs-88"><span class="linenos">88</span></a>    <span class="n">polars</span> <span class="o">=</span> <span class="n">_import_optional</span><span class="p">(</span><span class="s2">"polars"</span><span class="p">)</span>
+</span><span id="literal_codecs-89"><a href="#literal_codecs-89"><span class="linenos">89</span></a>    <span class="k">if</span> <span class="n">polars</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="literal_codecs-90"><a href="#literal_codecs-90"><span class="linenos">90</span></a>        <span class="n">codecs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">PolarsDataFrameCodec</span><span class="p">(</span><span class="n">polars</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)))</span>
+</span><span id="literal_codecs-91"><a href="#literal_codecs-91"><span class="linenos">91</span></a>    <span class="k">return</span> <span class="n">codecs</span>
+</span></pre></div>
+</details>
+
+    
+
+        </section>
+    </main>

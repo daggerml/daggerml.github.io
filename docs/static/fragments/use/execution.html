@@ -23,7 +23,7 @@
 <section id="run-self-contained-script-work" class="level2">
 <h2 class="anchored" data-anchor-id="run-self-contained-script-work">Run self-contained script work</h2>
 <p>A script worker receives persisted source, not the authoring interpreter’s imports or globals. Import dependencies inside the function, or explicitly inject source with <code>extra_objs</code> or <code>post_lines</code>.</p>
-<div id="204e59ff" class="cell" data-execution_count="2">
+<div id="06c60e2c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.parse <span class="im">import</span> urlparse</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -57,7 +57,7 @@
 <section id="compose-docker-work" class="level2">
 <h2 class="anchored" data-anchor-id="compose-docker-work">Compose Docker work</h2>
 <p>Docker is an outer runnable wrapper around the inner script. Its image and flags are staged data, so they also participate in the execution boundary and identity.</p>
-<div id="a0e035f8" class="cell" data-execution_count="3">
+<div id="96b923f4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>docker_summarize <span class="op">=</span> api.funkify(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    summarize_artifact,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    uri<span class="op">=</span><span class="st">"docker"</span>,</span>

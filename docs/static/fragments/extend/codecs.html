@@ -24,7 +24,7 @@
 <h2 class="anchored" data-anchor-id="contract-and-normalization">Contract and normalization</h2>
 <p>The public <code>LiteralCodec</code> contract has <code>can_encode(value)</code> and <code>encode(value, dag)</code>. Selection stops at the first matching codec. <code>encode()</code> must return a value that is not an instance of its input type so normalization makes progress; otherwise DaggerML raises <code>CodecError</code>. Codec exceptions are wrapped as <code>CodecError</code>, except <code>DmlRepoError</code>, which remains meaningful to callers.</p>
 <p><code>apply_codecs()</code> repeats codec application until it reaches a DaggerML scalar, collection, or <code>Ref</code>. It then recursively normalizes list and dict values, URI text, and a runnable’s target, nested runnable, and kwargs. A codec may therefore return a <code>Uri</code>, <code>Runnable</code>, collection, reference, or another encodable intermediate value, but the chain must terminate.</p>
-<div id="2d03cdc2" class="cell" data-execution_count="2">
+<div id="d7991b15" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> decimal <span class="im">import</span> Decimal</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -61,7 +61,7 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.entry-points."</span><span class="dt">daggerml.codecs"</span><span class="kw">]</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">my_package</span> <span class="op">=</span> <span class="st">"my_package.codecs:literal_codecs"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Install that distribution wherever values are authored and normalized. Use the public diagnostics helper to inspect discovered codecs and loading errors rather than relying on registry internals.</p>
-<div id="df25166c" class="cell" data-execution_count="3">
+<div id="5c37f139" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.status <span class="im">import</span> status</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>

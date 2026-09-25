@@ -28,7 +28,7 @@
 <!-- docs:pseudocode: This metadata belongs in an installable executor distribution. -->
 <div class="sourceCode" id="cb1"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.entry-points."</span><span class="dt">daggerml.contrib.executors"</span><span class="kw">]</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="dt">example_backend</span> <span class="op">=</span> <span class="st">"my_package.executor:ExampleExecutor"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div id="7ffbf557" class="cell" data-execution_count="2">
+<div id="4ec124c7" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.status <span class="im">import</span> status</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -39,7 +39,7 @@
 <section id="dispatch-and-lifecycle" class="level2">
 <h2 class="anchored" data-anchor-id="dispatch-and-lifecycle">Dispatch and lifecycle</h2>
 <p><code>ExecutorBase</code> creates a fresh instance for every <code>handle()</code> call. <code>handle()</code> accepts only invoke, cleanup, and cancel, validates the adapter request and response schemas, and dispatches invoke without <code>adapter_state</code> to <code>start</code> or invoke with saved object state to <code>poll</code>. Cleanup calls <code>cleanup</code>; cancel calls <code>cancel</code>, regardless of state. Repeated <code>operation="invoke"</code> performs polling; there is no wire <code>poll</code> operation.</p>
-<div id="7ced265b" class="cell" data-execution_count="3">
+<div id="3e0a3590" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml <span class="im">import</span> Runnable, Uri</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.executors <span class="im">import</span> ExecutorBase</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>

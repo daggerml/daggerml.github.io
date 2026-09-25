@@ -2620,7 +2620,18 @@
     },
     {
       "fragment": "fragments/start-here/get-started.html",
-      "headings": [],
+      "headings": [
+        {
+          "id": "start-a-project",
+          "level": 2,
+          "text": "Start a project"
+        },
+        {
+          "id": "built-in-agent-skills",
+          "level": 2,
+          "text": "Built-in agent skills"
+        }
+      ],
       "id": "start-here/get-started",
       "order": 6,
       "title": "Get started"

@@ -102,7 +102,7 @@
 </table>
 <p>Contrib plugin distributions are needed where delayed work is authored and lowered. The selected adapter executable must be available to the runtime process; a Lambda adapter additionally needs its target Lambda deployed.</p>
 <p>This minimal hook illustration constructs the <code>Runnable</code> directly; it is not a complete deployable backend.</p>
-<div id="b684c27d" class="cell" data-execution_count="2">
+<div id="c55f3abc" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml <span class="im">import</span> Runnable, Uri</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.adapters <span class="im">import</span> AdapterBase</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -134,7 +134,7 @@
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> response <span class="op">==</span> {<span class="st">"status"</span>: <span class="st">"retry"</span>, <span class="st">"adapter_state"</span>: {<span class="st">"job"</span>: <span class="st">"example"</span>}, <span class="st">"error"</span>: <span class="va">None</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="274b1461" class="cell" data-execution_count="3">
+<div id="b414dfdc" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> daggerml.contrib.adapters <span class="im">import</span> list_adapters</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -145,6 +145,7 @@
 <h2 class="anchored" data-anchor-id="contrib-hooks-and-registration">Contrib hooks and registration</h2>
 <p><code>AdapterBase</code> supplies three hooks: <code>resolve_runnable()</code> optionally delegates to the contrib default described on <a href="/docs/extend/executors">Executors</a>, <code>send(**payload)</code> performs one transport operation, and <code>cli()</code> exposes <code>send()</code> as an executable.</p>
 <p><code>AdapterBase.cli()</code> reads JSON from <code>-i</code>/<code>--input</code> and writes JSON to <code>-o</code>/<code>--output</code>; each accepts <code>-</code>, a local path, or an S3 URI. <code>--poll</code> is an ephemeral helper for a nested Docker or Batch adapter: it repeats <strong>invoke</strong> on <code>retry</code>, then drives nested cleanup after success. It never sends <code>operation="poll"</code> and cannot coordinate cancellation.</p>
+<p>For <code>--poll</code> invoke, the helper keeps continuation state private through invoke and cleanup, including state returned by terminal invoke. Its final output omits <code>adapter_state</code>; ordinary CLI calls still forward state unchanged. Nested cleanup failure is reported on stderr with execution identity without replacing the published invocation outcome. The private state cannot be recovered if that ephemeral driver exits unexpectedly.</p>
 <p>Register one class per installed entry point. The entry-point key is descriptive; lookup uses the class’s <code>name</code>. Discovery is lazy, retains loaded objects, warns on duplicates with the last registration winning, and raises <code>DmlRepoError</code> on a failed entry point without completing loading. <code>daggerml.contrib.status.status()</code> provides JSON-safe registrations and diagnostics.</p>
 <!-- docs:pseudocode: Package metadata and cloud deployment require an installed integration distribution. -->
 <div class="sourceCode" id="cb5"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.entry-points."</span><span class="dt">daggerml.contrib.adapters"</span><span class="kw">]</span></span>

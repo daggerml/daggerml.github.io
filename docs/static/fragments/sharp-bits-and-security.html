@@ -21,6 +21,11 @@
 
 <section id="sharp-bits" class="level2">
 <h2 class="anchored" data-anchor-id="sharp-bits">Sharp bits</h2>
+<section id="docker-archives-can-overwrite-local-image-tags" class="level3">
+<h3 class="anchored" data-anchor-id="docker-archives-can-overwrite-local-image-tags">Docker archives can overwrite local image tags</h3>
+<p>The Docker executor loads archives unchanged, including all their tags. A tag already bound to another local image is reassigned by Docker; DaggerML does not preserve or restore the previous binding. <code>docker_build</code> uses unique <code>daggerml-archive:&lt;uuid&gt;</code> tags to avoid ordinary collisions, but the executor also accepts archives from other sources. Use unique tags or a dedicated Docker daemon when loading those archives. Execution uses the loaded image’s ID, not its tags.</p>
+<p>Docker resources are retained until separately collected. The optional <code>dml contrib install-docker-gc --all</code> timer applies to the entire selected daemon, not just DaggerML resources; prefer its DML-only default on shared hosts.</p>
+</section>
 <section id="a-repository-without-remote.root-is-read-only" class="level3">
 <h3 class="anchored" data-anchor-id="a-repository-without-remote.root-is-read-only">A repository without <code>remote.root</code> is read-only</h3>
 <p>A <code>Dml</code> instance without a configured <code>remote.root</code> supports read-only inspection. Runtime authoring and mutation methods require <code>remote.root</code>; configure one before creating, staging, committing, or executing a DAG.</p>

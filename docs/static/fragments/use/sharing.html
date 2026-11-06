@@ -35,12 +35,12 @@
 <pre><code>true
 true
 {
-  "commit": "commit:110b3ed82579228d4e369da536c5522437baa4113f24b042658b7c955100964c",
+  "commit": "commit:409e2385a272ab2a4d40429f48a311ba62812ac529ae3e071b654be1e750e0b9",
   "name": "course-v1"
 }
 true
 {
-  "commit": "commit:110b3ed82579228d4e369da536c5522437baa4113f24b042658b7c955100964c",
+  "commit": "commit:409e2385a272ab2a4d40429f48a311ba62812ac529ae3e071b654be1e750e0b9",
   "name": "main"
 }</code></pre>
 </div>
@@ -82,18 +82,37 @@ true
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{"ahead":null,"behind":null,"branch":"main","branches":[],"commit":null,"mode":"attached","num_indexes":0,"upstream":null}
-commit:dc040241c986b8d7ba27c74e28fc49846addd5df843b080af9ca95a296a76c61
-"dag:3a877c3a32b264dbe24bceffbf130f10d9481b2ce17f40fe302eadec0ffe85f6"
+commit:db5e830b19be981cdad5a9730af21e93937f75a1357dce913ded6a4e0a89034e
+"dag:76d74d47550ac135891b7df76b38fbff334865f67324acc77a98b33fd5379ac0"
 {"ahead":null,"behind":null,"branch":"main","branches":[],"commit":null,"mode":"attached","num_indexes":0,"upstream":null}
 tutorial
-commit:6d80173e044591019d704c44588342eb3650d638e54022d969c59128e2b07cb1
+commit:3cbdd76d064c8e9cf22b37322c85b4b57b24acbb1b70446c331834447853fdc5
 "dag:bd8e5e5b71213031bbd1f7017bbc10f8fe90706d29ccd2a1a5f4dc8cd76d65ce"
-{"ahead":0,"behind":0,"branch":"main","branches":["main"],"commit":"commit:110b3ed82579228d4e369da536c5522437baa4113f24b042658b7c955100964c","mode":"attached","num_indexes":0,"upstream":"main"}
-"dag:3a877c3a32b264dbe24bceffbf130f10d9481b2ce17f40fe302eadec0ffe85f6"</code></pre>
+{"ahead":0,"behind":0,"branch":"main","branches":["main"],"commit":"commit:409e2385a272ab2a4d40429f48a311ba62812ac529ae3e071b654be1e750e0b9","mode":"attached","num_indexes":0,"upstream":"main"}
+"dag:76d74d47550ac135891b7df76b38fbff334865f67324acc77a98b33fd5379ac0"</code></pre>
 </div>
 </div>
 <p><code>dml.load("name")</code> reads a committed DAG and <code>dag.require("name")</code> imports one into new work. A shallow clone contains the selected commit’s complete tree, DAGs, nodes, data, and imports; only older parents may be unavailable. Use a larger <code>fetch --depth N</code> to deepen history or <code>fetch --unshallow</code> to retrieve it all. Dependencies are import-only endpoints, not the project’s cache or execution remote. A normal push can advance an observed shallow branch; creating a remote branch or forcing publication requires complete ancestry.</p>
 <p><code>show</code> preserves the current snapshot at a shallow boundary and reports <code>diff: null</code> when its parent is unavailable. <code>diff</code> itself requires the parent; deepen the clone to compare changes.</p>
+</section>
+<section id="migrate-an-existing-remote" class="level2">
+<h2 class="anchored" data-anchor-id="migrate-an-existing-remote">Migrate an existing remote</h2>
+<blockquote class="blockquote">
+<p><strong>Migration is permanently restricted to the previous version → current version only.</strong> If you are N versions behind, install each intermediate version in order and run its migration tool. Complete every migration step; the latest tool does not support skipping versions or migrating directly from older ones.</p>
+</blockquote>
+<p>An older individual-object remote must be converted before use with this client. Use a new, empty S3 prefix. Stop all source writers, workers, and garbage collection until conversion and configuration cutover are complete. Execution and adapter records are copied unchanged, regardless of lifecycle or cleanup status; migration does not invoke adapters or perform their cleanup.</p>
+<!-- docs:pseudocode: Migration requires operator-owned S3 prefixes and quiescent clients; do not run against the documentation fixture. -->
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> daggerml._core.migrate_remote <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--source</span> s3://YOUR-BUCKET/old-root <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--destination</span> s3://YOUR-BUCKET/new-root <span class="at">--dry-run</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> daggerml._core.migrate_remote <span class="dt">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--source</span> s3://YOUR-BUCKET/old-root <span class="dt">\</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--destination</span> s3://YOUR-BUCKET/new-root <span class="at">--quiescent</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> config set remote.root s3://YOUR-BUCKET/new-root</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Use normal AWS credentials. The migration verifies the converted graphs before making the destination usable; it never changes or deletes the source. Switch every participating client and worker to the new root after success. A failed attempt leaves a staging prefix; use another empty destination for a retry. Dry-run checks metadata and prerequisites without copying or validating all data.</p>
+<p>Embedded artifact URIs are preserved, not rewritten. Even though auxiliary files are copied, old URIs can still point to the source: retain that data while those artifacts are referenced. Remote graph garbage collection likewise requires quiescent writers and does not collect external artifact bytes.</p>
 </section>
 
 </main>

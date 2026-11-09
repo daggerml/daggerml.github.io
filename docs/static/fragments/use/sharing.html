@@ -35,12 +35,12 @@
 <pre><code>true
 true
 {
-  "commit": "commit:409e2385a272ab2a4d40429f48a311ba62812ac529ae3e071b654be1e750e0b9",
+  "commit": "commit:2d1afeac713ad9d2109d26f856fe9cd14b64369ae6a9741ed8fdc76320d09fd9",
   "name": "course-v1"
 }
 true
 {
-  "commit": "commit:409e2385a272ab2a4d40429f48a311ba62812ac529ae3e071b654be1e750e0b9",
+  "commit": "commit:2d1afeac713ad9d2109d26f856fe9cd14b64369ae6a9741ed8fdc76320d09fd9",
   "name": "main"
 }</code></pre>
 </div>
@@ -82,14 +82,14 @@ true
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{"ahead":null,"behind":null,"branch":"main","branches":[],"commit":null,"mode":"attached","num_indexes":0,"upstream":null}
-commit:db5e830b19be981cdad5a9730af21e93937f75a1357dce913ded6a4e0a89034e
-"dag:76d74d47550ac135891b7df76b38fbff334865f67324acc77a98b33fd5379ac0"
+commit:64c83973516da102a7a90e6864c5a5ee45241cec43fb0f1942759c3bc54a40c7
+"dag:477c5d0339ca5012c89f43982a3937e347ae9d2d5e12a263545c77d31fc09513"
 {"ahead":null,"behind":null,"branch":"main","branches":[],"commit":null,"mode":"attached","num_indexes":0,"upstream":null}
 tutorial
-commit:3cbdd76d064c8e9cf22b37322c85b4b57b24acbb1b70446c331834447853fdc5
+commit:7cb6d8dd0c8b5f446860e59b5ec794e5c90f06d8da34d514bf1553fc22092a23
 "dag:bd8e5e5b71213031bbd1f7017bbc10f8fe90706d29ccd2a1a5f4dc8cd76d65ce"
-{"ahead":0,"behind":0,"branch":"main","branches":["main"],"commit":"commit:409e2385a272ab2a4d40429f48a311ba62812ac529ae3e071b654be1e750e0b9","mode":"attached","num_indexes":0,"upstream":"main"}
-"dag:76d74d47550ac135891b7df76b38fbff334865f67324acc77a98b33fd5379ac0"</code></pre>
+{"ahead":0,"behind":0,"branch":"main","branches":["main"],"commit":"commit:2d1afeac713ad9d2109d26f856fe9cd14b64369ae6a9741ed8fdc76320d09fd9","mode":"attached","num_indexes":0,"upstream":"main"}
+"dag:477c5d0339ca5012c89f43982a3937e347ae9d2d5e12a263545c77d31fc09513"</code></pre>
 </div>
 </div>
 <p><code>dml.load("name")</code> reads a committed DAG and <code>dag.require("name")</code> imports one into new work. A shallow clone contains the selected commit’s complete tree, DAGs, nodes, data, and imports; only older parents may be unavailable. Use a larger <code>fetch --depth N</code> to deepen history or <code>fetch --unshallow</code> to retrieve it all. Dependencies are import-only endpoints, not the project’s cache or execution remote. A normal push can advance an observed shallow branch; creating a remote branch or forcing publication requires complete ancestry.</p>

@@ -403,6 +403,26 @@
           "text": "Dag.unfreeze"
         },
         {
+          "id": "Dag.dump",
+          "level": 3,
+          "text": "Dag.dump"
+        },
+        {
+          "id": "Dag.load",
+          "level": 3,
+          "text": "Dag.load"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
           "id": "Dag.cancel",
           "level": 3,
           "text": "Dag.cancel"
@@ -1776,6 +1796,26 @@
           "text": "Dag.unfreeze"
         },
         {
+          "id": "Dag.dump",
+          "level": 3,
+          "text": "Dag.dump"
+        },
+        {
+          "id": "Dag.load",
+          "level": 3,
+          "text": "Dag.load"
+        },
+        {
+          "id": "parameters",
+          "level": 6,
+          "text": "Parameters"
+        },
+        {
+          "id": "returns",
+          "level": 6,
+          "text": "Returns"
+        },
+        {
           "id": "Dag.cancel",
           "level": 3,
           "text": "Dag.cancel"
@@ -2821,6 +2861,11 @@
           "id": "freeze-and-resume-authoring",
           "level": 2,
           "text": "Freeze and resume authoring"
+        },
+        {
+          "id": "dump-and-load-runtime-graph-data",
+          "level": 2,
+          "text": "Dump and load runtime graph data"
         },
         {
           "id": "inspect-cancel-and-refresh-deliberately",

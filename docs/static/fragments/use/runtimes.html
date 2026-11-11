@@ -37,16 +37,16 @@
 <div class="cell-output cell-output-stdout">
 <pre><code>{
   "author": "runner@runnervmwuk1x",
-  "created": "2026-11-09T17:03:35.788248+00:00",
+  "created": "2026-11-11T07:03:32.223933+00:00",
   "dag": "dag:fddaecd49ea1cbf67fd367bdb95372f57c42aaed9439a5b009d28c598331470e",
   "frozen_message": "Review staged input",
-  "id": "frozenindex:01a1c143e9217bdea5faa8f71eef11f9",
+  "id": "frozenindex:01a1c96b424f743d951c22c1dca4baa1",
   "message": "",
   "parents": [
-    "commit:ff8beebd9a1cbded28a2437b4141dee1d97c454cb18ba208cebe54522167655a"
+    "commit:3fdaabfb6f943bf4b769d3e5cac859c9141e8a9f97e0d29f91868b7702b5d45e"
   ],
   "state": "frozen",
-  "tree": "tree:836cd3f3ac1581b417394e320c25312c814c17a7a45ded609b93ffeca11e2b73"
+  "tree": "tree:a44f064f6d826352ac9fe2b26a747e87aced99bbb935c38eb695adeb8ba5581b"
 }
 true
 true</code></pre>
@@ -64,8 +64,8 @@ true</code></pre>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> runtime load <span class="at">-</span> <span class="op">&lt;</span> runtime.json</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> runtime load runtime.json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>index:01a1c143f7d87bd697201b7d204ced77
-index:01a1c143f7d87bd697201b7d204ced77</code></pre>
+<pre><code>index:01a1c96b4bd97747bbb17277d8866359
+index:01a1c96b4bd97747bbb17277d8866359</code></pre>
 </div>
 </div>
 <p>Loading preserves the dumped index ID. It overwrites an existing index with that ID or creates it if absent; loading a frozen index replaces its active counterpart and vice versa. The JSON contains <code>schema</code>, <code>root</code>, and <code>objects</code>, using the same object encoding as dagpacks and including the complete local dependency closure, including parent history. Immutable graph-object identities are checked during loading.</p>
@@ -89,7 +89,7 @@ index:01a1c143f7d87bd697201b7d204ced77</code></pre>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ex">dml</span> cache invalidate <span class="st">"</span><span class="va">$execution_ref</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>true
-{"invalidations":[{"cache_key":"fe612bf7a9a547ba609acb7d75c197744abb456e6b0d46725e8d8c4aeec2ad8e","execution_id":"01a1c143b242779ea97817d4074ed61f","requested_at":1794243823,"requested_by":"runner@runnervmwuk1x"}],"total_time":0.13725948333740234}</code></pre>
+{"invalidations":[{"cache_key":"fe612bf7a9a547ba609acb7d75c197744abb456e6b0d46725e8d8c4aeec2ad8e","execution_id":"01a1c96b182c7ca69494618f9d77b602","requested_at":1794380616,"requested_by":"runner@runnervmwuk1x"}],"total_time":0.09257078170776367}</code></pre>
 </div>
 </div>
 <p>Rerunning the same stored runnable and argument produces a new execution for the same normalized cache key:</p>
